@@ -17,7 +17,7 @@ import model.Lane;
 import utils.UiComponentsCreator;
 import viewControl.AddPartyView;
 import viewControl.LaneStatusView;
-import model.Lane;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;

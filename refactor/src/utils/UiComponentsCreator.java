@@ -18,5 +18,7 @@ public class UiComponentsCreator {
 // {
 //
 // }
-
+//public static JLabel createLabel(String name) {
+//
+//}
 }

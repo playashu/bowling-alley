@@ -64,13 +64,13 @@ public class LaneStatusView implements ActionListener, LaneObserver, PinsetterOb
 		Insets buttonMargin = new Insets(4, 4, 4, 4);
 
 		JPanel viewLanePanel = new JPanel();
-		viewLane = uiComponents.createButton("View Lane",viewLanePanel,this);
+		viewLane = UiComponentsCreator.createButton("View Lane",viewLanePanel,this);
 
 		JPanel viewPinSetterPanel = new JPanel();
-		viewPinSetter = uiComponents.createButton("Pinsetter",viewPinSetterPanel,this);
+		viewPinSetter = UiComponentsCreator.createButton("Pinsetter",viewPinSetterPanel,this);
 
 		JPanel maintenancePanel = new JPanel();
-		maintenance = uiComponents.createButton("      ",maintenancePanel,this);
+		maintenance = UiComponentsCreator.createButton("      ",maintenancePanel,this);
 		maintenance.setBackground( Color.GREEN );
 
 		viewLane.setEnabled( false );
