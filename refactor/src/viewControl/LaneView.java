@@ -1,8 +1,11 @@
-package code;/*
+package viewControl;/*
  *  constructs a prototype Lane View
  *
  */
 
+import code.Bowler;
+import code.LaneEvent;
+import code.LaneObserver;
 import model.Lane;
 import model.Party;
 

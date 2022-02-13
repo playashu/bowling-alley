@@ -17,7 +17,7 @@ import model.Lane;
 import utils.UiComponentsCreator;
 import viewControl.AddPartyView;
 import viewControl.LaneStatusView;
-
+import model.Lane;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
@@ -77,7 +77,9 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 		while (it.hasNext()) {
 			Lane curLane = (Lane) it.next();
 			LaneStatusView laneStat = new LaneStatusView(curLane,(laneCount+1));
-			curLane.subscribe(laneStat);
+			LaneManager manager = curLane.getLaneManager();
+			manager.subscribe(laneStat);
+
 			((Pinsetter)curLane.getPinsetter()).subscribe(laneStat);
 			JPanel lanePanel = laneStat.showLane();
 			lanePanel.setBorder(new TitledBorder("Lane" + ++laneCount ));
