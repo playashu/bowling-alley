@@ -1,4 +1,4 @@
-package code; /**
+package viewControl; /**
  *
  * To change this generated comment edit the template variable "typecomment":
  * Window>Preferences>Java>Templates.
@@ -6,11 +6,13 @@ package code; /**
  * Window>Preferences>Java>Code Generation.
  */
 
+import code.*;
+import model.Lane;
+import utils.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 public class LaneStatusView implements ActionListener, LaneObserver, PinsetterObserver {
 
 	private JPanel jp;
@@ -40,7 +42,9 @@ public class LaneStatusView implements ActionListener, LaneObserver, PinsetterOb
 		ps.subscribe(psv);
 
 		lv = new LaneView( lane, laneNum );
-		lane.subscribe(lv);
+
+		LaneManager manager = lane.getLaneManager();
+		manager.subscribe(lv);
 
 
 		jp = new JPanel();
@@ -58,24 +62,15 @@ public class LaneStatusView implements ActionListener, LaneObserver, PinsetterOb
 
 		Insets buttonMargin = new Insets(4, 4, 4, 4);
 
-		viewLane = new JButton("View Lane");
 		JPanel viewLanePanel = new JPanel();
-		viewLanePanel.setLayout(new FlowLayout());
-		viewLane.addActionListener(this);
-		viewLanePanel.add(viewLane);
+		viewLane = uiComponents.createButton("View Lane",viewLanePanel,this);
 
-		viewPinSetter = new JButton("Pinsetter");
 		JPanel viewPinSetterPanel = new JPanel();
-		viewPinSetterPanel.setLayout(new FlowLayout());
-		viewPinSetter.addActionListener(this);
-		viewPinSetterPanel.add(viewPinSetter);
+		viewPinSetter = uiComponents.createButton("Pinsetter",viewPinSetterPanel,this);
 
-		maintenance = new JButton("     ");
-		maintenance.setBackground( Color.GREEN );
 		JPanel maintenancePanel = new JPanel();
-		maintenancePanel.setLayout(new FlowLayout());
-		maintenance.addActionListener(this);
-		maintenancePanel.add(maintenance);
+		maintenance = uiComponents.createButton("      ",maintenancePanel,this);
+		maintenance.setBackground( Color.GREEN );
 
 		viewLane.setEnabled( false );
 		viewPinSetter.setEnabled( false );
@@ -125,6 +120,7 @@ public class LaneStatusView implements ActionListener, LaneObserver, PinsetterOb
 		}
 		if (e.getSource().equals(maintenance)) {
 			if ( lane.isPartyAssigned() ) {
+				LaneManager laneManager= lane.getLaneManager();
 				lane.unPauseGame();
 				maintenance.setBackground( Color.GREEN );
 			}
