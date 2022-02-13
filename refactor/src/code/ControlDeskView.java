@@ -13,8 +13,10 @@ package code;/* ControlDeskView.java
  *
  */
 
-import utils.uiComponents;
+import model.Lane;
+import utils.UiComponentsCreator;
 import viewControl.AddPartyView;
+import viewControl.LaneStatusView;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -60,9 +62,9 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 		JPanel controlsPanel = new JPanel();
 		controlsPanel.setLayout(new GridLayout(3, 1));
 		controlsPanel.setBorder(new TitledBorder("Controls"));
-
-		addParty = uiComponents.createButton("Add Party",controlsPanel,this);
-		finished = uiComponents.createButton("Finished",controlsPanel,this);
+		//using reusable
+		addParty = UiComponentsCreator.createButton("Add Party",controlsPanel,this);
+		finished = UiComponentsCreator.createButton("Finished",controlsPanel,this);
 
 		// Lane Status Panel
 		JPanel laneStatusPanel = new JPanel();

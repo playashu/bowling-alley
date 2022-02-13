@@ -11,7 +11,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class EndGamePrompt implements ActionListener {
+public class EndGamePromptView implements ActionListener {
 
 	private JFrame win;
 	private JButton yesButton, noButton;
@@ -20,7 +20,7 @@ public class EndGamePrompt implements ActionListener {
 
 	private String selectedNick, selectedMember;
 
-	public EndGamePrompt( String partyName ) {
+	public EndGamePromptView(String partyName ) {
 
 		result =0;
 		

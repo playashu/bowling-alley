@@ -16,7 +16,7 @@ package code;/* AddPartyView.java
  *
  */
 
-import utils.uiComponents;
+import utils.UiComponentsCreator;
 import viewControl.AddPartyView;
 
 import javax.swing.*;
@@ -88,9 +88,9 @@ public class NewPatronView implements ActionListener {
 
 		Insets buttonMargin = new Insets(4, 4, 4, 4);
 
-		finished = uiComponents.createButton("Add Patron",buttonPanel,this);
+		finished = UiComponentsCreator.createButton("Add Patron",buttonPanel,this);
 
-		abort = uiComponents.createButton("Abort",buttonPanel,this);
+		abort = UiComponentsCreator.createButton("Abort",buttonPanel,this);
 
 		// Clean up main panel
 		colPanel.add(patronPanel, "Center");

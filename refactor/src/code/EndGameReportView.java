@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.Vector;
 
-public class EndGameReport implements ActionListener, ListSelectionListener {
+public class EndGameReportView implements ActionListener, ListSelectionListener {
 
 	private JFrame win;
 	private JButton printButton, finished;
@@ -30,7 +30,7 @@ public class EndGameReport implements ActionListener, ListSelectionListener {
 
 	private String selectedMember;
 
-	public EndGameReport( String partyName, Party party ) {
+	public EndGameReportView(String partyName, Party party ) {
 	
 		result =0;
 		retVal = new Vector();
@@ -139,7 +139,7 @@ public class EndGameReport implements ActionListener, ListSelectionListener {
 		}
 		Party party = new Party( bowlers );
 		String partyName="wank";
-		EndGameReport e = new EndGameReport( partyName, party );
+		EndGameReportView e = new EndGameReportView( partyName, party );
 	}
 	
 }

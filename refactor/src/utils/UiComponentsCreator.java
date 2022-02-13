@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class uiComponents {
+public class UiComponentsCreator {
  public static JButton createButton(String name, JPanel iterfacePanel, ActionListener listener) {
      JButton button = new JButton(name);
      button.addActionListener(listener);
@@ -14,4 +14,9 @@ public class uiComponents {
      iterfacePanel.add(panel);
      return button;
  }
+// public static JTextField createText(String name)
+// {
+//
+// }
+
 }

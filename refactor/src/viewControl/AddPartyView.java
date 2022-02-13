@@ -29,7 +29,7 @@ import code.Bowler;
 import code.BowlerFile;
 import code.ControlDeskView;
 import code.NewPatronView;
-import utils.uiComponents;
+import utils.UiComponentsCreator;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -113,10 +113,10 @@ public class AddPartyView implements ActionListener, ListSelectionListener {
 		buttonPanel.setLayout(new GridLayout(4, 1));
 
 		Insets buttonMargin = new Insets(4, 4, 4, 4);
-		addPatron = uiComponents.createButton("Add to Party",buttonPanel,this);
-		remPatron = uiComponents.createButton("Remove Member",buttonPanel,this);
-		newPatron = uiComponents.createButton("New Patron",buttonPanel,this);
-		finished = uiComponents.createButton("Finished",buttonPanel,this);
+		addPatron = UiComponentsCreator.createButton("Add to Party",buttonPanel,this);
+		remPatron = UiComponentsCreator.createButton("Remove Member",buttonPanel,this);
+		newPatron = UiComponentsCreator.createButton("New Patron",buttonPanel,this);
+		finished = UiComponentsCreator.createButton("Finished",buttonPanel,this);
 
 		// Clean up main panel
 		colPanel.add(partyPanel);

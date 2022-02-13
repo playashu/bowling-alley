@@ -3,6 +3,7 @@ package code;/*
  *
  */
 
+import model.Lane;
 import model.Party;
 
 import javax.swing.*;
