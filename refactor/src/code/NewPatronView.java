@@ -16,6 +16,9 @@ package code;/* AddPartyView.java
  *
  */
 
+import utils.uiComponents;
+import viewControl.AddPartyView;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
@@ -85,20 +88,9 @@ public class NewPatronView implements ActionListener {
 
 		Insets buttonMargin = new Insets(4, 4, 4, 4);
 
-		finished = new JButton("Add Patron");
-		JPanel finishedPanel = new JPanel();
-		finishedPanel.setLayout(new FlowLayout());
-		finished.addActionListener(this);
-		finishedPanel.add(finished);
+		finished = uiComponents.createButton("Add Patron",buttonPanel,this);
 
-		abort = new JButton("Abort");
-		JPanel abortPanel = new JPanel();
-		abortPanel.setLayout(new FlowLayout());
-		abort.addActionListener(this);
-		abortPanel.add(abort);
-
-		buttonPanel.add(abortPanel);
-		buttonPanel.add(finishedPanel);
+		abort = uiComponents.createButton("Abort",buttonPanel,this);
 
 		// Clean up main panel
 		colPanel.add(patronPanel, "Center");

@@ -1,4 +1,4 @@
-package code;/* AddPartyView.java
+package viewControl;/* AddPartyView.java
  *
  *  Version:
  * 		 $Id$
@@ -24,6 +24,12 @@ package code;/* AddPartyView.java
  * Class for GUI components need to add a party
  *
  */
+
+import code.Bowler;
+import code.BowlerFile;
+import code.ControlDeskView;
+import code.NewPatronView;
+import utils.uiComponents;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -107,35 +113,10 @@ public class AddPartyView implements ActionListener, ListSelectionListener {
 		buttonPanel.setLayout(new GridLayout(4, 1));
 
 		Insets buttonMargin = new Insets(4, 4, 4, 4);
-
-		addPatron = new JButton("Add to Party");
-		JPanel addPatronPanel = new JPanel();
-		addPatronPanel.setLayout(new FlowLayout());
-		addPatron.addActionListener(this);
-		addPatronPanel.add(addPatron);
-
-		remPatron = new JButton("Remove Member");
-		JPanel remPatronPanel = new JPanel();
-		remPatronPanel.setLayout(new FlowLayout());
-		remPatron.addActionListener(this);
-		remPatronPanel.add(remPatron);
-
-		newPatron = new JButton("New Patron");
-		JPanel newPatronPanel = new JPanel();
-		newPatronPanel.setLayout(new FlowLayout());
-		newPatron.addActionListener(this);
-		newPatronPanel.add(newPatron);
-
-		finished = new JButton("Finished");
-		JPanel finishedPanel = new JPanel();
-		finishedPanel.setLayout(new FlowLayout());
-		finished.addActionListener(this);
-		finishedPanel.add(finished);
-
-		buttonPanel.add(addPatronPanel);
-		buttonPanel.add(remPatronPanel);
-		buttonPanel.add(newPatronPanel);
-		buttonPanel.add(finishedPanel);
+		addPatron = uiComponents.createButton("Add to Party",buttonPanel,this);
+		remPatron = uiComponents.createButton("Remove Member",buttonPanel,this);
+		newPatron = uiComponents.createButton("New Patron",buttonPanel,this);
+		finished = uiComponents.createButton("Finished",buttonPanel,this);
 
 		// Clean up main panel
 		colPanel.add(partyPanel);
@@ -203,11 +184,11 @@ public class AddPartyView implements ActionListener, ListSelectionListener {
 /**
  * Accessor for Party
  */
-
+/*
 	public Vector getNames() {
 		return party;
 	}
-
+*/
 /**
  * Called by NewPatronView to notify AddPartyView to update
  * 

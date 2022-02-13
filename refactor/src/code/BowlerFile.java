@@ -22,7 +22,7 @@ package code;/* BowlerFile.java
 import java.io.*;
 import java.util.Vector;
 
-class BowlerFile {
+public class BowlerFile {
 
 	/** The location of the bowelr database */
 	private static String BOWLER_DAT = "BOWLERS.DAT";
