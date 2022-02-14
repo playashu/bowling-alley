@@ -1,10 +1,12 @@
-package code; /**
+package views; /**
  *
  * To change this generated comment edit the template variable "typecomment":
  * Window>Preferences>Java>Templates.
  * To enable and disable the creation of type comments go to
  * Window>Preferences>Java>Code Generation.
  */
+
+import utils.UiComponents;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,20 +48,22 @@ public class EndGamePromptView implements ActionListener {
 
 		Insets buttonMargin = new Insets(4, 4, 4, 4);
 
-		yesButton = new JButton("Yes");
+		yesButton = UiComponents.createButton("Yes",buttonPanel,this);
+		/*yesButton = new JButton("Yes");
 		JPanel yesButtonPanel = new JPanel();
 		yesButtonPanel.setLayout(new FlowLayout());
 		yesButton.addActionListener(this);
-		yesButtonPanel.add(yesButton);
+		yesButtonPanel.add(yesButton);*/
 
-		noButton = new JButton("No");
+		noButton = UiComponents.createButton("No",buttonPanel,this);
+		/*noButton = new JButton("No");
 		JPanel noButtonPanel = new JPanel();
 		noButtonPanel.setLayout(new FlowLayout());
 		noButton.addActionListener(this);
-		noButtonPanel.add(noButton);
+		noButtonPanel.add(noButton);*/
 
-		buttonPanel.add(yesButton);
-		buttonPanel.add(noButton);
+		//buttonPanel.add(yesButton);
+		//buttonPanel.add(noButton);
 
 		// Clean up main panel
 		colPanel.add(labelPanel);

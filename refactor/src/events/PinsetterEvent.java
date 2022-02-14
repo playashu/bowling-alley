@@ -1,4 +1,4 @@
-package code;/*  $Id$
+package events;/*  $Id$
  *
  *  Revisions:
  *    $Log: PinsetterEvent.java,v $

@@ -1,4 +1,4 @@
-package code;/* Queue.java
+package utils;/* Queue.java
  *
  *  Version
  *  $Id$

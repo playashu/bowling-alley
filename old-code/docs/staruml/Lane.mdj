@@ -7913,19 +7913,6 @@
 							"headQualifiersCompartment": {
 								"$ref": "AAAAAAF+3+xULOWoCHc="
 							}
-						},
-						{
-							"_type": "UMLTextView",
-							"_id": "AAAAAAF+3/kEOe8gZ/M=",
-							"_parent": {
-								"$ref": "AAAAAAFF+qBtyKM79qY="
-							},
-							"font": "Roboto;20;0",
-							"left": 168,
-							"top": 16,
-							"width": 529,
-							"height": 52,
-							"text": "How is PinSetterView Subscribing to pinsetter Event????"
 						}
 					]
 				}

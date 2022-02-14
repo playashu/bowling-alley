@@ -1,4 +1,4 @@
-package code;/* ControlDeskView.java
+package views;/* ControlDeskView.java
  *
  *  Version:
  *			$Id$
@@ -13,10 +13,12 @@ package code;/* ControlDeskView.java
  *
  */
 
+import code.*;
+import events.ControlDeskEvent;
+import managers.LaneManager;
 import model.Lane;
-import utils.UiComponentsCreator;
-import viewControl.AddPartyView;
-import viewControl.LaneStatusView;
+import observers.ControlDeskObserver;
+import utils.UiComponents;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -63,8 +65,8 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 		controlsPanel.setLayout(new GridLayout(3, 1));
 		controlsPanel.setBorder(new TitledBorder("Controls"));
 		//using reusable
-		addParty = UiComponentsCreator.createButton("Add Party",controlsPanel,this);
-		finished = UiComponentsCreator.createButton("Finished",controlsPanel,this);
+		addParty = UiComponents.createButton("Add Party",controlsPanel,this);
+		finished = UiComponents.createButton("Finished",controlsPanel,this);
 
 		// Lane Status Panel
 		JPanel laneStatusPanel = new JPanel();

@@ -1,4 +1,4 @@
-package code;/*
+package views;/*
  * PinSetterView/.java
  *
  * Version:
@@ -12,6 +12,9 @@ package code;/*
  *  constructs a prototype PinSetter GUI
  *
  */
+
+import events.PinsetterEvent;
+import observers.PinsetterObserver;
 
 import javax.swing.*;
 import java.awt.*;
@@ -67,8 +70,7 @@ public class PinSetterView implements PinsetterObserver {
 	//******************************************************************
 	
 	//**********************Grid of the pins**************************
-	
-	
+
 	JPanel one = new JPanel ();
 	JLabel oneL = new JLabel ( "1" );
 	one.add (oneL);
@@ -99,7 +101,8 @@ public class PinSetterView implements PinsetterObserver {
 	JPanel ten = new JPanel ();
 	JLabel tenL = new JLabel ( "10" );
 	ten.add (tenL);
-	
+
+
 	//This Vector will keep references to the pin labels to show
 	//which ones have fallen.
 	

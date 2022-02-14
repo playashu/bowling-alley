@@ -1,4 +1,4 @@
-package code;/* $Id$
+package observers;/* $Id$
  *
  * Revisions:
  *   $Log: PinsetterObserver.java,v $
@@ -16,6 +16,8 @@ package code;/* $Id$
  *
  */
 
+
+import events.PinsetterEvent;
 
 public interface PinsetterObserver {
 

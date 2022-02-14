@@ -70,6 +70,9 @@ package code;/*
  *
  */
 
+import events.PinsetterEvent;
+import observers.PinsetterObserver;
+
 import java.util.Random;
 import java.util.Vector;
 

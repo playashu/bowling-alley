@@ -1,4 +1,4 @@
-package code;/* $Id$
+package observers;/* $Id$
  *
  * Revisions:
  *   $Log: LaneObserver.java,v $
@@ -10,6 +10,8 @@ package code;/* $Id$
  *
  *
  */
+
+import events.LaneEvent;
 
 public interface LaneObserver {
 	public void receiveLaneEvent(LaneEvent le);

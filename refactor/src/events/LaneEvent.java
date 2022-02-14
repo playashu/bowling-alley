@@ -1,4 +1,4 @@
-package code;/*  $Id$
+package events;/*  $Id$
  *
  *  Revisions:
  *    $Log: LaneEvent.java,v $
@@ -23,6 +23,7 @@ package code;/*  $Id$
  *
  */
 
+import code.Bowler;
 import model.Party;
 
 import java.util.HashMap;
@@ -30,15 +31,15 @@ import java.util.HashMap;
 public class LaneEvent {
 
 	private Party p;
-	int frame;
-	int ball;
-	Bowler bowler;
+	//private int frame;
+	private int ball;
+	private Bowler bowler;
 	int[][] cumulScore;
-	HashMap score;
-	int index;
-	int frameNum;
-	int[] curScores;
-	boolean mechProb;
+	private HashMap score;
+	private int index;
+	private int frameNum;
+	private int[] curScores;
+	private boolean mechProb;
 	
 	public LaneEvent( Party pty, int theIndex, Bowler theBowler, int[][] theCumulScore, HashMap theScore, int theFrameNum, int[] theCurScores, int theBall, boolean mechProblem) {
 		p = pty;
@@ -73,9 +74,9 @@ public class LaneEvent {
 		return index;
 	}
 
-	public int getFrame( ) {
+	/*public int getFrame( ) {
 		return frame;
-	}
+	}*/
 
 	public int getBall( ) {
 		return ball;

@@ -1,4 +1,7 @@
-package code;
+package managers;
+
+import events.LaneEvent;
+import observers.LaneObserver;
 
 import java.util.Iterator;
 import java.util.Vector;

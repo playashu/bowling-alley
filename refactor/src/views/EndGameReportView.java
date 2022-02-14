@@ -1,4 +1,4 @@
-package code; /**
+package views; /**
  *
  * To change this generated comment edit the template variable "typecomment":
  * Window>Preferences>Java>Templates.
@@ -6,7 +6,9 @@ package code; /**
  * Window>Preferences>Java>Code Generation.
  */
 
+import code.Bowler;
 import model.Party;
+import utils.UiComponents;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -67,21 +69,22 @@ public class EndGameReportView implements ActionListener, ListSelectionListener 
 		buttonPanel.setLayout(new GridLayout(2, 1));
 
 		Insets buttonMargin = new Insets(4, 4, 4, 4);
-
-		printButton = new JButton("Print Report");
+		printButton = UiComponents.createButton("Print Report",buttonPanel,this);
+		/*printButton = new JButton("Print Report");
 		JPanel printButtonPanel = new JPanel();
 		printButtonPanel.setLayout(new FlowLayout());
 		printButton.addActionListener(this);
-		printButtonPanel.add(printButton);
+		printButtonPanel.add(printButton);*/
 
-		finished = new JButton("Finished");
+		finished = UiComponents.createButton("Finished",buttonPanel,this);
+		/*finished = new JButton("Finished");
 		JPanel finishedPanel = new JPanel();
 		finishedPanel.setLayout(new FlowLayout());
 		finished.addActionListener(this);
-		finishedPanel.add(finished);
+		finishedPanel.add(finished);*/
 
-		buttonPanel.add(printButton);
-		buttonPanel.add(finished);
+		//buttonPanel.add(printButton);
+		//buttonPanel.add(finished);
 
 		// Clean up main panel
 		colPanel.add(partyPanel);

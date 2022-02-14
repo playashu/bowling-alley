@@ -1,4 +1,4 @@
-package viewControl;/* AddPartyView.java
+package views;/* AddPartyView.java
  *
  *  Version:
  * 		 $Id$
@@ -27,9 +27,8 @@ package viewControl;/* AddPartyView.java
 
 import code.Bowler;
 import code.BowlerFile;
-import code.ControlDeskView;
 import code.NewPatronView;
-import utils.UiComponentsCreator;
+import utils.UiComponents;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -113,10 +112,10 @@ public class AddPartyView implements ActionListener, ListSelectionListener {
 		buttonPanel.setLayout(new GridLayout(4, 1));
 
 		Insets buttonMargin = new Insets(4, 4, 4, 4);
-		addPatron = UiComponentsCreator.createButton("Add to Party",buttonPanel,this);
-		remPatron = UiComponentsCreator.createButton("Remove Member",buttonPanel,this);
-		newPatron = UiComponentsCreator.createButton("New Patron",buttonPanel,this);
-		finished = UiComponentsCreator.createButton("Finished",buttonPanel,this);
+		addPatron = UiComponents.createButton("Add to Party",buttonPanel,this);
+		remPatron = UiComponents.createButton("Remove Member",buttonPanel,this);
+		newPatron = UiComponents.createButton("New Patron",buttonPanel,this);
+		finished = UiComponents.createButton("Finished",buttonPanel,this);
 
 		// Clean up main panel
 		colPanel.add(partyPanel);

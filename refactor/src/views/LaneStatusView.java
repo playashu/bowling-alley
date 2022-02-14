@@ -1,4 +1,4 @@
-package viewControl; /**
+package views; /**
  *
  * To change this generated comment edit the template variable "typecomment":
  * Window>Preferences>Java>Templates.
@@ -7,8 +7,13 @@ package viewControl; /**
  */
 
 import code.*;
+import events.LaneEvent;
+import events.PinsetterEvent;
+import managers.LaneManager;
 import model.Lane;
 
+import observers.LaneObserver;
+import observers.PinsetterObserver;
 import utils.*;
 import javax.swing.*;
 import java.awt.*;
@@ -64,13 +69,13 @@ public class LaneStatusView implements ActionListener, LaneObserver, PinsetterOb
 		Insets buttonMargin = new Insets(4, 4, 4, 4);
 
 		JPanel viewLanePanel = new JPanel();
-		viewLane = UiComponentsCreator.createButton("View Lane",viewLanePanel,this);
+		viewLane = UiComponents.createButton("View Lane",viewLanePanel,this);
 
 		JPanel viewPinSetterPanel = new JPanel();
-		viewPinSetter = UiComponentsCreator.createButton("Pinsetter",viewPinSetterPanel,this);
+		viewPinSetter = UiComponents.createButton("Pinsetter",viewPinSetterPanel,this);
 
 		JPanel maintenancePanel = new JPanel();
-		maintenance = UiComponentsCreator.createButton("      ",maintenancePanel,this);
+		maintenance = UiComponents.createButton("      ",maintenancePanel,this);
 		maintenance.setBackground( Color.GREEN );
 
 		viewLane.setEnabled( false );

@@ -132,6 +132,12 @@ package model;
  */
 
 import code.*;
+import events.LaneEvent;
+import events.PinsetterEvent;
+import managers.LaneManager;
+import observers.PinsetterObserver;
+import views.EndGamePromptView;
+import views.EndGameReportView;
 
 import java.util.Date;
 import java.util.HashMap;
