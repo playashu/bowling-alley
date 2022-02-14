@@ -1,4 +1,4 @@
-package code;
+package models;
 
 /**
  *
@@ -20,9 +20,9 @@ public class Score {
 		this.score=score;
     }
 
-    public String getNickName() {
+    /*public String getNickName() {
         return nick;  
-    }
+    }*/
 
 	public String getDate() {
 		return date;

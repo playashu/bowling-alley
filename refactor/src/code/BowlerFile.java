@@ -19,6 +19,8 @@ package code;/* BowlerFile.java
  *
  */
 
+import models.Bowler;
+
 import java.io.*;
 import java.util.Vector;
 

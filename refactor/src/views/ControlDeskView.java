@@ -16,7 +16,7 @@ package views;/* ControlDeskView.java
 import code.*;
 import events.ControlDeskEvent;
 import managers.LaneManager;
-import model.Lane;
+import models.Lane;
 import observers.ControlDeskObserver;
 import utils.UiComponents;
 
@@ -33,7 +33,7 @@ import java.util.Vector;
 
 public class ControlDeskView implements ActionListener, ControlDeskObserver {
 
-	private JButton addParty, finished, assign;
+	private JButton addParty, finished/*, assign*/;
 	private JFrame win;
 	private JList partyList;
 	
@@ -141,9 +141,9 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 		if (e.getSource().equals(addParty)) {
         			AddPartyView addPartyWin = new AddPartyView(this, maxMembers);
 		}
-		if (e.getSource().equals(assign)) {
+		/*if (e.getSource().equals(assign)) {
 			controlDesk.assignLane();
-		}
+		}*/
 		if (e.getSource().equals(finished)) {
 			win.hide();
 			System.exit(0);

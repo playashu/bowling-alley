@@ -23,8 +23,8 @@ package events;/*  $Id$
  *
  */
 
-import code.Bowler;
-import model.Party;
+import models.Bowler;
+import models.Party;
 
 import java.util.HashMap;
 

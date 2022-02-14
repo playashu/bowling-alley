@@ -1,4 +1,4 @@
-package code;/* AddPartyView.java
+package views;/* AddPartyView.java
  *
  *  Version
  *  $Id$
@@ -126,9 +126,9 @@ public class NewPatronView implements ActionListener {
 
 	}
 
-	public boolean done() {
+	/*public boolean done() {
 		return done;
-	}
+	}*/
 
 	public String getNick() {
 		return nick;

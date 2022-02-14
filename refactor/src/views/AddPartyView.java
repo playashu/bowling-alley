@@ -25,9 +25,8 @@ package views;/* AddPartyView.java
  *
  */
 
-import code.Bowler;
+import models.Bowler;
 import code.BowlerFile;
-import code.NewPatronView;
 import utils.UiComponents;
 
 import javax.swing.*;

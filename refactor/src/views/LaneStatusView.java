@@ -10,7 +10,8 @@ import code.*;
 import events.LaneEvent;
 import events.PinsetterEvent;
 import managers.LaneManager;
-import model.Lane;
+import models.Bowler;
+import models.Lane;
 
 import observers.LaneObserver;
 import observers.PinsetterObserver;

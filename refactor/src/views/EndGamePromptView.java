@@ -20,7 +20,7 @@ public class EndGamePromptView implements ActionListener {
 
 	private int result;
 
-	private String selectedNick, selectedMember;
+	//private String selectedNick, selectedMember;
 
 	public EndGamePromptView(String partyName ) {
 

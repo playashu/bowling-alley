@@ -1,4 +1,4 @@
-package code;/*
+package models;/*
  * Bowler.java
  *
  * Version:
@@ -44,10 +44,10 @@ public class Bowler {
 	public String getFullName ( ) {
 			return fullName;
 	}
-	
-	public String getNick ( ) {
+
+	/*public String getNickName( ) {
 		return nickName;
-	}
+	}*/
 
 	public String getEmail ( ) {
 		return email;	

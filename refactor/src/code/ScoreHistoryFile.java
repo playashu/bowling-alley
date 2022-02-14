@@ -6,6 +6,8 @@ package code; /**
  * Window>Preferences>Java>Code Generation.
  */
 
+import models.Score;
+
 import java.io.*;
 import java.util.Vector;
 

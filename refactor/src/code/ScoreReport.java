@@ -5,6 +5,10 @@ package code; /**
  */
 
 
+import models.Bowler;
+import models.Score;
+import utils.PrintableText;
+
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.BufferedReader;
@@ -20,7 +24,7 @@ public class ScoreReport {
 	private String content;
 	
 	public ScoreReport(Bowler bowler, int[] scores, int games ) {
-		String nick = bowler.getNick();
+		String nick = bowler.getNickName();
 		String full = bowler.getFullName();
 		Vector v = null;
 		try{

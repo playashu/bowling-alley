@@ -6,8 +6,8 @@ package views; /**
  * Window>Preferences>Java>Code Generation.
  */
 
-import code.Bowler;
-import model.Party;
+import models.Bowler;
+import models.Party;
 import utils.UiComponents;
 
 import javax.swing.*;
@@ -51,7 +51,7 @@ public class EndGameReportView implements ActionListener, ListSelectionListener 
 		Vector myVector = new Vector();
 		Iterator iter = (party.getMembers()).iterator();
 		while (iter.hasNext()){
-			myVector.add( ((Bowler)iter.next()).getNick() );
+			myVector.add( ((Bowler)iter.next()).getNickName() );
 		}	
 		memberList = new JList(myVector);
 		memberList.setFixedCellWidth(120);
@@ -131,11 +131,11 @@ public class EndGameReportView implements ActionListener, ListSelectionListener 
 		return retVal;	
 	}
 	
-	public void destroy() {
+	/*public void destroy() {
 		win.hide();
-	}
+	}*/
 
-	public static void main( String args[] ) {
+	/*public static void main( String args[] ) {
 		Vector bowlers = new Vector();
 		for ( int i=0; i<4; i++ ) {
 			bowlers.add( new Bowler( "aaaaa", "aaaaa", "aaaaa" ) );
@@ -143,7 +143,7 @@ public class EndGameReportView implements ActionListener, ListSelectionListener 
 		Party party = new Party( bowlers );
 		String partyName="wank";
 		EndGameReportView e = new EndGameReportView( partyName, party );
-	}
+	}*/
 	
 }
 

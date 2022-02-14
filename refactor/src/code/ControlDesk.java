@@ -42,8 +42,9 @@ package code;/* ControlDesk.java
 
 import events.ControlDeskEvent;
 import managers.ControlDeskManager;
-import model.Lane;
-import model.Party;
+import models.Bowler;
+import models.Lane;
+import models.Party;
 import utils.Queue;
 
 import java.io.FileNotFoundException;
@@ -152,10 +153,10 @@ public class ControlDesk extends Thread {
 
     /**
      */
-
+	/*
 	public void viewScores(Lane ln) {
 		// TODO: attach a LaneScoreView object to that lane
-	}
+	}*/
 
     /**
      * Creates a party from a Vector of nickNAmes and adds them to the wait queue.
