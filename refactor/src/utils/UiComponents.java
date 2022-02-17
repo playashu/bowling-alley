@@ -18,7 +18,8 @@ public class UiComponents {
 // {
 //
 // }
-//public static JLabel createLabel(String name) {
-//
-//}
+public static JLabel createLabel(String name) {
+    JLabel label = new JLabel(name);
+    return label;
+}
 }
