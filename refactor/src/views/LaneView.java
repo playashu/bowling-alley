@@ -135,7 +135,7 @@ public class LaneView implements LaneObserver, ActionListener {
 
 	public void receiveLaneEvent(LaneEvent le) {
 		if (lane.isPartyAssigned()) {
-			int numBowlers = le.getParty().getMembers().size();
+			int numBowlers = le.getParty().getSize();
 			while (!initDone) {
 				//System.out.println("chillin' here.");
 				try {
@@ -143,6 +143,11 @@ public class LaneView implements LaneObserver, ActionListener {
 				} catch (Exception e) {
 				}
 			}
+			System.out.println("le.getFrameNum()");
+			System.out.println(le.getFrameNum());
+			System.out.println(le.getIndex());
+			System.out.println(le.getBall());
+
 
 			if (le.getFrameNum() == 1
 				&& le.getBall() == 0
@@ -198,7 +203,7 @@ public class LaneView implements LaneObserver, ActionListener {
 								&& i % 2 == 1)
 							ballLabel[k][i].setText("/");
 						else if ( ((int[])((HashMap) le.getScore()).get(bowlers.get(k)))[i] == -2 ){
-							
+
 							ballLabel[k][i].setText("F");
 						} else
 							ballLabel[k][i].setText(
