@@ -220,14 +220,16 @@ public class Lane extends Thread implements PinsetterObserver {
                     //underlying can be moved to a functon
                     currentThrower = (Bowler) bowlerIterator.next();
                     ball = 0;
+                    canThrowAgain = true;
+                    tenthFrameStrike = false;
+
                     while (canThrowAgain) {
                         setter.ballThrown();        // simulate the thrower's ball hiting
                         ball++;
                     }
                     //-*-*-*-*-
 
-                    canThrowAgain = true;
-                    tenthFrameStrike = false;
+
 
 
                     if (frameNumber == 9) {
