@@ -111,10 +111,10 @@ public class AddPartyView implements ActionListener, ListSelectionListener {
 		buttonPanel.setLayout(new GridLayout(4, 1));
 
 		Insets buttonMargin = new Insets(4, 4, 4, 4);
-		addPatron = UiComponents.createButton("Add to Party",buttonPanel,this);
-		remPatron = UiComponents.createButton("Remove Member",buttonPanel,this);
-		newPatron = UiComponents.createButton("New Patron",buttonPanel,this);
-		finished = UiComponents.createButton("Finished",buttonPanel,this);
+		addPatron = UiComponents.createFlowButton("Add to Party",buttonPanel,this);
+		remPatron = UiComponents.createFlowButton("Remove Member",buttonPanel,this);
+		newPatron = UiComponents.createFlowButton("New Patron",buttonPanel,this);
+		finished = UiComponents.createFlowButton("Finished",buttonPanel,this);
 
 		// Clean up main panel
 		colPanel.add(partyPanel);

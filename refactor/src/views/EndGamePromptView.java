@@ -48,14 +48,14 @@ public class EndGamePromptView implements ActionListener {
 
 		Insets buttonMargin = new Insets(4, 4, 4, 4);
 
-		yesButton = UiComponents.createButton("Yes",buttonPanel,this);
+		yesButton = UiComponents.createFlowButton("Yes",buttonPanel,this);
 		/*yesButton = new JButton("Yes");
 		JPanel yesButtonPanel = new JPanel();
 		yesButtonPanel.setLayout(new FlowLayout());
 		yesButton.addActionListener(this);
 		yesButtonPanel.add(yesButton);*/
 
-		noButton = UiComponents.createButton("No",buttonPanel,this);
+		noButton = UiComponents.createFlowButton("No",buttonPanel,this);
 		/*noButton = new JButton("No");
 		JPanel noButtonPanel = new JPanel();
 		noButtonPanel.setLayout(new FlowLayout());

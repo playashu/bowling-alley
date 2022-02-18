@@ -21,7 +21,7 @@ import java.util.Vector;
 
 public class ScoreReport {
 
-	private String content;
+	private StringBuilder content;
 	
 	public ScoreReport(Bowler bowler, int[] scores, int games ) {
 		String nick = bowler.getNickName();
@@ -30,31 +30,28 @@ public class ScoreReport {
 		try{
 			v = ScoreHistoryFile.getScores(nick);
 		} catch (Exception e){System.err.println("Error: " + e);}
-		
 		Iterator scoreIt = v.iterator();
-		
-		content = "";
-		content += "--Lucky Strike Bowling Alley Score Report--\n";
-		content += "\n";
-		content += "Report for " + full + ", aka \"" + nick + "\":\n";
-		content += "\n";
-		content += "Final scores for this session: ";
-		content += scores[0];
+		content=new StringBuilder();
+		content.append("--Lucky Strike Bowling Alley Score Report--\n\n");
+//		content += "\n";
+		content.append("Report for "+full+", aka \"" + nick + "\":\n\n\n");
+//		content += "\n";
+		content.append("Final scores for this session: "+scores[0]);
+//		content += scores[0];
 		for (int i = 1; i < games; i++){
-			content += ", " + scores[i];
+			content.append(", " + scores[i]);
 		}
-		content += ".\n";
-		content += "\n";
-		content += "\n";
-		content += "Previous scores by date: \n";
+		content.append(".\n\n\nPrevious scores by date: \n");
+//		content += "\n";
+//		content += "\n";
+//		content += "Previous scores by date: \n";
 		while (scoreIt.hasNext()){
 			Score score = (Score) scoreIt.next();
-			content += "  " + score.getDate() + " - " +  score.getScore();
-			content += "\n";
+			content.append("  " + score.getDate() + " - " +  score.getScore()+"\n");
+//			content += "\n";
 		}
-		content += "\n\n";
-		content += "Thank you for your continuing patronage.";
-
+		content.append("\n\n"+"Thank you for your continuing patronage.");
+//		content += ;
 	}
 
 	public void sendEmail(String recipient) {
@@ -92,7 +89,7 @@ public class ScoreReport {
 	public void sendPrintout() {
 		PrinterJob job = PrinterJob.getPrinterJob();
 
-		PrintableText printobj = new PrintableText(content);
+		PrintableText printobj = new PrintableText(content.toString());
 
 		job.setPrintable(printobj);
 

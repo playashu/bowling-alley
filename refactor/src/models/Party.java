@@ -44,8 +44,11 @@ public class Party {
 	 * 
 	 * @return 	A vector of the bowlers in this party
 	 */
-
+	public int getSize() {
+		return myBowlers.size();
+	}
     public Vector getMembers() {
+		//System.out.println(((Bowler)myBowlers.get(0)).getNickName());
 		return myBowlers;
     }
 

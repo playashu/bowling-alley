@@ -38,6 +38,7 @@ public class LaneManager {
             while ( eventIterator.hasNext() ) {
                 ( (LaneObserver) eventIterator.next()).receiveLaneEvent( event );
             }
+
         }
     }
 

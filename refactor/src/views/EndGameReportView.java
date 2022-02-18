@@ -69,14 +69,14 @@ public class EndGameReportView implements ActionListener, ListSelectionListener 
 		buttonPanel.setLayout(new GridLayout(2, 1));
 
 		Insets buttonMargin = new Insets(4, 4, 4, 4);
-		printButton = UiComponents.createButton("Print Report",buttonPanel,this);
+		printButton = UiComponents.createFlowButton("Print Report",buttonPanel,this);
 		/*printButton = new JButton("Print Report");
 		JPanel printButtonPanel = new JPanel();
 		printButtonPanel.setLayout(new FlowLayout());
 		printButton.addActionListener(this);
 		printButtonPanel.add(printButton);*/
 
-		finished = UiComponents.createButton("Finished",buttonPanel,this);
+		finished = UiComponents.createFlowButton("Finished",buttonPanel,this);
 		/*finished = new JButton("Finished");
 		JPanel finishedPanel = new JPanel();
 		finishedPanel.setLayout(new FlowLayout());

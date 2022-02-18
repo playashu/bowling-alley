@@ -65,8 +65,8 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 		controlsPanel.setLayout(new GridLayout(3, 1));
 		controlsPanel.setBorder(new TitledBorder("Controls"));
 		//using reusable
-		addParty = UiComponents.createButton("Add Party",controlsPanel,this);
-		finished = UiComponents.createButton("Finished",controlsPanel,this);
+		addParty = UiComponents.createFlowButton("Add Party",controlsPanel,this);
+		finished = UiComponents.createFlowButton("Finished",controlsPanel,this);
 
 		// Lane Status Panel
 		JPanel laneStatusPanel = new JPanel();
