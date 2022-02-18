@@ -10,6 +10,7 @@ import code.*;
 import events.LaneEvent;
 import events.PinsetterEvent;
 import managers.LaneManager;
+import managers.PinsetterManager;
 import models.Bowler;
 import models.Lane;
 
@@ -46,7 +47,8 @@ public class LaneStatusView implements ActionListener, LaneObserver, PinsetterOb
 
 		psv = new PinSetterView( laneNum );
 		Pinsetter ps = lane.getPinsetter();
-		ps.subscribe(psv);
+		PinsetterManager pm = ps.getManager();
+		pm.subscribe(psv);
 
 		lv = new LaneView( lane, laneNum );
 

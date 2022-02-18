@@ -188,7 +188,7 @@ public class Lane extends Thread implements PinsetterObserver {
 
         gameNumber = 0;
         scoreBoard = new ScoreBoard(bowlIndex);
-        setter.subscribe(this);
+        setter.getManager().subscribe(this);
 //        scoreBoard = new ScoreBoard(bowlIndex,party.getSize());
         this.start();
     }

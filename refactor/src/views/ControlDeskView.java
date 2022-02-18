@@ -16,6 +16,7 @@ package views;/* ControlDeskView.java
 import code.*;
 import events.ControlDeskEvent;
 import managers.LaneManager;
+import managers.PinsetterManager;
 import models.Lane;
 import observers.ControlDeskObserver;
 import utils.UiComponents;
@@ -81,8 +82,9 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 			LaneStatusView laneStat = new LaneStatusView(curLane,(laneCount+1));
 			LaneManager manager = curLane.getLaneManager();
 			manager.subscribe(laneStat);
-
-			((Pinsetter)curLane.getPinsetter()).subscribe(laneStat);
+			Pinsetter ps = ((Pinsetter)curLane.getPinsetter());
+			PinsetterManager pm = ps.getManager();
+			pm.subscribe(laneStat);
 			JPanel lanePanel = laneStat.showLane();
 			lanePanel.setBorder(new TitledBorder("Lane" + ++laneCount ));
 			laneStatusPanel.add(lanePanel);
