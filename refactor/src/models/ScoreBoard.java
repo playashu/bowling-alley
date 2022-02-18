@@ -1,5 +1,7 @@
 package models;
 
+import code.ScoreHistoryFile;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,29 +12,25 @@ public class ScoreBoard  {
     private int[][] cumulScores;
     private int bowlIndex;
     private int teamSize;
-    public ScoreBoard(int bowlVal) {
-        bowlIndex = bowlVal;
+    public ScoreBoard(int bowlIndex) {
+        this.bowlIndex = bowlIndex;
 
     }
 
-//    public void writeScoreToFile(String nickName, ScoreView scoreWin) {
-//        try {
-//            Date date = Calendar.getInstance().getTime();
-//            DateFormat dateFormat = new SimpleDateFormat("hh:mm dd/mm/yyyy");
-//            String strDate = dateFormat.format(date);
-//            ScoreHistoryFile.addScore(nickName, strDate, Integer.toString(cumulScores[bowlIndex][9]), scoreWin);
-//        } catch (Exception e) {
-//            System.err.println("Exception in addScore. " + e);
-//        }
-//    }
+    public void saveToFile(String nickName) {
+        try {
+            Date date = new Date();
+            String dateString = "" + date.getHours() + ":" + date.getMinutes() + " " + date.getMonth() + "/" + date.getDay() + "/" + (date.getYear() + 1900);
+            ScoreHistoryFile.addScore(nickName, dateString, new Integer(cumulScores[bowlIndex][9]).toString());
+        } catch (Exception e) {
+            System.err.println("Exception in addScore. " + e);
+        }
+    }
 
     public void setBowlIndex(int val) {
         bowlIndex = val;
     }
 
-    public void nextBowler() {
-        bowlIndex = (bowlIndex + 1) % teamSize;
-    }
 
     public void reset(int partySize) {
         this.teamSize = partySize;
@@ -81,6 +79,8 @@ public class ScoreBoard  {
         }
         return totalScore;
     }
+
+
 
     private void handleNormalThrow(int[] curScore, int i) {
         if(i < 18){
