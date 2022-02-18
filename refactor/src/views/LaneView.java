@@ -8,6 +8,7 @@ import events.LaneEvent;
 import observers.LaneObserver;
 import models.Lane;
 import models.Party;
+import utils.UiComponents;
 
 import javax.swing.*;
 import java.awt.*;
@@ -132,7 +133,45 @@ public class LaneView implements LaneObserver, ActionListener {
 		initDone = true;
 		return panel;
 	}
+	public void displayScores(LaneEvent le,int numBowlers)
+	{
+		int[][] lescores = le.getCumulScore();
+		for (int k = 0; k < numBowlers; k++) {
+			for (int i = 0; i <= le.getFrameNum() - 1; i++) {
+				if (lescores[k][i] != 0)
+					scoreLabel[k][i].setText(
+							(new Integer(lescores[k][i])).toString());
+			}
+			for (int i = 0; i < 21; i++) {
+				if (((int[]) ((HashMap) le.getScore())
+						.get(bowlers.get(k)))[i]
+						!= -1)
+					if (((int[]) ((HashMap) le.getScore())
+							.get(bowlers.get(k)))[i]
+							== 10
+							&& (i % 2 == 0 || i == 19))
+						ballLabel[k][i].setText("X");
+					else if (
+							i > 0
+									&& ((int[]) ((HashMap) le.getScore())
+									.get(bowlers.get(k)))[i]
+									+ ((int[]) ((HashMap) le.getScore())
+									.get(bowlers.get(k)))[i
+									- 1]
+									== 10
+									&& i % 2 == 1)
+						ballLabel[k][i].setText("/");
+					else if ( ((int[])((HashMap) le.getScore()).get(bowlers.get(k)))[i] == -2 ){
 
+						ballLabel[k][i].setText("F");
+					} else
+						ballLabel[k][i].setText(
+								(new Integer(((int[]) ((HashMap) le.getScore())
+										.get(bowlers.get(k)))[i]))
+										.toString());
+			}
+		}
+	}
 	public void receiveLaneEvent(LaneEvent le) {
 		if (lane.isPartyAssigned()) {
 			int numBowlers = le.getParty().getSize();
@@ -149,69 +188,30 @@ public class LaneView implements LaneObserver, ActionListener {
 			System.out.println(le.getBall());
 
 
-			if (le.getFrameNum() == 1
-				&& le.getBall() == 0
-				&& le.getIndex() == 0) {
+			if (le.isCheck()) {
 				System.out.println("Making the frame.");
 				cpanel.removeAll();
 				cpanel.add(makeFrame(le.getParty()), "Center");
 
 				// Button Panel
-				JPanel buttonPanel = new JPanel();
-				buttonPanel.setLayout(new FlowLayout());
-
+//				JPanel buttonPanel = new JPanel();
+//				buttonPanel.setLayout(new FlowLayout());
+				JPanel buttonPanel = UiComponents.createFlowPanel();
 				Insets buttonMargin = new Insets(4, 4, 4, 4);
 
-				maintenance = new JButton("Maintenance Call");
-				JPanel maintenancePanel = new JPanel();
-				maintenancePanel.setLayout(new FlowLayout());
-				maintenance.addActionListener(this);
-				maintenancePanel.add(maintenance);
-
-				buttonPanel.add(maintenancePanel);
+//				maintenance = new JButton("Maintenance Call");
+//				JPanel maintenancePanel = new JPanel();
+//				maintenancePanel.setLayout(new FlowLayout());
+//				maintenance.addActionListener(this);
+//				maintenancePanel.add(maintenance);
+				maintenance = UiComponents.createFlowButton("Maintenance Call",buttonPanel,this);
 
 				cpanel.add(buttonPanel, "South");
 
 				frame.pack();
 
 			}
-
-			int[][] lescores = le.getCumulScore();
-			for (int k = 0; k < numBowlers; k++) {
-				for (int i = 0; i <= le.getFrameNum() - 1; i++) {
-					if (lescores[k][i] != 0)
-						scoreLabel[k][i].setText(
-							(new Integer(lescores[k][i])).toString());
-				}
-				for (int i = 0; i < 21; i++) {
-					if (((int[]) ((HashMap) le.getScore())
-						.get(bowlers.get(k)))[i]
-						!= -1)
-						if (((int[]) ((HashMap) le.getScore())
-							.get(bowlers.get(k)))[i]
-							== 10
-							&& (i % 2 == 0 || i == 19))
-							ballLabel[k][i].setText("X");
-						else if (
-							i > 0
-								&& ((int[]) ((HashMap) le.getScore())
-									.get(bowlers.get(k)))[i]
-									+ ((int[]) ((HashMap) le.getScore())
-										.get(bowlers.get(k)))[i
-									- 1]
-									== 10
-								&& i % 2 == 1)
-							ballLabel[k][i].setText("/");
-						else if ( ((int[])((HashMap) le.getScore()).get(bowlers.get(k)))[i] == -2 ){
-
-							ballLabel[k][i].setText("F");
-						} else
-							ballLabel[k][i].setText(
-								(new Integer(((int[]) ((HashMap) le.getScore())
-									.get(bowlers.get(k)))[i]))
-									.toString());
-				}
-			}
+			displayScores(le,numBowlers);
 
 		}
 	}

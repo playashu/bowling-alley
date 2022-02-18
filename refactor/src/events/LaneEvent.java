@@ -40,6 +40,12 @@ public class LaneEvent {
 	private int frameNum;
 	private int[] curScores;
 	private boolean mechProb;
+
+	public boolean isCheck() {
+		return check;
+	}
+
+	private boolean check;
 	
 	public LaneEvent( Party pty, int theIndex, Bowler theBowler, int[][] theCumulScore, HashMap theScore, int theFrameNum, int[] theCurScores, int theBall, boolean mechProblem) {
 		p = pty;
@@ -51,6 +57,7 @@ public class LaneEvent {
 		frameNum = theFrameNum;
 		ball = theBall;	
 		mechProb = mechProblem;
+		check = (frameNum == 1 && ball == 0 && index == 0);
 	}
 	
 	public boolean isMechanicalProblem() {
@@ -64,7 +71,6 @@ public class LaneEvent {
 	public HashMap getScore( ) {
 		return score;
 	}
-
 
 	public int[] getCurScores(){ 
 		return curScores;
