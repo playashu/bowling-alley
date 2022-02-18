@@ -6,7 +6,6 @@ package views; /**
  * Window>Preferences>Java>Code Generation.
  */
 
-import code.*;
 import events.LaneEvent;
 import events.PinsetterEvent;
 import managers.LaneManager;
@@ -14,6 +13,7 @@ import managers.PinsetterManager;
 import models.Bowler;
 import models.Lane;
 
+import models.Pinsetter;
 import observers.LaneObserver;
 import observers.PinsetterObserver;
 import utils.*;

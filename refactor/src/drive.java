@@ -1,4 +1,4 @@
-import code.ControlDesk;
+import models.ControlDesk;
 import views.ControlDeskView;
 
 public class drive {

@@ -13,11 +13,12 @@ package views;/* ControlDeskView.java
  *
  */
 
-import code.*;
 import events.ControlDeskEvent;
 import managers.LaneManager;
 import managers.PinsetterManager;
+import models.ControlDesk;
 import models.Lane;
+import models.Pinsetter;
 import observers.ControlDeskObserver;
 import utils.UiComponents;
 

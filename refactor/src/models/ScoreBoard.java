@@ -1,11 +1,8 @@
 package models;
 
-import code.ScoreHistoryFile;
+import utils.ScoreHistoryFile;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Calendar;
 
 public class ScoreBoard  {
 
