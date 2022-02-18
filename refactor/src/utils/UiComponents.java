@@ -39,7 +39,8 @@ public class UiComponents {
         interfacePanel.add(field);
         return field;
     }
-//public static JLabel createLabel(String name) {
-//
-//}
+public static JLabel createLabel(String name) {
+    JLabel label = new JLabel(name);
+    return label;
+}
 }
