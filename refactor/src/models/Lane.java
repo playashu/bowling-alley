@@ -136,11 +136,9 @@ import events.PinsetterEvent;
 import managers.LaneManager;
 import observers.PinsetterObserver;
 import views.EndGamePromptView;
-import views.EndGameReportView;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Vector;
 
 public class Lane extends Thread implements PinsetterObserver {
 
@@ -242,12 +240,12 @@ public class Lane extends Thread implements PinsetterObserver {
                     }
                     setter.reset();
                     bowlIndex++;
-                    scoreBoard.setBowlIndex(bowlIndex);
+                    scoreBoard.setBowlerIndex(bowlIndex);
                 } else {
                     frameNumber++;
                     resetBowlerIterator();
                     bowlIndex = 0;
-                    scoreBoard.setBowlIndex(bowlIndex);
+                    scoreBoard.setBowlerIndex(bowlIndex);
                     if (frameNumber > 9) {
                         gameFinished = true;
                         gameNumber++;

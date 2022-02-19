@@ -27,8 +27,8 @@ public class LaneView implements LaneObserver, ActionListener {
 	JFrame frame;
 	Container cpanel;
 	Vector bowlers;
-	int cur;
-	Iterator bowlIt;
+	//int cur;
+	//Iterator bowlIt;
 
 	JPanel[][] balls;
 	JLabel[][] ballLabel;
@@ -54,10 +54,10 @@ public class LaneView implements LaneObserver, ActionListener {
 		cpanel.add(new JPanel());
 	}
 	public void show() {
-		frame.show();
+		frame.setVisible(true);
 	}
 	public void hide() {
-		frame.hide();
+		frame.dispose();
 	}
 	private JPanel makeFrame(Party party) {
 		initDone = false;
@@ -105,7 +105,8 @@ public class LaneView implements LaneObserver, ActionListener {
 	}
 	public void displayScores(LaneEvent le)
 	{
-		int numBowlers=le.getParty().getSize();
+		Party party=le.getParty();
+		int numBowlers=party.getSize();
 		int[][] lescores = le.getCumulScore();
 		for (int k = 0; k < numBowlers; k++) {
 			setScoreLabelDisplay(le,lescores,k);
