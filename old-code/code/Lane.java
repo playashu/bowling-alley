@@ -406,6 +406,13 @@ public class Lane extends Thread implements PinsetterObserver {
 		curScore[ index - 1] = score;
 		scores.put(Cur, curScore);
 		getScore( Cur, frame );
+		System.out.println("------");
+		for(int i=0;i<cumulScores.length;i++)
+		{
+			for (int j=0;j<10;j++)
+				System.out.print(cumulScores[i][j]+" ");
+			System.out.println();
+		}
 		publish( lanePublish() );
 	}
 

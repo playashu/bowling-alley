@@ -60,11 +60,7 @@ public class ScoreBoard  {
             if(i%2 == 1 && checkIfTrue( curScore[i - 1] + curScore[i] == 10 , i < current - 1 , i < 19)){
                 cumulScores[bowlerIndex][(i/2)] += curScore[i+1] + curScore[i];
             } else if(checkIfTrue( i < current && i%2 == 0 , curScore[i] == 10  , i < 18)){
-                if (checkIfTrue(curScore[i+2] != -1 , (curScore[i+3] != -1 || curScore[i+4] != -1),true)) {
-                    twoStrikeBalls(curScore, i);
-                } else {
-                    break;
-                }
+                if (checkTwoStrike(curScore, i)) break;
             } else {
                 normalThrow(curScore, i);
             }
@@ -72,6 +68,14 @@ public class ScoreBoard  {
         return totalScore;
     }
 
+    private boolean checkTwoStrike(int[] curScore, int i) {
+        if (checkIfTrue(curScore[i +2] != -1 , (curScore[i +3] != -1 || curScore[i +4] != -1),true)) {
+            twoStrikeBalls(curScore, i);
+        } else {
+            return true;
+        }
+        return false;
+    }
 
 
     private void normalThrow(int[] curScore, int i) {
