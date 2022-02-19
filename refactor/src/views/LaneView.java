@@ -41,34 +41,25 @@ public class LaneView implements LaneObserver, ActionListener {
 	Lane lane;
 
 	public LaneView(Lane lane, int laneNum) {
-
 		this.lane = lane;
-
 		initDone = true;
 		frame = new JFrame("Lane " + laneNum + ":");
 		cpanel = frame.getContentPane();
 		cpanel.setLayout(new BorderLayout());
-
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				frame.hide();
 			}
 		});
-
 		cpanel.add(new JPanel());
-
 	}
-
 	public void show() {
 		frame.show();
 	}
-
 	public void hide() {
 		frame.hide();
 	}
-
 	private JPanel makeFrame(Party party) {
-
 		initDone = false;
 		bowlers = party.getMembers();
 		int numBowlers = bowlers.size();
@@ -153,7 +144,6 @@ public class LaneView implements LaneObserver, ActionListener {
 			displayScores(le);
 		}
 	}
-
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(maintenance)) {
 			lane.pauseGame();
