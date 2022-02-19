@@ -115,14 +115,12 @@ public class AddPartyView implements ActionListener, ListSelectionListener {
 		remPatron = UiComponents.createFlowButton("Remove Member",buttonPanel,this);
 		newPatron = UiComponents.createFlowButton("New Patron",buttonPanel,this);
 		finished = UiComponents.createFlowButton("Finished",buttonPanel,this);
-
+		addListners();
 		// Clean up main panel
 		colPanel.add(partyPanel);
 		colPanel.add(bowlerPanel);
 		colPanel.add(buttonPanel);
-
 		win.getContentPane().add("Center", colPanel);
-
 		win.pack();
 
 		// Center Window on Screen
@@ -133,24 +131,57 @@ public class AddPartyView implements ActionListener, ListSelectionListener {
 		win.show();
 
 	}
-
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource().equals(addPatron)) {
-			if (selectedNick != null && party.size() < maxSize) {
-				if (party.contains(selectedNick)) {
-					System.err.println("Member already in Party");
-				} else {
-					party.add(selectedNick);
-					partyList.setListData(party);
-				}
+	private void addListners()
+	{
+		addPatron.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addPatronAction();
 			}
-		}
-		if (e.getSource().equals(remPatron)) {
-			if (selectedMember != null) {
-				party.removeElement(selectedMember);
+		} );
+		remPatron.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setRemPatronAction();
+			}
+		} );
+	}
+	private void addPatronAction()
+	{
+		if (selectedNick != null && party.size() < maxSize) {
+			if (party.contains(selectedNick)) {
+				System.err.println("Member already in Party");
+			} else {
+				party.add(selectedNick);
 				partyList.setListData(party);
 			}
 		}
+	}
+	private void setRemPatronAction()
+	{
+		if (selectedMember != null) {
+				party.removeElement(selectedMember);
+				partyList.setListData(party);
+			}
+	}
+
+	public void actionPerformed(ActionEvent e) {
+//		if (e.getSource().equals(addPatron)) {
+//			if (selectedNick != null && party.size() < maxSize) {
+//				if (party.contains(selectedNick)) {
+//					System.err.println("Member already in Party");
+//				} else {
+//					party.add(selectedNick);
+//					partyList.setListData(party);
+//				}
+//			}
+//		}
+//		if (e.getSource().equals(remPatron)) {
+//			if (selectedMember != null) {
+//				party.removeElement(selectedMember);
+//				partyList.setListData(party);
+//			}
+//		}
 		if (e.getSource().equals(newPatron)) {
 			NewPatronView newPatron = new NewPatronView( this );
 		}

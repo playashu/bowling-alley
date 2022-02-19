@@ -125,7 +125,7 @@ public class LaneView implements LaneObserver, ActionListener {
 				try {
 					Thread.sleep(1);
 				} catch (Exception e) {
-				}
+					e.printStackTrace(System.out);}
 			}
 			System.out.println("le.getFrameNum()");
 			System.out.println(le.getFrameNum());
