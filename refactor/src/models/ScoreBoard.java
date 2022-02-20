@@ -56,7 +56,7 @@ public class ScoreBoard  {
             cumulScores[bowlerIndex][i] = 0;
         }
         int current = 2*(frame - 1)+ball-1;
-        for (int i = 0; i != current+2; i++){
+        for (int i = 0; i != current+1; i++){
             if(i%2 == 1 && checkIfTrue( curScore[i - 1] + curScore[i] == 10 , i < current - 1 , i < 19)){
                 cumulScores[bowlerIndex][(i/2)] += curScore[i+1] + curScore[i];
             } else if(checkIfTrue( i < current && i%2 == 0 , curScore[i] == 10  , i < 18)){
