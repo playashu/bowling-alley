@@ -230,11 +230,11 @@ public class PinSetterView implements PinsetterObserver {
     }
     
     public void show() {
-    	frame.show();
+    	frame.setVisible(true);
     }
 
     public void hide() {
-    	frame.hide();
+    	frame.dispose();
     }
     
     public static void main ( String args [ ] ) {

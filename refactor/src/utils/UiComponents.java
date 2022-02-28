@@ -29,9 +29,6 @@ public class UiComponents {
         iterfacePanel.add(panel);
         return button;
     }
-    public static GridLayout createGridLayout(int row,int col) {
-        return new GridLayout(row,col);
-    }
     public static JTextField createFlowText(String name, JPanel interfacePanel) {
         JLabel label = new JLabel(name);
         JTextField field = new JTextField("", 15);

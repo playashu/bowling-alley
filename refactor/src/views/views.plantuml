@@ -1,0 +1,207 @@
+@startuml
+
+title __VIEWS's Class Diagram__\n
+
+    namespace iews {
+      class views.AddPartyView {
+          - addPatron : JButton
+          - allBowlers : JList
+          - bowlerdb : Vector
+          - finished : JButton
+          - lock : Integer
+          - maxSize : int
+          - newPatron : JButton
+          - party : Vector
+          - partyList : JList
+          - remPatron : JButton
+          - selectedMember : String
+          - selectedNick : String
+          - win : JFrame
+          + AddPartyView()
+          + actionPerformed()
+          + getParty()
+          + updateNewPatron()
+          + valueChanged()
+          - addListners()
+          - addPatronAction()
+          - setRemPatronAction()
+      }
+    }
+
+    namespace iews {
+      class views.ControlDeskView {
+          - addParty : JButton
+          - finished : JButton
+          - maxMembers : int
+          - partyList : JList
+          - win : JFrame
+          + ControlDeskView()
+          + actionPerformed()
+          + receiveControlDeskEvent()
+          + updateAddParty()
+      }
+    }
+
+
+    namespace iews {
+      class views.EndGamePromptView {
+          - noButton : JButton
+          - result : int
+          - win : JFrame
+          - yesButton : JButton
+          + EndGamePromptView()
+          + actionPerformed()
+          + distroy()
+          + getResult()
+      }
+    }
+
+
+    namespace iews {
+      class views.EndGameReportView {
+          - finished : JButton
+          - memberList : JList
+          - myVector : Vector
+          - printButton : JButton
+          - result : int
+          - retVal : Vector
+          - selectedMember : String
+          - win : JFrame
+          + EndGameReportView()
+          + actionPerformed()
+          + getResult()
+          + valueChanged()
+      }
+    }
+
+
+    namespace iews {
+      class views.LaneStatusView {
+          ~ laneNum : int
+          ~ laneShowing : boolean
+          ~ psShowing : boolean
+          - curBowler : JLabel
+          - foul : JLabel
+          - jp : JPanel
+          - maintenance : JButton
+          - pinsDown : JLabel
+          - viewLane : JButton
+          - viewPinSetter : JButton
+          + LaneStatusView()
+          + actionPerformed()
+          + receiveLaneEvent()
+          + receivePinsetterEvent()
+          + showLane()
+          - addListners()
+          - viewPinSetterAction()
+      }
+    }
+
+    namespace iews {
+      class views.LaneView {
+          ~ ballGrid : JPanel[][]
+          ~ ballLabel : JLabel[][]
+          ~ balls : JPanel[][]
+          ~ bowlers : Vector
+          ~ cpanel : Container
+          ~ frame : JFrame
+          ~ maintenance : JButton
+          ~ pins : JPanel[]
+          ~ scoreLabel : JLabel[][]
+          ~ scores : JPanel[][]
+          - initDone : boolean
+          - roll : int
+          + LaneView()
+          + actionPerformed()
+          + displayScores()
+          + hide()
+          + receiveLaneEvent()
+          + setBallDisplay()
+          + setScoreLabelDisplay()
+          + show()
+          - getValue()
+          - makeFrame()
+      }
+    }
+
+
+    namespace iews {
+      class views.LaneViewHelper {
+          {static} + createBallGrid()
+          {static} + createBallLabels()
+          {static} + createPinsGrid()
+      }
+    }
+
+
+    namespace iews {
+      class views.NewPatronView {
+          - abort : JButton
+          - done : boolean
+          - email : String
+          - emailField : JTextField
+          - finished : JButton
+          - full : String
+          - fullField : JTextField
+          - maxSize : int
+          - nick : String
+          - nickField : JTextField
+          - selectedMember : String
+          - selectedNick : String
+          - win : JFrame
+          + NewPatronView()
+          + actionPerformed()
+          + getEmail()
+          + getFull()
+          + getNick()
+      }
+    }
+
+    namespace iews {
+      class views.PinSetterView {
+          - firstRoll : JPanel
+          - frame : JFrame
+          - pinVect : Vector
+          - pinsPanels : JPanel[]
+          - secondRoll : JPanel
+          + PinSetterView()
+          + hide()
+          {static} + main()
+          + receivePinsetterEvent()
+          + show()
+      }
+    }
+
+  
+
+  views.AddPartyView .up.|> java.awt.event.ActionListener
+  views.AddPartyView .up.|> javax.swing.event.ListSelectionListener
+  views.AddPartyView o-- views.ControlDeskView : controlDesk
+  views.ControlDeskView .up.|> java.awt.event.ActionListener
+  views.ControlDeskView .up.|> observers.ControlDeskObserver
+  views.ControlDeskView o-- models.ControlDesk : controlDesk
+  views.EndGamePromptView .up.|> java.awt.event.ActionListener
+  views.EndGameReportView .up.|> java.awt.event.ActionListener
+  views.EndGameReportView .up.|> javax.swing.event.ListSelectionListener
+  views.LaneStatusView .up.|> java.awt.event.ActionListener
+  views.LaneStatusView .up.|> observers.LaneObserver
+  views.LaneStatusView .up.|> observers.PinsetterObserver
+  views.LaneStatusView o-- models.Lane : lane
+  views.LaneStatusView o-- views.LaneView : lv
+  views.LaneStatusView o-- views.PinSetterView : psv
+  views.LaneView .up.|> java.awt.event.ActionListener
+  views.LaneView .up.|> observers.LaneObserver
+  views.LaneView o-- models.Lane : lane
+  views.NewPatronView .up.|> java.awt.event.ActionListener
+  views.NewPatronView o-- views.AddPartyView : addParty
+  views.PinSetterView .up.|> observers.PinsetterObserver
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml
