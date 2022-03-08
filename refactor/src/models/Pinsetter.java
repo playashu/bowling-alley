@@ -70,12 +70,16 @@ package models;/*
  *
  */
 
+import events.BallThrowEvent;
 import events.PinsetterEvent;
 import managers.PinsetterManager;
 import observers.PinsetterObserver;
+import views.BallThrowView;
 
 import java.util.Random;
 import java.util.Vector;
+
+import static java.lang.Thread.sleep;
 
 public class Pinsetter {
 
@@ -95,7 +99,7 @@ public class Pinsetter {
     */
 	private boolean foul;
 	private int throwNumber;
-
+	private boolean ballThrown;
 
 
 	/** Pinsetter()
@@ -111,8 +115,10 @@ public class Pinsetter {
 		rnd = new Random();
 		manager = new PinsetterManager();
 		foul = false;
+		ballThrown = false;
 		reset();
 	}
+
 
 	/** ballThrown()
 	 *
@@ -121,7 +127,7 @@ public class Pinsetter {
 	 * @pre none
 	 * @post pins may have been knocked down and the thrownumber has been incremented
 	 */
-	public void ballThrown() {	// simulated event of ball hits sensor
+	public void ballThrown(BallThrowEvent ballThrowEvent) {	// simulated event of ball hits sensor
 		int count = 0;
 		foul = false;
 		double skill = rnd.nextDouble();
@@ -141,7 +147,7 @@ public class Pinsetter {
 		}
 
 		try {
-			Thread.sleep(500);				// pinsetter is where delay will be in a real game
+			sleep(500);				// pinsetter is where delay will be in a real game
 		} catch (Exception e) {}
 
 		manager.sendEvent(new PinsetterEvent(pins, foul, throwNumber, count));
@@ -159,10 +165,11 @@ public class Pinsetter {
 	public void reset() {
 		foul = false;
 		throwNumber = 1;
+		ballThrown = false;
 		resetPins();
 
 		try {
-			Thread.sleep(1000);
+			sleep(1000);
 		} catch (Exception e) {}
 
 		manager.sendEvent(new PinsetterEvent(pins, foul, throwNumber, -1));

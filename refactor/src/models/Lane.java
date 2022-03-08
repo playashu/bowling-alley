@@ -131,16 +131,19 @@ package models;
  *
  */
 
+import events.BallThrowEvent;
 import events.LaneEvent;
 import events.PinsetterEvent;
 import managers.LaneManager;
+import observers.BallThrowObserver;
 import observers.PinsetterObserver;
+import views.BallThrowView;
 import views.EndGamePromptView;
 
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class Lane extends Thread implements PinsetterObserver {
+public class Lane extends Thread implements PinsetterObserver, BallThrowObserver {
 
     private Pinsetter setter;
     //private Vector subscribers;
@@ -148,6 +151,7 @@ public class Lane extends Thread implements PinsetterObserver {
     private boolean gameIsHalted;
     private boolean gameFinished;
     private Iterator bowlerIterator;
+    private BallThrowView ballThrowView;
     private int ball;
     private int bowlIndex;
     private int frameNumber;
@@ -165,6 +169,7 @@ public class Lane extends Thread implements PinsetterObserver {
     //private int[][] cumulScores;
     private ScoreBoard scoreBoard;
 
+    private boolean ballThrown;
     /**
      * Lane()
      * <p>
@@ -176,15 +181,17 @@ public class Lane extends Thread implements PinsetterObserver {
 
     public Lane() {
         setter = new Pinsetter();
+
         scores = new HashMap();
 
         laneManager = new LaneManager();
         gameIsHalted = false;
         partyAssigned = false;
-
+        ballThrown = false;
         gameNumber = 0;
         scoreBoard = new ScoreBoard(bowlIndex);
         setter.getManager().subscribe(this);
+
 //        scoreBoard = new ScoreBoard(bowlIndex,party.getSize());
         this.start();
     }
@@ -195,8 +202,13 @@ public class Lane extends Thread implements PinsetterObserver {
         tenthFrameStrike = false;
 
         while (canThrowAgain) {
-            setter.ballThrown();        // simulate the thrower's ball hiting
+
+            while(!ballThrown){
+                sleep();
+            }
+            //setter.ballThrown();        // simulate the thrower's ball hiting
             ball++;
+            ballThrown = false;
         }
     }
     private void finishGame()
@@ -296,6 +308,26 @@ public class Lane extends Thread implements PinsetterObserver {
             }
         }
     }
+
+    public void receiveBallThrowEvent(BallThrowEvent ballThrowEvent) {
+
+        setter.ballThrown(ballThrowEvent);
+
+//        if (pe.pinsDownOnThisThrow() >= 0) {            // this is a real throw
+//            markScore(currentThrower, frameNumber + 1, pe.getThrowNumber(), pe.pinsDownOnThisThrow());
+//
+//            // next logic handles the ?: what conditions dont allow them another throw?
+//            // handle the case of 10th frame first
+//            if (frameNumber == 9) {
+//                tenthframeStrike(pe.totalPinsDown(),pe.getThrowNumber());
+//            } else { // its not the 10th frame
+//
+//                normalStrike(pe.pinsDownOnThisThrow(),pe.getThrowNumber());
+//            }
+//        }
+        ballThrown = true;
+    }
+
     void tenthframeStrike(int totalPinsDown,int throwNumber){
         if (totalPinsDown == 10) {
             setter.resetPins();
@@ -374,6 +406,8 @@ public class Lane extends Thread implements PinsetterObserver {
         gameNumber = 0;
         resetScores();
         partyAssigned = true;
+        ballThrowView = new BallThrowView();
+        ballThrowView.subscribe(this);
     }
 
     /**
