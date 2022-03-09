@@ -4,7 +4,7 @@ import utils.ScoreHistoryFile;
 
 import java.util.Date;
 
-public class ScoreBoard  {
+public class ScoreBoard{
 
     private int[][] cumulScores;
     private int bowlerIndex;
@@ -117,5 +117,7 @@ public class ScoreBoard  {
             cumulScores[bowlerIndex][(i/2)] += curScore[i+id];
         }
     }
+
+
 
 }

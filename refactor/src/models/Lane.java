@@ -157,6 +157,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
     private int frameNumber;
     private boolean tenthFrameStrike;
     private boolean canThrowAgain;
+
     private int[][] finalScores;
     private int gameNumber;
     private Bowler currentThrower;            // = the thrower who just took a throw
@@ -170,6 +171,10 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
     private ScoreBoard scoreBoard;
 
     private boolean ballThrown;
+    private int prevScore;
+    private HashMap<Bowler, Integer> highScores;
+    private boolean penalty;
+    private HashMap<Bowler, Boolean> penaltie;
     /**
      * Lane()
      * <p>
@@ -181,9 +186,8 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
 
     public Lane() {
         setter = new Pinsetter();
-
+        prevScore = -1;
         scores = new HashMap();
-
         laneManager = new LaneManager();
         gameIsHalted = false;
         partyAssigned = false;
@@ -206,10 +210,15 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
             while(!ballThrown){
                 sleep();
             }
-            //setter.ballThrown();        // simulate the thrower's ball hiting
-            ball++;
+            //setter.ballThrown();
+            // simulate the thrower's ball hiting
             ballThrown = false;
+            ball++;
+
         }
+
+
+
     }
     private void finishGame()
     {
@@ -296,7 +305,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
     public void receivePinsetterEvent(PinsetterEvent pe) {
 
         if (pe.pinsDownOnThisThrow() >= 0) {            // this is a real throw
-            markScore(currentThrower, frameNumber + 1, pe.getThrowNumber(), pe.pinsDownOnThisThrow());
+            markScore(currentThrower, frameNumber + 1, pe.getThrowNumber(), pe.pinsDownOnThisThrow(), pe.isPenalty());
 
             // next logic handles the ?: what conditions dont allow them another throw?
             // handle the case of 10th frame first
@@ -304,14 +313,18 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
                 tenthframeStrike(pe.totalPinsDown(),pe.getThrowNumber());
             } else { // its not the 10th frame
 
-                normalStrike(pe.pinsDownOnThisThrow(),pe.getThrowNumber());
+                normalStrike(pe.pinsDownOnThisThrow(),pe.getThrowNumber(),pe.totalPinsDown());
+            }
+
+            if(canThrowAgain){
+                prevScore = pe.pinsDownOnThisThrow();
             }
         }
     }
 
     public void receiveBallThrowEvent(BallThrowEvent ballThrowEvent) {
 
-        setter.ballThrown(ballThrowEvent);
+        setter.ballThrown(ballThrowEvent,prevScore);
 
 //        if (pe.pinsDownOnThisThrow() >= 0) {            // this is a real throw
 //            markScore(currentThrower, frameNumber + 1, pe.getThrowNumber(), pe.pinsDownOnThisThrow());
@@ -338,17 +351,21 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
 
         if ((totalPinsDown != 10) && (throwNumber == 2 && tenthFrameStrike == false)) {
             canThrowAgain = false;
+            prevScore = -1;
         }
 
         if (throwNumber == 3) {
             canThrowAgain = false;
+            prevScore = -1;
         }
     }
-    void normalStrike(int pinsDownOnThisThrow, int throwNumber){
+    void normalStrike(int pinsDownOnThisThrow, int throwNumber, int totalPinsDown){
         if (pinsDownOnThisThrow == 10) {        // threw a strike
             canThrowAgain = false;
+            prevScore = -1;
         } else if (throwNumber == 2) {
             canThrowAgain = false;
+            prevScore = -1;
         }
     }
     /**
@@ -403,6 +420,12 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
         //cumulScores = new int[party.getMembers().size()][10];
         scoreBoard.reset(party.getSize());
         finalScores = new int[party.getSize()][128]; //Hardcoding a max of 128 games, bite me.
+        highScores = new HashMap();
+        penaltie = new HashMap();
+        for( Object i : party.getMembers()){
+            highScores.put((Bowler)i,0);
+            penaltie.put((Bowler)i,false);
+        }
         gameNumber = 0;
         resetScores();
         partyAssigned = true;
@@ -420,12 +443,32 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
      * @param ball  The ball the bowler is on
      * @param score The bowler's score
      */
-    private void markScore(Bowler Cur, int frame, int ball, int score) {
+    private void markScore(Bowler Cur, int frame, int ball, int score, boolean penalty) {
         int[] curScore;
+
         int index = ((frame - 1) * 2 + ball) ;
 
         curScore = (int[]) scores.get(Cur);
 
+
+        if (penalty == true){
+            if(highScores.get(Cur) != 0){
+                score -= highScores.get(Cur)/2;
+            }else{
+                penaltie.put(Cur,true);
+            }
+        }else if (penaltie.get(Cur) == true){
+            score/=2;
+            penaltie.put(Cur,false);
+        }
+        if(highScores.get(Cur) < score){
+            highScores.put(Cur,score);
+        }
+
+        System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
+        System.out.println(penalty);
+        System.out.println(penaltie.get(Cur));
+        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
         curScore[index - 1] = score;
         scores.put(Cur, curScore);
         scoreBoard.getScore(Cur, frame, ball, (int[]) scores.get(Cur));
