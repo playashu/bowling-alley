@@ -10,10 +10,11 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Vector;
 
-public class BowlerDaoImpl implements BowlerDao{
-    private HashMap<String,Bowler> cache;
-    @Override
-    public Bowler getBowler(String nickName) {
+public class BowlerDbAccess {
+    private static HashMap<String,Bowler> cache=new HashMap<String,Bowler>();
+    public  static Bowler getBowler(String nickName) {
+        if(cache.containsKey(nickName))
+            return cache.get(nickName);
         String query="select * from bowlers where nickname=?";
         Bowler bowler=null;
         try {
@@ -21,20 +22,19 @@ public class BowlerDaoImpl implements BowlerDao{
             PreparedStatement statement=conn.prepareStatement(query);
             statement.setString(1,nickName);
             ResultSet rs=statement.executeQuery();
-            if(!rs.next())
             bowler=new Bowler(
                     rs.getString("nickname"),
                     rs.getString("fullname"),
                     rs.getString("email")
             );
+            cache.put(nickName,bowler);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return bowler;
     }
 
-    @Override
-    public Vector<String> getAllBowlerNames() {
+    public static Vector<String> getAllBowlerNames() {
         String query="SELECT * FROM bowlers";
         Vector<String>bowlers=new Vector<String>();
         try {
@@ -49,8 +49,7 @@ public class BowlerDaoImpl implements BowlerDao{
         return bowlers;
     }
 
-    @Override
-    public boolean insertBowler(Bowler bowler) {
+    public static boolean insertBowler(Bowler bowler) {
         String query="insert into bowlers(nickname,fullname,email) values(?,?,?)";
         Vector<String>bowlers=new Vector<String>();
         try {

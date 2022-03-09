@@ -40,16 +40,11 @@ package models;/* ControlDesk.java
  *
  */
 
+import dbAccess.BowlerDbAccess;
 import events.ControlDeskEvent;
 import managers.ControlDeskManager;
-import models.Bowler;
-import models.Lane;
-import models.Party;
-import utils.BowlerFile;
 import utils.Queue;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Vector;
@@ -144,7 +139,7 @@ public class ControlDesk extends Thread {
 	public void addPartyQueue(Vector<String> partyNicks) {
 		Vector partyBowlers = new Vector();
 		for (int i = 0; i < partyNicks.size(); i++) {
-			Bowler newBowler = BowlerFile.registerPatron(((String) partyNicks.get(i)));
+			Bowler newBowler = BowlerDbAccess.getBowler((partyNicks.get(i)));
 			partyBowlers.add(newBowler);
 		}
 		Party newParty = new Party(partyBowlers);

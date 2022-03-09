@@ -25,9 +25,8 @@ package views;/* AddPartyView.java
  *
  */
 
+import dbAccess.BowlerDbAccess;
 import models.Bowler;
-import models.Party;
-import utils.BowlerFile;
 import utils.UiComponents;
 
 import javax.swing.*;
@@ -94,10 +93,10 @@ public class AddPartyView implements ActionListener, ListSelectionListener {
 		bowlerPanel.setBorder(new TitledBorder("Bowler Database"));
 
 		try {
-			bowlerdb = new Vector<String>(BowlerFile.getBowlers());
+			bowlerdb = new Vector<String>(BowlerDbAccess.getAllBowlerNames());
 		} catch (Exception e) {
 			System.err.println("File Error");
-			bowlerdb = new Vector();
+			bowlerdb = new Vector<String>();
 		}
 		allBowlers = new JList(bowlerdb);
 		allBowlers.setVisibleRowCount(8);
@@ -228,13 +227,16 @@ public class AddPartyView implements ActionListener, ListSelectionListener {
 
 	public void updateNewPatron(NewPatronView newPatron) {
 		try {
-			Bowler checkBowler = BowlerFile.getBowlerInfo( newPatron.getNick() );
+			Bowler checkBowler = BowlerDbAccess.getBowler( newPatron.getNick() );
 			if ( checkBowler == null ) {
-				BowlerFile.putBowlerInfo(
-					newPatron.getNick(),
-					newPatron.getFull(),
-					newPatron.getEmail());
-				bowlerdb = new Vector(BowlerFile.getBowlers());
+				BowlerDbAccess.insertBowler(
+						new Bowler(
+								newPatron.getNick(),
+								newPatron.getFull(),
+								newPatron.getEmail()
+						)
+				);
+				bowlerdb = BowlerDbAccess.getAllBowlerNames();
 				allBowlers.setListData(bowlerdb);
 				party.add(newPatron.getNick());
 				partyList.setListData(party);
@@ -250,7 +252,7 @@ public class AddPartyView implements ActionListener, ListSelectionListener {
  * Accessor for Party
  */
 
-	public Vector getParty() {
+	public Vector<String> getParty() {
 		return party;
 	}
 
