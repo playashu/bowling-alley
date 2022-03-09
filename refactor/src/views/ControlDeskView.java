@@ -19,6 +19,7 @@ import managers.PinsetterManager;
 import models.ControlDesk;
 import models.Lane;
 import models.Pinsetter;
+import models.frameContext;
 import observers.ControlDeskObserver;
 import utils.UiComponents;
 
@@ -50,7 +51,7 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 	 *
 	 */
 
-	public ControlDeskView(ControlDesk controlDesk, int maxMembers,int frames) {
+	public ControlDeskView(ControlDesk controlDesk, int maxMembers, frameContext frameC) {
 
 		this.controlDesk = controlDesk;
 		this.maxMembers = maxMembers;
@@ -83,7 +84,7 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 		int laneCount=0;
 		while (it.hasNext()) {
 			Lane curLane = (Lane) it.next();
-			LaneStatusView laneStat = new LaneStatusView(curLane,(laneCount+1),frames);
+			LaneStatusView laneStat = new LaneStatusView(curLane,(laneCount+1),frameC);
 			LaneManager manager = curLane.getLaneManager();
 			manager.subscribe(laneStat);
 			Pinsetter ps = ((Pinsetter)curLane.getPinsetter());

@@ -5,6 +5,7 @@ package views;/*
 
 import models.Bowler;
 import events.LaneEvent;
+import models.frameContext;
 import observers.LaneObserver;
 import models.Lane;
 import models.Party;
@@ -21,7 +22,7 @@ import java.util.Vector;
 
 public class LaneView implements LaneObserver, ActionListener {
 	private int frames;
-	private int roll;
+	private int n_balls;
 	private boolean initDone = true;
 
 	JFrame frame;
@@ -39,11 +40,14 @@ public class LaneView implements LaneObserver, ActionListener {
 
 	JButton maintenance;
 	Lane lane;
+	frameContext frameC;
 
-	public LaneView(Lane lane, int laneNum, int n_frames) {
+	public LaneView(Lane lane, int laneNum, frameContext frameC) {
 		this.lane = lane;
 		initDone = true;
-		this.frames = n_frames;
+		this.frames = frameC.getFrames();
+		this.n_balls = frameC.numberOfBalls();
+		this.frameC = frameC;
 		frame = new JFrame("Lane " + laneNum + ":");
 		cpanel = frame.getContentPane();
 		cpanel.setLayout(new BorderLayout());
@@ -66,16 +70,16 @@ public class LaneView implements LaneObserver, ActionListener {
 		int numBowlers = bowlers.size();
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(0,1));
-		balls = new JPanel[numBowlers][2*frames+3];
-		ballLabel = new JLabel[numBowlers][2*frames+3];
+		balls = new JPanel[numBowlers][n_balls];
+		ballLabel = new JLabel[numBowlers][n_balls];
 		scores = new JPanel[numBowlers][frames];
 		scoreLabel = new JLabel[numBowlers][frames];
 		ballGrid = new JPanel[numBowlers][frames];
 		pins = new JPanel[numBowlers];
 		for (int i = 0; i != numBowlers; i++) {
-			LaneViewHelper.createBallLabels(this,i,frames);
-			LaneViewHelper.createBallGrid(this,i,frames);
-			LaneViewHelper.createPinsGrid(this,i,frames);
+			LaneViewHelper.createBallLabels(this,i,frameC);
+			LaneViewHelper.createBallGrid(this,i,frameC);
+			LaneViewHelper.createPinsGrid(this,i,frameC);
 			panel.add(pins[i]);
 		}
 		initDone = true;

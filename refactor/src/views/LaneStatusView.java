@@ -14,6 +14,7 @@ import models.Bowler;
 import models.Lane;
 
 import models.Pinsetter;
+import models.frameContext;
 import observers.LaneObserver;
 import observers.PinsetterObserver;
 import utils.*;
@@ -33,16 +34,16 @@ public class LaneStatusView implements ActionListener, LaneObserver, PinsetterOb
 	private LaneView lv;
 	private Lane lane;
 	int laneNum;
-	int frames;
 	boolean laneShowing;
 	boolean psShowing;
+	frameContext frameC;
 	boolean last_3Strike;
 
-	public LaneStatusView(Lane lane, int laneNum,int frames) {
+	public LaneStatusView(Lane lane, int laneNum,frameContext frameC) {
 
 		this.lane = lane;
 		this.laneNum = laneNum;
-		this.frames = frames;
+		this.frameC = frameC;
 		laneShowing=false;
 		psShowing=false;
 
@@ -51,7 +52,7 @@ public class LaneStatusView implements ActionListener, LaneObserver, PinsetterOb
 		PinsetterManager pm = ps.getManager();
 		pm.subscribe(psv);
 
-		lv = new LaneView( lane, laneNum,frames);
+		lv = new LaneView( lane, laneNum,frameC);
 
 		LaneManager manager = lane.getLaneManager();
 		manager.subscribe(lv);

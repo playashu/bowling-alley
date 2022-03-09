@@ -1,4 +1,5 @@
 import models.ControlDesk;
+import models.frameContext;
 import views.ControlDeskView;
 
 public class drive {
@@ -7,10 +8,10 @@ public class drive {
 
 		int numLanes = 3;
 		int maxPatronsPerParty=6;
-		int frames = 2;
-		ControlDesk controlDesk = new ControlDesk(numLanes,frames);
+		frameContext frameC = new frameContext(3,true);
+		ControlDesk controlDesk = new ControlDesk(numLanes,frameC);
 
-		ControlDeskView cdv = new ControlDeskView( controlDesk, maxPatronsPerParty, frames);
+		ControlDeskView cdv = new ControlDeskView( controlDesk, maxPatronsPerParty, frameC);
 		controlDesk.getControlDeskManager().subscribe( cdv );
 
 	}

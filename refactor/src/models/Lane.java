@@ -164,12 +164,12 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
 
     private boolean partyAssigned;
     private Party party;
-
+    int frames;
     private HashMap scores;
     private int[] curScores;
     //private int[][] cumulScores;
     private ScoreBoard scoreBoard;
-    private int frames;
+    private frameContext frameC;
     private boolean ballThrown;
     private int prevScore;
     private HashMap<Bowler, Integer> highScores;
@@ -184,7 +184,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
      * @post a new lane has been created and its thered is executing
      */
 
-    public Lane(int frames) {
+    public Lane(frameContext frameC) {
         setter = new Pinsetter();
         prevScore = -1;
         scores = new HashMap();
@@ -193,8 +193,9 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
         partyAssigned = false;
         ballThrown = false;
         gameNumber = 0;
-        this.frames = frames;
-        scoreBoard = new ScoreBoard(bowlIndex,frames);
+        this.frameC = frameC;
+        frames = frameC.getFrames();
+        scoreBoard = new ScoreBoard(bowlIndex,frameC);
         setter.getManager().subscribe(this);
 
 //        scoreBoard = new ScoreBoard(bowlIndex,party.getSize());
@@ -316,7 +317,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
 
             // next logic handles the ?: what conditions dont allow them another throw?
             // handle the case of 10th frame first
-            if (frameNumber == frames-1) {
+            if (frameC.is_3Strike() && frameNumber == frames-1) {
                 tenthframeStrike(pe.totalPinsDown(),pe.getThrowNumber());
             } else { // its not the 10th frame
 
@@ -325,9 +326,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
 
             if(canThrowAgain){
                 prevScore = pe.pinsDownOnThisThrow();
-
             }
-
             markScore(currentThrower, frameNumber + 1, pe.getThrowNumber(), currScore, pe.isPenalty());
         }
     }

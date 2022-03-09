@@ -9,9 +9,15 @@ public class ScoreBoard{
     private int[][] cumulScores;
     private int bowlerIndex;
     private int teamSize;
+    frameContext frameC;
+    boolean is_3Strike;
     int frames;
-    public ScoreBoard(int bowlerIndex, int frames) {
-        this.frames = frames;
+    int n_balls;
+    public ScoreBoard(int bowlerIndex, frameContext frameC) {
+        this.frameC = frameC;
+        this.frames = frameC.getFrames();
+        this.n_balls = frameC.numberOfBalls();
+        this.is_3Strike = frameC.is_3Strike();
         this.bowlerIndex = bowlerIndex;
 
     }
@@ -58,9 +64,9 @@ public class ScoreBoard{
         }
         int current = 2*(frame - 1)+ball-1;
         for (int i = 0; i != current+1; i++){
-            if(i%2 == 1 && checkIfTrue( curScore[i - 1] + curScore[i] == 10 , i < current - 1 , i < 19)){
+            if(i%2 == 1 && checkIfTrue( curScore[i - 1] + curScore[i] == 10 , i < current - 1 , i < n_balls - 3)){
                 cumulScores[bowlerIndex][(i/2)] += curScore[i+1] + curScore[i];
-            } else if(checkIfTrue( i < current && i%2 == 0 , curScore[i] == 10  , i < 18)){
+            } else if(checkIfTrue( i < current && i%2 == 0 , curScore[i] == 10  , i < n_balls-4)){
                 if (checkTwoStrike(curScore, i)) break;
             } else {
                 normalThrow(curScore, i);
@@ -80,7 +86,16 @@ public class ScoreBoard{
 
 
     private void normalThrow(int[] curScore, int i) {
-        if(i < (frames-1)*2){
+        int n=0;
+        if(is_3Strike){
+            n = (frames-1)*2;
+            if (i == n){
+                cumulScores[bowlerIndex][frames-1] += cumulScores[bowlerIndex][frames-2];
+            }
+        }else{
+            n= (frames)*2;
+        }
+        if(i < n){
             if(i % 2 ==0 ) {
                 if (checkIfTrue(i == 0 , curScore[i] != -20,true)) {
                     cumulScores[bowlerIndex][i / 2] += curScore[i];
@@ -91,11 +106,8 @@ public class ScoreBoard{
             } else if(checkIfTrue(curScore[i] != -10 , i >= 1 , curScore[i] != -2))
                 cumulScores[bowlerIndex][i/2] += curScore[i];
         }
-        else if (checkIfTrue((i/2 == 9 || i/2 == 10), curScore[i] != -20,true)){
+        else if (checkIfTrue((i/2 == frames-1 || i/2 == frames), curScore[i] != -20,true)){
             cumulScores[bowlerIndex][frames-1] += curScore[i];
-        }
-        if (i == (frames-1)*2){
-            cumulScores[bowlerIndex][frames-1] += cumulScores[bowlerIndex][frames-2];
         }
     }
 
