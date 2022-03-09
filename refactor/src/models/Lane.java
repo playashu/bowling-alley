@@ -304,8 +304,10 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
      */
     public void receivePinsetterEvent(PinsetterEvent pe) {
 
-        if (pe.pinsDownOnThisThrow() >= 0) {            // this is a real throw
-            markScore(currentThrower, frameNumber + 1, pe.getThrowNumber(), pe.pinsDownOnThisThrow(), pe.isPenalty());
+        int currScore = pe.pinsDownOnThisThrow();
+
+        if (currScore >= 0) {            // this is a real throw
+
 
             // next logic handles the ?: what conditions dont allow them another throw?
             // handle the case of 10th frame first
@@ -313,12 +315,15 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
                 tenthframeStrike(pe.totalPinsDown(),pe.getThrowNumber());
             } else { // its not the 10th frame
 
-                normalStrike(pe.pinsDownOnThisThrow(),pe.getThrowNumber(),pe.totalPinsDown());
+                normalStrike(currScore,pe.getThrowNumber(),pe.totalPinsDown());
             }
 
             if(canThrowAgain){
                 prevScore = pe.pinsDownOnThisThrow();
+
             }
+
+            markScore(currentThrower, frameNumber + 1, pe.getThrowNumber(), currScore, pe.isPenalty());
         }
     }
 
@@ -351,21 +356,17 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
 
         if ((totalPinsDown != 10) && (throwNumber == 2 && tenthFrameStrike == false)) {
             canThrowAgain = false;
-            prevScore = -1;
         }
 
         if (throwNumber == 3) {
             canThrowAgain = false;
-            prevScore = -1;
         }
     }
     void normalStrike(int pinsDownOnThisThrow, int throwNumber, int totalPinsDown){
         if (pinsDownOnThisThrow == 10) {        // threw a strike
             canThrowAgain = false;
-            prevScore = -1;
         } else if (throwNumber == 2) {
             canThrowAgain = false;
-            prevScore = -1;
         }
     }
     /**
@@ -394,7 +395,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
         while (bowlIt.hasNext()) {
             int[] toPut = new int[25];
             for (int i = 0; i != 25; i++) {
-                toPut[i] = -1;
+                toPut[i] = -10;
             }
             scores.put(bowlIt.next(), toPut);
         }
@@ -423,7 +424,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
         highScores = new HashMap();
         penaltie = new HashMap();
         for( Object i : party.getMembers()){
-            highScores.put((Bowler)i,0);
+            highScores.put((Bowler)i,-9999);
             penaltie.put((Bowler)i,false);
         }
         gameNumber = 0;
@@ -446,29 +447,52 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
     private void markScore(Bowler Cur, int frame, int ball, int score, boolean penalty) {
         int[] curScore;
 
-        int index = ((frame - 1) * 2 + ball) ;
+        int index = ((frame - 1) * 2 + ball);
 
         curScore = (int[]) scores.get(Cur);
 
+        curScore[index - 1] = score;
+        scores.put(Cur, curScore);
+        int cumScore = scoreBoard.getScore(Cur, frame, ball, (int[]) scores.get(Cur));
 
-        if (penalty == true){
-            if(highScores.get(Cur) != 0){
-                score -= highScores.get(Cur)/2;
-            }else{
-                penaltie.put(Cur,true);
+        if(highScores.get(Cur)<cumScore){
+            highScores.put(Cur,cumScore);
+        }
+
+        System.out.println("=======================");
+        System.out.println(cumScore);
+        System.out.println("=======================");
+
+        if (!canThrowAgain){
+            if (penalty == true) {
+
+                if (highScores.get(Cur) > 0) {
+
+                    score -= highScores.get(Cur) / 2;
+                } else {
+
+                    penaltie.put(Cur, true);
+                }
+            } else if (penaltie.get(Cur) == true) {
+                int cost;
+                System.out.println("PREV SCORE");
+                System.out.println(prevScore);
+                System.out.println("CURRENT SCORE");
+                System.out.println(score);
+                if(prevScore!=-1) {
+                    cost = (score + prevScore) / 2;
+                    curScore[index - 3] = -1 * cost;
+                }
+                else{
+                    cost = (score) / 2;
+                    curScore[index - 2] = -1 * cost;
+                }
+                System.out.println(score);
+                penaltie.put(Cur, false);
             }
-        }else if (penaltie.get(Cur) == true){
-            score/=2;
-            penaltie.put(Cur,false);
-        }
-        if(highScores.get(Cur) < score){
-            highScores.put(Cur,score);
-        }
 
-        System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
-        System.out.println(penalty);
-        System.out.println(penaltie.get(Cur));
-        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+            prevScore = -1;
+        }
         curScore[index - 1] = score;
         scores.put(Cur, curScore);
         scoreBoard.getScore(Cur, frame, ball, (int[]) scores.get(Cur));

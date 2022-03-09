@@ -98,7 +98,7 @@ public class LaneView implements LaneObserver, ActionListener {
 				ballLabel[k][i].setText("X");
 			else if (i > 0 && getValue(le,k,i) + getValue(le,k,i-1) == 10 && i % 2 == 1)
 				ballLabel[k][i].setText("/");
-			else if ( getValue(le,k,i) == -2 ){
+			else if ( getValue(le,k,i) == -20 ){
 				ballLabel[k][i].setText("F");
 			} else
 				ballLabel[k][i].setText((new Integer(getValue(le,k,i))).toString());
@@ -111,7 +111,7 @@ public class LaneView implements LaneObserver, ActionListener {
 		for (int k = 0; k < numBowlers; k++) {
 			setScoreLabelDisplay(le,lescores,k);
 			for (int i = 0; i < 21; i++) {
-				if (getValue(le,k,i) == -1)
+				if (getValue(le,k,i) == -10)
 					continue;
 				else
 					setBallDisplay(le,k,i);

@@ -65,11 +65,11 @@ public class ScoreBoard{
                 normalThrow(curScore, i);
             }
         }
-        return totalScore;
+        return cumulScores[bowlerIndex][frame-1];
     }
 
     private boolean checkTwoStrike(int[] curScore, int i) {
-        if (checkIfTrue(curScore[i +2] != -1 , (curScore[i +3] != -1 || curScore[i +4] != -1),true)) {
+        if (checkIfTrue(curScore[i +2] != -10 , (curScore[i +3] != -10 || curScore[i +4] != -10),true)) {
             twoStrikeBalls(curScore, i);
         } else {
             return true;
@@ -81,16 +81,16 @@ public class ScoreBoard{
     private void normalThrow(int[] curScore, int i) {
         if(i < 18){
             if(i % 2 ==0 ) {
-                if (checkIfTrue(i == 0 , curScore[i] != -2,true)) {
+                if (checkIfTrue(i == 0 , curScore[i] != -20,true)) {
                     cumulScores[bowlerIndex][i / 2] += curScore[i];
                 } else {
-                    int add = (curScore[i] != -2) ? curScore[i] : 0;
+                    int add = (curScore[i] != -20) ? curScore[i] : 0;
                     cumulScores[bowlerIndex][i / 2] += cumulScores[bowlerIndex][i / 2 - 1] + add;
                 }
-            } else if(checkIfTrue(curScore[i] != -1 , i > 2 , curScore[i] != -2))
+            } else if(checkIfTrue(curScore[i] != -10 , i >= 1 , curScore[i] != -2))
                 cumulScores[bowlerIndex][i/2] += curScore[i];
         }
-        else if (checkIfTrue((i/2 == 9 || i/2 == 10), curScore[i] != -2,true)){
+        else if (checkIfTrue((i/2 == 9 || i/2 == 10), curScore[i] != -20,true)){
             cumulScores[bowlerIndex][9] += curScore[i];
         }
         if (i == 18){
@@ -100,18 +100,18 @@ public class ScoreBoard{
 
     private void twoStrikeBalls(int[] curScore, int i) {
         cumulScores[bowlerIndex][i/2] += 10;
-        if(curScore[i+1] != -1) {
+        if(curScore[i+1] != -10) {
             cumulScores[bowlerIndex][i/2] += curScore[i+1] + cumulScores[bowlerIndex][(i/2)-1];
-            if (checkIfTrue(curScore[i+2] != -1 , curScore[i+2] != -2, true)){
+            if (checkIfTrue(curScore[i+2] != -10 , curScore[i+2] != -20, true)){
                 cumulScores[bowlerIndex][(i/2)] += curScore[i+2];
-            } else if(curScore[i+3] != -2){
+            } else if(curScore[i+3] != -20){
                 cumulScores[bowlerIndex][(i/2)] += curScore[i+3];
             }
         } else {
             int add = (i/2 > 0) ? cumulScores[bowlerIndex][(i/2)-1] : 0;
             cumulScores[bowlerIndex][i/2] += curScore[i+2] + add;
             int id = 4;
-            if (curScore[i+3] != -1 &&  curScore[i+3] != -2){
+            if (curScore[i+3] != -10 &&  curScore[i+3] != -20){
                 id = 3;
             }
             cumulScores[bowlerIndex][(i/2)] += curScore[i+id];

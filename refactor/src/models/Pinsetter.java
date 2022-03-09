@@ -146,7 +146,7 @@ public class Pinsetter {
 
 					double pinluck = rnd.nextDouble();
 					if (pinluck <= .04) {
-						foul = true;
+						foul = false;
 					}
 					if (((skill + pinluck) / 2.0 * 1.2) > .5) {
 						pins[i] = false;
