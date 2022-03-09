@@ -19,6 +19,8 @@ package utils;/* BowlerFile.java
  *
  */
 
+import dbAccess.BowlerDao;
+import dbAccess.BowlerDaoImpl;
 import models.Bowler;
 
 import java.io.*;
@@ -28,7 +30,7 @@ public class BowlerFile {
 
 	/** The location of the bowelr database */
 	private static String BOWLER_DAT = "BOWLERS.DAT";
-
+	private  static BowlerDao bowlerInfo=new BowlerDaoImpl();
     /**
      * Retrieves bowler information from the database and returns a Bowler objects with populated fields.
      *
@@ -91,20 +93,20 @@ public class BowlerFile {
      * 
      */
 
-	public static Vector getBowlers()
+	public static Vector<String> getBowlers()
 		throws IOException, FileNotFoundException {
-
-		Vector allBowlers = new Vector();
-
-		BufferedReader in = new BufferedReader(new FileReader(BOWLER_DAT));
-		String data;
-		while ((data = in.readLine()) != null) {
-			// File format is nick\tfname\te-mail
-			String[] bowler = data.split("\t");
-			//"Nick: bowler[0] Full: bowler[1] email: bowler[2]
-			allBowlers.add(bowler[0]);
-		}
-		return allBowlers;
+		return bowlerInfo.getAllBowlerNames();
+//		Vector allBowlers = new Vector();
+//
+//		BufferedReader in = new BufferedReader(new FileReader(BOWLER_DAT));
+//		String data;
+//		while ((data = in.readLine()) != null) {
+//			// File format is nick\tfname\te-mail
+//			String[] bowler = data.split("\t");
+//			//"Nick: bowler[0] Full: bowler[1] email: bowler[2]
+//			allBowlers.add(bowler[0]);
+//		}
+//		return allBowlers;
 	}
 	/**
 	 * Retrieves a matching Bowler from the bowler database.

@@ -40,42 +40,18 @@ public class NewPatronView implements ActionListener {
 	private AddPartyView addParty;
 
 	public NewPatronView(AddPartyView v) {
-
 		addParty=v;	
 		done = false;
-
 		win = new JFrame("Add Patron");
 		win.getContentPane().setLayout(new BorderLayout());
 		((JPanel) win.getContentPane()).setOpaque(false);
-
 		JPanel colPanel = new JPanel();
 		colPanel.setLayout(new BorderLayout());
-
-		// Patron Panel
 		JPanel patronPanel = UiComponents.createGridPanel("Your Info",3,1);
-
-//		JPanel nickPanel = new JPanel();
-//		nickPanel.setLayout(new FlowLayout());
-//		nickLabel = new JLabel("Nick Name");
-//		nickField = new JTextField("", 15);
-//		nickPanel.add(nickLabel);
-//		nickPanel.add(nickField);
 		JPanel nickPanel = UiComponents.createFlowPanel();
 		nickField=UiComponents.createFlowText("Nick Name",nickPanel);
-//		JPanel fullPanel = new JPanel();
-//		fullPanel.setLayout(new FlowLayout());
-//		fullLabel = new JLabel("Full Name");
-//		fullField = new JTextField("", 15);
-//		fullPanel.add(fullLabel);
-//		fullPanel.add(fullField);
 		JPanel fullPanel = UiComponents.createFlowPanel();
 		fullField=UiComponents.createFlowText("Full Name",fullPanel);
-//		JPanel emailPanel = new JPanel();
-//		emailPanel.setLayout(new FlowLayout());
-//		emailLabel = new JLabel("E-Mail");
-//		emailField = new JTextField("", 15);
-//		emailPanel.add(emailLabel);
-//		emailPanel.add(emailField);
 
 		JPanel emailPanel = UiComponents.createFlowPanel();
 		emailField=UiComponents.createFlowText("E-Mail",emailPanel);

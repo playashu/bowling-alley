@@ -26,6 +26,7 @@ package views;/* AddPartyView.java
  */
 
 import models.Bowler;
+import models.Party;
 import utils.BowlerFile;
 import utils.UiComponents;
 
@@ -50,7 +51,8 @@ public class AddPartyView implements ActionListener, ListSelectionListener {
 	private JFrame win;
 	private JButton addPatron, newPatron, remPatron, finished;
 	private JList partyList, allBowlers;
-	private Vector party, bowlerdb;
+	private Vector <String>bowlerdb;
+	private Vector <String>party;
 	private Integer lock;
 
 	private ControlDeskView controlDesk;
@@ -92,7 +94,7 @@ public class AddPartyView implements ActionListener, ListSelectionListener {
 		bowlerPanel.setBorder(new TitledBorder("Bowler Database"));
 
 		try {
-			bowlerdb = new Vector(BowlerFile.getBowlers());
+			bowlerdb = new Vector<String>(BowlerFile.getBowlers());
 		} catch (Exception e) {
 			System.err.println("File Error");
 			bowlerdb = new Vector();
