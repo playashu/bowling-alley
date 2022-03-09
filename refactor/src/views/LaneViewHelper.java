@@ -7,8 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LaneViewHelper {
-    public static void createBallLabels(LaneView view,int i) {
-        for (int j = 0; j != 23; j++) {
+    public static void createBallLabels(LaneView view,int i,int frames) {
+        for (int j = 0; j != 2*frames+3; j++) {
             view.ballLabel[i][j] = new JLabel(" ");
             view.balls[i][j] = new JPanel();
             view.balls[i][j].setBorder(
@@ -16,29 +16,29 @@ public class LaneViewHelper {
             view.balls[i][j].add(view.ballLabel[i][j]);
         }
     }
-    public static void createBallGrid(LaneView view,int i)
+    public static void createBallGrid(LaneView view,int i,int frames)
     {
-        for (int j = 0; j != 9; j++) {
+        for (int j = 0; j != frames-1; j++) {
             view.ballGrid[i][j] = UiComponents.createGridPanel(0,3);
             view.ballGrid[i][j].add(new JLabel("  "), BorderLayout.EAST);
             view.ballGrid[i][j].add(view.balls[i][2 * j], BorderLayout.EAST);
             view.ballGrid[i][j].add(view.balls[i][2 * j + 1], BorderLayout.EAST);
         }
-        int j = 9;
+        int j = frames-1;
         view.ballGrid[i][j] = UiComponents.createGridPanel(0,3);
 //        view.ballGrid[i][j].setLayout(new GridLayout(0, 3));
         view.ballGrid[i][j].add(view.balls[i][2 * j]);
         view.ballGrid[i][j].add(view.balls[i][2 * j + 1]);
         view.ballGrid[i][j].add(view.balls[i][2 * j + 2]);
     }
-    public static void createPinsGrid(LaneView view,int i)
+    public static void createPinsGrid(LaneView view,int i,int frames)
     {
         view.pins[i] = new JPanel();
         view.pins[i].setBorder(
                 BorderFactory.createTitledBorder(
                         ((Bowler) view.bowlers.get(i)).getNickName()));
         view.pins[i].setLayout(new GridLayout(0, 10));
-        for (int k = 0; k != 10; k++) {
+        for (int k = 0; k != frames; k++) {
             view.scores[i][k] = new JPanel();
             view.scoreLabel[i][k] = new JLabel("  ", SwingConstants.CENTER);
             view.scores[i][k].setBorder(

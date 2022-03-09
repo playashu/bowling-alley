@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 public class LaneView implements LaneObserver, ActionListener {
-
+	private int frames;
 	private int roll;
 	private boolean initDone = true;
 
@@ -40,9 +40,10 @@ public class LaneView implements LaneObserver, ActionListener {
 	JButton maintenance;
 	Lane lane;
 
-	public LaneView(Lane lane, int laneNum) {
+	public LaneView(Lane lane, int laneNum, int n_frames) {
 		this.lane = lane;
 		initDone = true;
+		this.frames = n_frames;
 		frame = new JFrame("Lane " + laneNum + ":");
 		cpanel = frame.getContentPane();
 		cpanel.setLayout(new BorderLayout());
@@ -64,17 +65,17 @@ public class LaneView implements LaneObserver, ActionListener {
 		bowlers = party.getMembers();
 		int numBowlers = bowlers.size();
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(0, 1));
-		balls = new JPanel[numBowlers][23];
-		ballLabel = new JLabel[numBowlers][23];
-		scores = new JPanel[numBowlers][10];
-		scoreLabel = new JLabel[numBowlers][10];
-		ballGrid = new JPanel[numBowlers][10];
+		panel.setLayout(new GridLayout(0,1));
+		balls = new JPanel[numBowlers][2*frames+3];
+		ballLabel = new JLabel[numBowlers][2*frames+3];
+		scores = new JPanel[numBowlers][frames];
+		scoreLabel = new JLabel[numBowlers][frames];
+		ballGrid = new JPanel[numBowlers][frames];
 		pins = new JPanel[numBowlers];
 		for (int i = 0; i != numBowlers; i++) {
-			LaneViewHelper.createBallLabels(this,i);
-			LaneViewHelper.createBallGrid(this,i);
-			LaneViewHelper.createPinsGrid(this,i);
+			LaneViewHelper.createBallLabels(this,i,frames);
+			LaneViewHelper.createBallGrid(this,i,frames);
+			LaneViewHelper.createPinsGrid(this,i,frames);
 			panel.add(pins[i]);
 		}
 		initDone = true;
@@ -94,7 +95,7 @@ public class LaneView implements LaneObserver, ActionListener {
 	}
 	public void setBallDisplay(LaneEvent le, int k, int i)
 	{
-			if (getValue(le,k,i) == 10 && (i % 2 == 0 || i == 19))
+			if (getValue(le,k,i) == 10 && (i % 2 == 0 || i == 2*frames -1))
 				ballLabel[k][i].setText("X");
 			else if (i > 0 && getValue(le,k,i) + getValue(le,k,i-1) == 10 && i % 2 == 1)
 				ballLabel[k][i].setText("/");
@@ -110,7 +111,7 @@ public class LaneView implements LaneObserver, ActionListener {
 		int[][] lescores = le.getCumulScore();
 		for (int k = 0; k < numBowlers; k++) {
 			setScoreLabelDisplay(le,lescores,k);
-			for (int i = 0; i < 21; i++) {
+			for (int i = 0; i <= 2*frames; i++) {
 				if (getValue(le,k,i) == -10)
 					continue;
 				else

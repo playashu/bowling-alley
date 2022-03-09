@@ -7,10 +7,10 @@ public class drive {
 
 		int numLanes = 3;
 		int maxPatronsPerParty=6;
+		int frames = 2;
+		ControlDesk controlDesk = new ControlDesk(numLanes,frames);
 
-		ControlDesk controlDesk = new ControlDesk(numLanes);
-
-		ControlDeskView cdv = new ControlDeskView( controlDesk, maxPatronsPerParty);
+		ControlDeskView cdv = new ControlDeskView( controlDesk, maxPatronsPerParty, frames);
 		controlDesk.getControlDeskManager().subscribe( cdv );
 
 	}

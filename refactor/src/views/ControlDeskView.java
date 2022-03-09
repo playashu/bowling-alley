@@ -38,6 +38,7 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 	private JButton addParty, finished/*, assign*/;
 	private JFrame win;
 	private JList partyList;
+	int frames;
 	
 	/** The maximum  number of members in a party */
 	private int maxMembers;
@@ -49,10 +50,12 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 	 *
 	 */
 
-	public ControlDeskView(ControlDesk controlDesk, int maxMembers) {
+	public ControlDeskView(ControlDesk controlDesk, int maxMembers,int frames) {
 
 		this.controlDesk = controlDesk;
 		this.maxMembers = maxMembers;
+		this.frames = frames;
+
 		int numLanes = controlDesk.getNumLanes();
 
 		win = new JFrame("Control Desk");
@@ -80,7 +83,7 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 		int laneCount=0;
 		while (it.hasNext()) {
 			Lane curLane = (Lane) it.next();
-			LaneStatusView laneStat = new LaneStatusView(curLane,(laneCount+1));
+			LaneStatusView laneStat = new LaneStatusView(curLane,(laneCount+1),frames);
 			LaneManager manager = curLane.getLaneManager();
 			manager.subscribe(laneStat);
 			Pinsetter ps = ((Pinsetter)curLane.getPinsetter());

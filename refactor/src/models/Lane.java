@@ -169,7 +169,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
     private int[] curScores;
     //private int[][] cumulScores;
     private ScoreBoard scoreBoard;
-
+    private int frames;
     private boolean ballThrown;
     private int prevScore;
     private HashMap<Bowler, Integer> highScores;
@@ -184,7 +184,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
      * @post a new lane has been created and its thered is executing
      */
 
-    public Lane() {
+    public Lane(int frames) {
         setter = new Pinsetter();
         prevScore = -1;
         scores = new HashMap();
@@ -193,7 +193,8 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
         partyAssigned = false;
         ballThrown = false;
         gameNumber = 0;
-        scoreBoard = new ScoreBoard(bowlIndex);
+        this.frames = frames;
+        scoreBoard = new ScoreBoard(bowlIndex,frames);
         setter.getManager().subscribe(this);
 
 //        scoreBoard = new ScoreBoard(bowlIndex,party.getSize());
@@ -225,6 +226,10 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
         EndGamePromptView egp = new EndGamePromptView(((Bowler) party.getMembers().get(0)).getNickName() + "'s Party");
         int result = egp.getResult();
         egp.distroy();
+        for( Object i : party.getMembers()){
+            highScores.put((Bowler)i,-9999);
+            penaltie.put((Bowler)i,false);
+        }
         egp = null;
         System.out.println("result was: " + result);
         if (result == 1) {                  
@@ -236,7 +241,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
             partyAssigned = false;
             laneManager.publish(lanePublish());
         }
-    
+
     }
     /**
      * run()
@@ -255,7 +260,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
 
                     throwBall();
 
-                    if (frameNumber == 9) {
+                    if (frameNumber == frames-1) {
                         finalScores[bowlIndex][gameNumber] = scoreBoard.getFinalScore();
                         scoreBoard.saveToFile(currentThrower.getNickName());
                     }
@@ -267,7 +272,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
                     resetBowlerIterator();
                     bowlIndex = 0;
                     scoreBoard.setBowlerIndex(bowlIndex);
-                    if (frameNumber > 9) {
+                    if (frameNumber > frames-1) {
                         gameFinished = true;
                         gameNumber++;
                     }
@@ -311,7 +316,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
 
             // next logic handles the ?: what conditions dont allow them another throw?
             // handle the case of 10th frame first
-            if (frameNumber == 9) {
+            if (frameNumber == frames-1) {
                 tenthframeStrike(pe.totalPinsDown(),pe.getThrowNumber());
             } else { // its not the 10th frame
 

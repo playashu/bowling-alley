@@ -9,7 +9,9 @@ public class ScoreBoard{
     private int[][] cumulScores;
     private int bowlerIndex;
     private int teamSize;
-    public ScoreBoard(int bowlerIndex) {
+    int frames;
+    public ScoreBoard(int bowlerIndex, int frames) {
+        this.frames = frames;
         this.bowlerIndex = bowlerIndex;
 
     }
@@ -18,7 +20,7 @@ public class ScoreBoard{
         try {
             Date date = new Date();
             String dateString = "" + date.getHours() + ":" + date.getMinutes() + " " + date.getMonth() + "/" + date.getDay() + "/" + (date.getYear() + 1900);
-            ScoreHistoryFile.addScore(nickName, dateString, new Integer(cumulScores[bowlerIndex][9]).toString());
+            ScoreHistoryFile.addScore(nickName, dateString, new Integer(cumulScores[bowlerIndex][frames-1]).toString());
         } catch (Exception e) {
             System.err.println("Exception in addScore. " + e);
         }
@@ -28,14 +30,13 @@ public class ScoreBoard{
         bowlerIndex = val;
     }
 
-
     public void reset(int partySize) {
         this.teamSize = partySize;
-        cumulScores = new int[partySize][10];
+        cumulScores = new int[partySize][frames];
     }
 
     public int getFinalScore() {
-        return cumulScores[bowlerIndex][9];
+        return cumulScores[bowlerIndex][frames-1];
     }
 
     public int [][] getCumulScores() {
@@ -52,7 +53,7 @@ public class ScoreBoard{
 
     public int getScore( Bowler Cur, int frame, int ball, int[] curScore) {
         int totalScore = 0;
-        for (int i = 0; i != 10; i++){
+        for (int i = 0; i != frames; i++){
             cumulScores[bowlerIndex][i] = 0;
         }
         int current = 2*(frame - 1)+ball-1;
@@ -79,7 +80,7 @@ public class ScoreBoard{
 
 
     private void normalThrow(int[] curScore, int i) {
-        if(i < 18){
+        if(i < (frames-1)*2){
             if(i % 2 ==0 ) {
                 if (checkIfTrue(i == 0 , curScore[i] != -20,true)) {
                     cumulScores[bowlerIndex][i / 2] += curScore[i];
@@ -91,10 +92,10 @@ public class ScoreBoard{
                 cumulScores[bowlerIndex][i/2] += curScore[i];
         }
         else if (checkIfTrue((i/2 == 9 || i/2 == 10), curScore[i] != -20,true)){
-            cumulScores[bowlerIndex][9] += curScore[i];
+            cumulScores[bowlerIndex][frames-1] += curScore[i];
         }
-        if (i == 18){
-            cumulScores[bowlerIndex][9] += cumulScores[bowlerIndex][8];
+        if (i == (frames-1)*2){
+            cumulScores[bowlerIndex][frames-1] += cumulScores[bowlerIndex][frames-2];
         }
     }
 
