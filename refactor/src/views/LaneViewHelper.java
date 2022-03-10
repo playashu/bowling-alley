@@ -37,12 +37,12 @@ public class LaneViewHelper {
         }
 
     }
-    public static void createPinsGrid(LaneView view,int i,frameContext frameC)
+    public static void createPinsGrid(LaneView view,int i,frameContext frameC,int b)
     {
         view.pins[i] = new JPanel();
         view.pins[i].setBorder(
                 BorderFactory.createTitledBorder(
-                        ((Bowler) view.bowlers.get(i)).getNickName()));
+                        ((Bowler) view.bowlers.get(i+b)).getNickName()));
         view.pins[i].setLayout(new GridLayout(0, 10));
         for (int k = 0; k != frameC.getFrames(); k++) {
             view.scores[i][k] = new JPanel();

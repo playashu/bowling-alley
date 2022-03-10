@@ -13,15 +13,22 @@ public class ScoreBoard{
     boolean is_3Strike;
     int frames;
     int n_balls;
+
     public ScoreBoard(int bowlerIndex, frameContext frameC) {
         this.frameC = frameC;
         this.frames = frameC.getFrames();
         this.n_balls = frameC.numberOfBalls();
         this.is_3Strike = frameC.is_3Strike();
         this.bowlerIndex = bowlerIndex;
-
     }
 
+    public void reset(int bowlerIndex, frameContext frameC){
+        this.frameC = frameC;
+        this.frames = frameC.getFrames();
+        this.n_balls = frameC.numberOfBalls();
+        this.is_3Strike = frameC.is_3Strike();
+        this.bowlerIndex = bowlerIndex;
+    }
     public void saveToFile(String nickName) {
         try {
             Date date = new Date();
