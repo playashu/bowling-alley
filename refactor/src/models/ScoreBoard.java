@@ -64,10 +64,12 @@ public class ScoreBoard{
         }
         int current = 2*(frame - 1)+ball-1;
         for (int i = 0; i != current+1; i++){
-            if(i%2 == 1 && checkIfTrue( curScore[i - 1] + curScore[i] == 10 , i < current - 1 , i < n_balls - 3)){
+            if(i%2 == 1 && checkIfTrue( curScore[i - 1] + curScore[i] == 10 , i < current - 1 , i < n_balls - 4)){
                 cumulScores[bowlerIndex][(i/2)] += curScore[i+1] + curScore[i];
-            } else if(checkIfTrue( i < current && i%2 == 0 , curScore[i] == 10  , i < n_balls-4)){
-                if (checkTwoStrike(curScore, i)) break;
+            } else if(checkIfTrue( i < current && i%2 == 0 , curScore[i] == 10  , i < n_balls-5)){
+                if (checkTwoStrike(curScore, i)){
+                    break;
+                }
             } else {
                 normalThrow(curScore, i);
             }
@@ -93,7 +95,7 @@ public class ScoreBoard{
                 cumulScores[bowlerIndex][frames-1] += cumulScores[bowlerIndex][frames-2];
             }
         }else{
-            n= (frames)*2;
+            n = (frames)*2;
         }
         if(i < n){
             if(i % 2 ==0 ) {
@@ -103,12 +105,13 @@ public class ScoreBoard{
                     int add = (curScore[i] != -20) ? curScore[i] : 0;
                     cumulScores[bowlerIndex][i / 2] += cumulScores[bowlerIndex][i / 2 - 1] + add;
                 }
-            } else if(checkIfTrue(curScore[i] != -10 , i >= 1 , curScore[i] != -2))
+            } else if(checkIfTrue(curScore[i] != -10 , i >= 1 , curScore[i] != -20))
                 cumulScores[bowlerIndex][i/2] += curScore[i];
         }
         else if (checkIfTrue((i/2 == frames-1 || i/2 == frames), curScore[i] != -20,true)){
             cumulScores[bowlerIndex][frames-1] += curScore[i];
         }
+
     }
 
     private void twoStrikeBalls(int[] curScore, int i) {
