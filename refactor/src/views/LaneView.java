@@ -107,10 +107,13 @@ public class LaneView implements LaneObserver, ActionListener {
 		return ((int[]) le.getScore().get(bowlers.get(k)))[i];
 	}
 	public void setScoreLabelDisplay(LaneEvent le, int[][] lescores, int k)
-	{
+	{	int b = k;
+		if(le.isAnotherRun()){
+			b = 0;
+		}
 		for (int i = 0; i <= le.getFrameNum() - 1; i++) {
 			if (lescores[k][i] != 0)
-				scoreLabel[k][i].setText((new Integer(lescores[k][i])).toString());
+				scoreLabel[b][i].setText((new Integer(lescores[k][i])).toString());
 		}
 	}
 	public void setBallDisplay(LaneEvent le, int k, int i) {
@@ -138,7 +141,7 @@ public class LaneView implements LaneObserver, ActionListener {
 		}
 		int[][] lescores = le.getCumulScore();
 		for (int k = 0; k < numBowlers; k++) {
-			setScoreLabelDisplay(le,lescores,k);
+			setScoreLabelDisplay(le,lescores,k+b);
 			for (int i = 0; i <= 2*frames; i++) {
 
 				System.out.println("getValue(le,k,i)");

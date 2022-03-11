@@ -22,13 +22,16 @@ public class ScoreBoard{
         this.bowlerIndex = bowlerIndex;
     }
 
-    public void reset(int bowlerIndex, frameContext frameC){
+    public void reset(int partySize, frameContext frameC){
         this.frameC = frameC;
         this.frames = frameC.getFrames();
         this.n_balls = frameC.numberOfBalls();
         this.is_3Strike = frameC.is_3Strike();
-        this.bowlerIndex = bowlerIndex;
+        this.bowlerIndex = 0;
+        this.teamSize = partySize;
+        cumulScores = new int[partySize][frames];
     }
+
     public void saveToFile(String nickName) {
         try {
             Date date = new Date();
@@ -43,10 +46,6 @@ public class ScoreBoard{
         bowlerIndex = val;
     }
 
-    public void reset(int partySize) {
-        this.teamSize = partySize;
-        cumulScores = new int[partySize][frames];
-    }
 
     public int getFinalScore() {
         return cumulScores[bowlerIndex][frames-1];

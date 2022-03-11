@@ -144,7 +144,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class Lane extends Thread implements PinsetterObserver, BallThrowObserver {
-
+    int prevScoreTotal;
     private Pinsetter setter;
     //private Vector subscribers;
     private LaneManager laneManager;
@@ -233,9 +233,9 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
         flag = false;
         anotherRun  = 0;
         this.frameC = new frameContext(3,true);
-        scoreBoard.reset(0,frameC);
-        resetScores();
+
         resetBowlerIterator(0);
+        resetScores();
         laneManager.publish(lanePublish(anotherRun));
 
         if (result == 2) {// no, dont want to play another game
@@ -263,7 +263,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
 
                     throwBall();
 
-                    if (frameNumber == frameC.getFrames()-1) {
+                    if (frameNumber == frameC.getFrames() - 1) {
                         finalScores[bowlIndex][gameNumber] = scoreBoard.getFinalScore();
                         scoreBoard.saveToFile(currentThrower.getNickName());
                     }
@@ -273,51 +273,71 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
                 } else {
                     frameNumber++;
                     resetBowlerIterator(0);
-                    bowlIndex = 0;
-                    scoreBoard.setBowlerIndex(bowlIndex);
-                    if (frameNumber > frameC.getFrames()-1) {
-                        if(flag == false && party.getSize()>=2){
-                            Bowler BowlerNext = (Bowler)bowlerIterator.next();
-                            flag = true;
-                            resetScores();
-                            anotherRun  = 1;
-                            int b = get_2ndHighScorer();
-                            System.out.println("===========------00001!!!!!!!!!!!!!!!!!!!!!!");
-                            System.out.println(b);
-                            bowlIndex = b;
-                            System.out.println("===========------00001!!!!!!!!!!!!!!!!!!!!!!");
-                            if(b!=-100) {
-                                resetBowlerIterator(b );
-                                currentThrower = (Bowler) bowlerIterator.next();
-                                System.out.println("===========------00001!!!!!!!!!!!!!!!!!!!!!!");
-                                System.out.println(currentThrower.getNickName());
-                                System.out.println("===========------00001!!!!!!!!!!!!!!!!!!!!!!");
-                                resetBowlerIterator(-1);
-                                this.frameC = new frameContext(1, false);
-                                scoreBoard.reset(b, frameC);
 
-                                laneManager.publish(lanePublish(anotherRun));
-                            }else{
+                    scoreBoard.setBowlerIndex(bowlIndex);
+                    if (frameNumber > frameC.getFrames() - 1) {
+                        if (party.getSize() >= 2 && anotherRun == 0) {
+                            int b = get_2ndHighScorer();
+                            if (party.getDiff()!=0 && flag == false) {
+                                anotherRun = 1;
                                 flag = true;
+                                resetBowlerIterator(b);
+                                currentThrower = (Bowler) bowlerIterator.next();
+                                this.frameC = new frameContext(1, false);
+                                resetScores();
+                                scoreBoard.setBowlerIndex(b);
+                                laneManager.publish(lanePublish(anotherRun));
+                                resetBowlerIterator(-1);
+                                sleep();
+                                continue;
+                            } else if (party.getDiff()==0) {
+                                flag = true;
+                                intiitalize_SuperFrame();
+                                sleep();
+                                continue;
                             }
-                        }else{
-                            gameFinished = true;
-                            gameNumber++;
+                        } else if (flag = true && party.getDiff() + prevScoreTotal >=0){
+                            System.out.println("++++++++++++++++++++++++++++++++++++++");
+                            System.out.println(party.getDiff());
+                            System.out.println(prevScoreTotal);
+                            System.out.println("++++++++++++++++++++++++++++++++++++++");
+                            intiitalize_SuperFrame();
+                            sleep();
+                            continue;
                         }
+                        System.out.println("++++++++++++++++++++++++++++++++++++++");
+                        System.out.println(party.getDiff());
+                        System.out.println(prevScoreTotal);
+                        System.out.println("++++++++++++++++++++++++++++++++++++++");
+                        gameFinished = true;
+                        gameNumber++;
+
                     }
                 }
-            } else if (partyAssigned && gameFinished) {
-            	finishGame();
+            }else if (partyAssigned && gameFinished) {
+                    finishGame();
+                }
+                sleep();
             }
-            sleep();
         }
+
+
+    void intiitalize_SuperFrame(){
+        party.initialize_SuperFrame();
+        prevScore = -1;
+        anotherRun  = 0;
+        this.frameC = new frameContext(2, true);
+        resetBowlerIterator(0);
+        resetScores();
+        laneManager.publish(lanePublish(anotherRun));
     }
+
     int get_2ndHighScorer(){
         int [][] a = scoreBoard.getCumulScores();
         int b=-100, s=-100;
         for(int i =0 ; i < party.getSize(); i++ ){
             int j = frameC.getFrames() -1;
-            if(a[i][j]>s){
+            if(a[i][j]>=s){
                 s = a[i][j];
                 b = i;
             }
@@ -325,11 +345,14 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
         int b2=-100,s2=-100;
         for(int i =0 ; i < party.getSize(); i++ ){
             int j = frameC.getFrames() -1;
-            if(a[i][j]>s2 && a[i][j]!=s){
+            if(a[i][j]>=s2 && i!=b){
                 s2 = a[i][j];
                 b2 = i;
             }
         }
+        party.addHighScorer(b);
+        party.addHighScorer(b2);
+        party.setDiff(s2-s);
         return b2;
     }
     private void waitWhileGameHalted(){
@@ -425,6 +448,8 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
                 q--;
             }
         }else{
+            bowlIndex = a;
+            scoreBoard.setBowlerIndex(bowlIndex);
             bowlerIterator = (party.getMembers()).iterator();
             int i = 0;
             while(i!=a) {
@@ -444,15 +469,18 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
      */
     private void resetScores() {
         Iterator bowlIt = (party.getMembers()).iterator();
-
+        scoreBoard.reset(party.getSize(),frameC);
         while (bowlIt.hasNext()) {
-            int[] toPut = new int[25];
-            for (int i = 0; i != 25; i++) {
+            int[] toPut = new int[2* frameC.getFrames()+5];
+            for (int i = 0; i != 2* frameC.getFrames()+5; i++) {
                 toPut[i] = -10;
             }
             scores.put(bowlIt.next(), toPut);
         }
-
+        for( Object i : party.getMembers()){
+            highScores.put((Bowler)i,-9999);
+            penaltie.put((Bowler)i,false);
+        }
 
         gameFinished = false;
         frameNumber = 0;
@@ -473,7 +501,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
         resetBowlerIterator(0);
         curScores = new int[party.getSize()];
         //cumulScores = new int[party.getMembers().size()][10];
-        scoreBoard.reset(party.getSize());
+        //scoreBoard.reset(party.getSize());
         finalScores = new int[party.getSize()][128]; //Hardcoding a max of 128 games, bite me.
         highScores = new HashMap();
         penaltie = new HashMap();
@@ -507,32 +535,31 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
 
         curScore[index - 1] = score;
         scores.put(Cur, curScore);
+        System.out.println("scorescorescorescorescore");
+        System.out.println(score);
+        System.out.println("scorescorescorescorescore");
         int cumScore = scoreBoard.getScore(Cur, frame, ball, (int[]) scores.get(Cur));
 
         if(highScores.get(Cur)<cumScore){
             highScores.put(Cur,cumScore);
         }
 
-        System.out.println("=======================");
-        System.out.println(cumScore);
-        System.out.println("=======================");
-
         if (!canThrowAgain){
+            if(anotherRun==1){
+                if(score != 10) {
+                    prevScoreTotal = score + prevScore;
+                }else{
+                    prevScoreTotal = 10;
+                }
+            }
             if (penalty == true) {
-
                 if (highScores.get(Cur) > 0) {
-
                     score -= highScores.get(Cur) / 2;
                 } else {
-
                     penaltie.put(Cur, true);
                 }
             } else if (penaltie.get(Cur) == true) {
                 int cost;
-                System.out.println("PREV SCORE");
-                System.out.println(prevScore);
-                System.out.println("CURRENT SCORE");
-                System.out.println(score);
                 if(prevScore!=-1) {
                     cost = (score + prevScore) / 2;
                     curScore[index - 3] = -1 * cost;
@@ -541,17 +568,15 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
                     cost = (score) / 2;
                     curScore[index - 2] = -1 * cost;
                 }
-                System.out.println(score);
                 penaltie.put(Cur, false);
             }
-
             prevScore = -1;
         }
         curScore[index - 1] = score;
+
         scores.put(Cur, curScore);
         scoreBoard.getScore(Cur, frame, ball, (int[]) scores.get(Cur));
         laneManager.publish(lanePublish(anotherRun));
-
     }
 
     /**
