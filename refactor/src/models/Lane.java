@@ -295,6 +295,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
                                 resetBowlerIterator(-1);
                                 this.frameC = new frameContext(1, false);
                                 scoreBoard.reset(b, frameC);
+
                                 laneManager.publish(lanePublish(anotherRun));
                             }else{
                                 flag = true;
@@ -564,30 +565,20 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
         //LaneEvent laneEvent = new LaneEvent(party, bowlIndex, currentThrower, scoreBoard.getCumulScores(), scores, frameNumber + 1, curScores, ball, gameIsHalted);
         LaneEvent laneEvent =new LaneEvent();
 
+        laneEvent.setParty(party);
+        laneEvent.setIndex(bowlIndex);
+        laneEvent.setBowler(currentThrower);
+        laneEvent.setCumulScore(scoreBoard.getCumulScores());
+        laneEvent.setScore(scores);
+        laneEvent.setFrameNum(frameNumber+1);
+        laneEvent.setCurScores(curScores);
+        laneEvent.setBall(ball);
+        laneEvent.setMechProb(gameIsHalted);
+        laneEvent.setFrameC(frameC);
         if(anotherRun == 1){
-            laneEvent.setParty(party);
-            laneEvent.setIndex(bowlIndex);
-            laneEvent.setBowler(currentThrower);
-            laneEvent.setCumulScore(scoreBoard.getCumulScores());
-            laneEvent.setScore(scores);
-            laneEvent.setFrameNum(frameNumber+1);
-            laneEvent.setCurScores(curScores);
-            laneEvent.setBall(ball);
-            laneEvent.setMechProb(gameIsHalted);
             laneEvent.setAnotherRun(true);
-            laneEvent.setFrameC(frameC);
         }else {
-            laneEvent.setParty(party);
-            laneEvent.setIndex(bowlIndex);
-            laneEvent.setBowler(currentThrower);
-            laneEvent.setCumulScore(scoreBoard.getCumulScores());
-            laneEvent.setScore(scores);
-            laneEvent.setFrameNum(frameNumber+1);
-            laneEvent.setCurScores(curScores);
-            laneEvent.setBall(ball);
-            laneEvent.setMechProb(gameIsHalted);
             laneEvent.setAnotherRun(false);
-            laneEvent.setFrameC(frameC);
         }
         return laneEvent;
     }

@@ -4,6 +4,7 @@ package views;/*
  */
 
 import events.LaneEvent;
+import models.Bowler;
 import models.frameContext;
 import observers.LaneObserver;
 import models.Lane;
@@ -101,9 +102,9 @@ public class LaneView implements LaneObserver, ActionListener {
 		return panel;
 	}
 
-	private int getValue(LaneEvent le, int k, int i,int b)
+	private int getValue(LaneEvent le, int k, int i)
 	{
-		return ((int[]) le.getScore().get(bowlers.get(k+b)))[i];
+		return ((int[]) le.getScore().get(bowlers.get(k)))[i];
 	}
 	public void setScoreLabelDisplay(LaneEvent le, int[][] lescores, int k)
 	{
@@ -112,22 +113,25 @@ public class LaneView implements LaneObserver, ActionListener {
 				scoreLabel[k][i].setText((new Integer(lescores[k][i])).toString());
 		}
 	}
-	public void setBallDisplay(LaneEvent le, int k, int i,int b)
-	{
-			if (getValue(le,k,i,b) == 10 && (i % 2 == 0 || i == 2*frames -1))
-				ballLabel[k][i].setText("X");
-			else if (i > 0 && getValue(le,k,i,b) + getValue(le,k,i-1,b) == 10 && i % 2 == 1)
-				ballLabel[k][i].setText("/");
-			else if ( getValue(le,k,i,b) == -20 ){
-				ballLabel[k][i].setText("F");
+	public void setBallDisplay(LaneEvent le, int k, int i) {
+			int b = k;
+			if(le.isAnotherRun()){
+				b = 0;
+			}
+			if (getValue(le,k,i) == 10 && (i % 2 == 0 || i == 2*frames -1))
+				ballLabel[b][i].setText("X");
+			else if (i > 0 && getValue(le,k,i) + getValue(le,k,i-1) == 10 && i % 2 == 1)
+				ballLabel[b][i].setText("/");
+			else if ( getValue(le,k,i) == -20 ){
+				ballLabel[b][i].setText("F");
 			} else
-				ballLabel[k][i].setText((new Integer(getValue(le,k,i,b))).toString());
+				ballLabel[b][i].setText((new Integer(getValue(le,k,i))).toString());
 	}
 	public void displayScores(LaneEvent le)
 	{
 		Party party=le.getParty();
 		int numBowlers=party.getSize();
-		int b = 0;
+		int b = 0,c=0;
 		if(le.isAnotherRun()){
 			numBowlers = 1;
 			b = le.getIndex();
@@ -136,13 +140,16 @@ public class LaneView implements LaneObserver, ActionListener {
 		for (int k = 0; k < numBowlers; k++) {
 			setScoreLabelDisplay(le,lescores,k);
 			for (int i = 0; i <= 2*frames; i++) {
+
 				System.out.println("getValue(le,k,i)");
-				System.out.println(getValue(le,k,i,b));
+				System.out.println(getValue(le, k+b, i));
+				System.out.println(((Bowler)bowlers.get(k+b)).getNickName());
 				System.out.println("getValue(le,k,i)");
-				if (getValue(le,k,i,b) == -10)
+				if (getValue(le, k+b, i) == -10)
 					continue;
 				else
-					setBallDisplay(le,k,i,b);
+					setBallDisplay(le, k+b, i);
+
 			}
 		}
 	}
