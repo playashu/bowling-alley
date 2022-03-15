@@ -1,3 +1,4 @@
+import dbAccess.ConfigCache;
 import models.ControlDesk;
 import utils.ConnectionFactory;
 import views.ControlDeskView;
@@ -8,8 +9,8 @@ public class drive {
 
 	public static void main(String[] args) {
 
-		int numLanes = 3;
-		int maxPatronsPerParty=5;
+		int numLanes = Integer.parseInt(ConfigCache.getConfig("NUMBER_OF_LANES"));
+		int maxPatronsPerParty=Integer.parseInt(ConfigCache.getConfig("MAX_PATRONS_PER_PARTY"));
 
 		ControlDesk controlDesk = new ControlDesk(numLanes);
 		Connection conn= ConnectionFactory.getConnection();
