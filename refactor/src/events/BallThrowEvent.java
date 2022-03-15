@@ -4,11 +4,11 @@ import java.awt.*;
 import java.util.List;
 
 public class BallThrowEvent {
-    private List<Point> currentPath;
-    public BallThrowEvent(List<Point> currentPath) {
-        this.currentPath = currentPath;
+    private float degree;
+    public BallThrowEvent(float degree) {
+        this.degree = degree;
     }
-    public List<Point> getPath(){
-        return currentPath;
+    public float getDegree(){
+        return degree;
     }
 }

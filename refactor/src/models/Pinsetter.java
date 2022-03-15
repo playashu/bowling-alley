@@ -73,13 +73,10 @@ package models;/*
 import events.BallThrowEvent;
 import events.PinsetterEvent;
 import managers.PinsetterManager;
-import observers.PinsetterObserver;
-import views.BallThrowView;
 
 import java.awt.*;
 import java.util.List;
 import java.util.Random;
-import java.util.Vector;
 
 import static java.lang.Thread.sleep;
 
@@ -102,7 +99,8 @@ public class Pinsetter {
 	private boolean foul;
 	private int throwNumber;
 	private boolean ballThrown;
-	private List<Point> path;
+	private float degree;
+	int pinsDown;
 
 	/** Pinsetter()
 	 *
@@ -114,6 +112,7 @@ public class Pinsetter {
 	 */
 	public Pinsetter() {
 		pins = new boolean[10];
+		pinsDown = 0;
 		rnd = new Random();
 		manager = new PinsetterManager();
 		foul = false;
@@ -133,31 +132,24 @@ public class Pinsetter {
 	public void ballThrown(BallThrowEvent ballThrowEvent, int pervScore) {	// simulated event of ball hits sensor
 		int count = 0;
 		foul = false;
-		path = ballThrowEvent.getPath();
-		Point p1 = path.get(0);
-		Point p2 = path.get(path.size()-1);
+		pinsDown = 0;
+		degree = ballThrowEvent.getDegree();
 
-		double speed = (p1.getY()-p2.getY())/path.size();
+
 
 		double skill = rnd.nextDouble();
-		for (int i=0; i <= 9; i++) {
-			if (pins[i]) {
-				if(speed>1){
-
-					double pinluck = rnd.nextDouble();
-					if (pinluck <= .04) {
-						foul = false;
-					}
-					if (((skill + pinluck) / 2.0 * 1.2) > .5) {
-						pins[i] = false;
-					}
-				}
-
-				if (!pins[i]) {		// this pin just knocked down
+		if(throwNumber==3 || pervScore + degree <=10) {
+			while (count < degree) {
+				int randomInt = rnd.nextInt(10);
+				if (pins[randomInt]) {
+					pins[randomInt] = false;
 					count++;
 				}
 			}
+		}else{
+			count = 0;
 		}
+
 		if(count == 0 &&  pervScore == 0){
 			penalty = true;
 		}
@@ -198,6 +190,7 @@ public class Pinsetter {
 	 * @post pins array is reset to all pins up
 	 */
 	public void resetPins() {
+		pinsDown = 0;
 		for (int i=0; i <= 9; i++) {
 			pins[i] = true;
 		}
