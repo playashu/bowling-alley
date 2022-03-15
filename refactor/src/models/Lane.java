@@ -138,6 +138,7 @@ import managers.LaneManager;
 import observers.BallThrowObserver;
 import observers.PinsetterObserver;
 import views.BallThrowView;
+import views.Emoticons;
 import views.EndGamePromptView;
 
 import java.util.HashMap;
@@ -185,8 +186,10 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
      * @pre none
      * @post a new lane has been created and its thered is executing
      */
+    Emoticons emoji;
 
     public Lane(frameContext frameC) {
+        emoji=new Emoticons();
         setter = new Pinsetter();
         prevScore = -1;
         scores = new HashMap();
@@ -199,8 +202,9 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
         this.frameC = frameC;
         anotherRun = 0;
         scoreBoard = new ScoreBoard(bowlIndex,frameC);
-        setter.getManager().subscribe(this);
 
+        setter.getManager().subscribe(this);
+        setter.getManager().subscribe(emoji);
 //        scoreBoard = new ScoreBoard(bowlIndex,party.getSize());
         this.start();
     }

@@ -154,6 +154,10 @@ public class Pinsetter {
 			Thread.sleep(500);				// pinsetter is where delay will be in a real game
 		} catch (Exception e) {}
 
+//		if(count==10 || count==0)	{
+//			Emoticons emoji = new Emoticons(count);
+//			emoji.show();
+//		}
 		sendEvent(count);
 
 		throwNumber++;
