@@ -35,7 +35,7 @@ public class ScoresDbAccess {
     }
     public static boolean putScores(String nick, String date, String score)
     {
-        String query="insert into scores(nickname,data,score) values(?,?,?)";
+        String query="insert into scores(nickname,date,score) values(?,?,?)";
         Vector<String>bowlers=new Vector<String>();
         try {
             Connection conn=ConnectionFactory.getConnection();

@@ -18,7 +18,7 @@ public class ConfigCache {
         if(cache.containsKey(key))
             return cache.get(key);
         String value=service.getConfig(key);
-        //cache.put();
-        return null;
+        cache.put(key,value);
+        return value;
     }
 }
