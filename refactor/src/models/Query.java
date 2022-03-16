@@ -1,21 +1,40 @@
 package models;
 
 public class Query {
-    String sqlId;
+    int sqlId;
     String sqlName;
     String sql;
+    String type;
+    String message;
+    public String getType() {
+        return type;
+    }
 
-    public Query(String sqlId, String sqlName, String sql) {
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Query(int sqlId, String sqlName, String sql,String type,String message) {
         this.sqlId = sqlId;
         this.sqlName = sqlName;
         this.sql = sql;
+        this.type=type;
+        this.message=message;
     }
 
-    public String getSqlId() {
+    public int getSqlId() {
         return sqlId;
     }
 
-    public void setSqlId(String sqlId) {
+    public void setSqlId(int sqlId) {
         this.sqlId = sqlId;
     }
 

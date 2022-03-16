@@ -4,8 +4,11 @@
  */
 package views;
 
+import dbAccess.AdhocQuery;
 import models.Query;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.Vector;
 
 /**
@@ -13,20 +16,16 @@ import java.util.Vector;
  * @author sbose
  */
 public class AdhocQueryView extends javax.swing.JFrame {
-
-    public Vector<Query> getSavedQueries() {
-        return savedQueries;
-    }
-
-    public void setSavedQueries(Vector<Query> savedQueries) {
-        this.savedQueries = savedQueries;
-    }
-
+    private javax.swing.JButton availQueryButton;
+    private javax.swing.JComboBox<String> availQuerySelector;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton queryCreatorButton;
+    private javax.swing.JPanel queryPanel;
     /**
      * Creates new form QueryView
      */
 
-    private Vector<Query> savedQueries;
     public AdhocQueryView() {
         initComponents();
     }
@@ -42,23 +41,15 @@ public class AdhocQueryView extends javax.swing.JFrame {
         setTitle("Ad-Hoc Queries");
         queryPanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        availQuerySelector = new javax.swing.JComboBox<>();
+        availQuerySelector = new javax.swing.JComboBox<String>(AdhocQuery.fetchQueryNames());
         availQueryButton = new javax.swing.JButton();
         queryCreatorButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Available Queries");
-
-        availQuerySelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        avail
-        availQuerySelector.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                availQuerySelectorItemStateChanged(evt);
-            }
-        });
 
         availQueryButton.setText("Submit Query");
         availQueryButton.addActionListener(new java.awt.event.ActionListener() {
@@ -129,62 +120,41 @@ public class AdhocQueryView extends javax.swing.JFrame {
         queryPanel.getAccessibleContext().setAccessibleName("");
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
-
-    private void availQueryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_availQueryButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_availQueryButtonActionPerformed
-
-    private void queryCreatorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queryCreatorButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_queryCreatorButtonActionPerformed
-
-    private void availQuerySelectorItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_availQuerySelectorItemStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_availQuerySelectorItemStateChanged
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdhocQueryView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdhocQueryView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdhocQueryView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdhocQueryView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AdhocQueryView().setVisible(true);
-            }
-        });
+        Dimension screenSize = (Toolkit.getDefaultToolkit()).getScreenSize();
+        setLocation(
+                ((screenSize.width) / 2) - ((getSize().width) / 2),
+                ((screenSize.height) / 2) - ((getSize().height) / 2));
+        setVisible(true);
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton availQueryButton;
-    private javax.swing.JComboBox<String> availQuerySelector;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JButton queryCreatorButton;
-    private javax.swing.JPanel queryPanel;
-    // End of variables declaration//GEN-END:variables
+    private void availQueryButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        String sqlName= (String) availQuerySelector.getSelectedItem();
+        Query query=AdhocQuery.fetchQueriesbyFilter(sqlName).firstElement();
+        Object[] cols;
+        Object[][] data;
+        if(query.getType().equals("INPUT"))
+        {
+            String value=JOptionPane.showInputDialog(this,query.getMessage());
+            cols=AdhocQuery.fetchColumnsByScript(query.getSql(),value);
+            data=AdhocQuery.executeAdHocScriptbySql(query.getSql(),value);
+        }
+        else
+        {
+             cols= AdhocQuery.fetchColumnsBySqlName(sqlName);
+             data = AdhocQuery.executeAdHocScriptbyName(sqlName);
+        }
+        QueryResultView queryResultView = new QueryResultView(cols, data);
+    }
+    private void reset()
+    {
+        availQuerySelector.removeAllItems();
+        String[] queries=AdhocQuery.fetchQueryNames();
+        for(String q:queries)
+            availQuerySelector.addItem(q);
+    }
+    private void queryCreatorButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        QueryCreatorView queryWin = new QueryCreatorView();
+        reset();
+    }
+
 }

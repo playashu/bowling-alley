@@ -15,7 +15,7 @@ public class QueryBuilder {
      * @param filterColumns
      * @return
      */
-    public static String selectClause(String tableName, Vector<String> filterColumns)
+    public static String selectClause(String tableName, List<String> filterColumns)
     {
         StringBuilder clause=new StringBuilder("select ");
         if(filterColumns.isEmpty())
@@ -41,36 +41,5 @@ public class QueryBuilder {
         return clause.toString();
     }
 
-    public static Object[] fetchTables() {
-        String query = "select * from sqlite_master where type = \"table\" and tbl_name not in (\"adhoc_scripts\",\"sqlite_sequence\")";
-        List<String> list = new ArrayList<>();
-        try {
-            Connection conn= ConnectionFactory.getConnection();
-            PreparedStatement statement = conn.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery(query);
 
-            while (resultSet.next()) {
-                list.add(resultSet.getString("tbl_name"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return list.toArray();
-    }
-
-    public static Object[] fetchColumnsByScript(String query) {
-        Vector<String> vector = new Vector<>();
-        try {
-            Connection conn= ConnectionFactory.getConnection();
-            PreparedStatement statement = conn.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery(query);
-            int colcount = resultSet.getMetaData().getColumnCount();
-            for (int i = 1; i <= colcount; i++) {
-                vector.add(resultSet.getMetaData().getColumnName(i));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return vector.toArray();
-    }
 }
