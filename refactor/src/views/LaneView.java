@@ -134,6 +134,7 @@ public class LaneView implements LaneObserver, ActionListener {
 			if(le.isAnotherRun()){
 				b = 0;
 			}
+
 			if (getValue(le,k,i) == 10 && (i % 2 == 0 || i == 2*frames -1))
 				ballLabel[b][i].setText("X");
 			else if (i > 0 && getValue(le,k,i) + getValue(le,k,i-1) == 10 && i % 2 == 1)
@@ -150,22 +151,17 @@ public class LaneView implements LaneObserver, ActionListener {
 		int b = 0,c=0;
 		if(le.isAnotherRun()){
 			numBowlers = 1;
+			c=party.getSize()-1;
 			b = le.getIndex();
 		}
 		int[][] lescores = le.getCumulScore();
 		for (int k = 0; k < numBowlers; k++) {
 			setScoreLabelDisplay(le,lescores,k+b);
 			for (int i = 0; i <= 2*frames; i++) {
-
-				System.out.println("getValue(le,k,i)");
-				System.out.println(getValue(le, k+b, i));
-				System.out.println(((Bowler)bowlers.get(k+b)).getNickName());
-				System.out.println("getValue(le,k,i)");
-				if (getValue(le, k+b, i) == -10)
+				if (getValue(le, k+c, i) == -10)
 					continue;
 				else
-					setBallDisplay(le, k+b, i);
-
+					setBallDisplay(le, k+c, i);
 			}
 		}
 	}
