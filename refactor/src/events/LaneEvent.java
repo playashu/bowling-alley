@@ -37,7 +37,7 @@ public class LaneEvent {
 	private Bowler bowler;
 	int[][] cumulScore;
 
-
+	int totalPinsDown;
 
 	private HashMap score;
 	private int index;
@@ -50,7 +50,12 @@ public class LaneEvent {
 	public boolean isAnotherRun() {
 		return anotherRun;
 	}
-
+	public void setTotalPinsDown(int a) {
+		this.totalPinsDown= a;
+	}
+	public int getTotalPinsDown() {
+		return totalPinsDown;
+	}
 	public frameContext getFrameC() {
 		return frameC;
 	}

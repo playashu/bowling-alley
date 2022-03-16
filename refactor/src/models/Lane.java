@@ -173,6 +173,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
     private frameContext frameC;
     private boolean ballThrown;
     private int prevScore;
+    int totalPinsDown;
     private HashMap<Bowler, Integer> highScores;
     private boolean penalty;
     private HashMap<Bowler, Boolean> penaltie;
@@ -402,6 +403,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
             if(canThrowAgain){
                 prevScore = pe.pinsDownOnThisThrow();
             }
+            totalPinsDown = pe.totalPinsDown();
             markScore(currentThrower, frameNumber + 1, pe.getThrowNumber(), currScore, pe.isPenalty());
         }
     }
@@ -606,6 +608,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
         laneEvent.setFrameNum(frameNumber+1);
         laneEvent.setCurScores(curScores);
         laneEvent.setBall(ball);
+        laneEvent.setTotalPinsDown(totalPinsDown);
         laneEvent.setMechProb(gameIsHalted);
         laneEvent.setFrameC(frameC);
         if(anotherRun == 1){

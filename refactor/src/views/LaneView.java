@@ -27,10 +27,12 @@ public class LaneView implements LaneObserver, ActionListener {
 	JFrame frame;
 	Container cpanel;
 	JPanel gifPanel;
+	int prev;
 	Vector bowlers;
 	//int cur;
 	//Iterator bowlIt;
 	Party party;
+	int cumm;
 	JPanel[][] balls;
 	JLabel[][] ballLabel;
 	JPanel[][] scores;
@@ -43,6 +45,7 @@ public class LaneView implements LaneObserver, ActionListener {
 	frameContext frameC;
 	int laneNum;
 	int numBowlers;
+	String[] img;
 	BallThrowView ballThrowView;
 	public LaneView(Lane lane, int laneNum, frameContext frameC) {
 		this.lane = lane;
@@ -52,7 +55,9 @@ public class LaneView implements LaneObserver, ActionListener {
 		this.n_balls = frameC.numberOfBalls();
 		this.frameC = frameC;
 		second_view = false;
-
+		img = new String[]{"./images/0.gif", "/images/1.gif", "./images/2.gif","./images/3.gif", "./images/4.gif", "./images/5.gif","./images/6.gif", "./images/7.gif", "./images/8.gif","./images/9.gif", "./images/10.gif","./images/11.gif", "./images/12.gif"};
+		cumm = 12;
+		prev = 0;
 		makeJFrame();
 	}
 	private void makeJFrame(){
@@ -127,6 +132,7 @@ public class LaneView implements LaneObserver, ActionListener {
 		for (int i = 0; i <= le.getFrameNum() - 1; i++) {
 			if (lescores[k][i] != 0)
 				scoreLabel[b][i].setText((new Integer(lescores[k][i])).toString());
+
 		}
 	}
 	public void setBallDisplay(LaneEvent le, int k, int i) {
@@ -135,14 +141,17 @@ public class LaneView implements LaneObserver, ActionListener {
 				b = 0;
 			}
 
-			if (getValue(le,k,i) == 10 && (i % 2 == 0 || i == 2*frames -1))
+			if (getValue(le,k,i) == 10 && (i % 2 == 0 || i == 2*frames -1)){
 				ballLabel[b][i].setText("X");
-			else if (i > 0 && getValue(le,k,i) + getValue(le,k,i-1) == 10 && i % 2 == 1)
+			} else if (i > 0 && getValue(le,k,i) + getValue(le,k,i-1) == 10 && i % 2 == 1) {
 				ballLabel[b][i].setText("/");
+			}
 			else if ( getValue(le,k,i) == -20 ){
 				ballLabel[b][i].setText("F");
-			} else
-				ballLabel[b][i].setText((new Integer(getValue(le,k,i))).toString());
+			} else {
+				ballLabel[b][i].setText((new Integer(getValue(le, k, i))).toString());
+			}
+
 	}
 	public void displayScores(LaneEvent le)
 	{
@@ -158,12 +167,14 @@ public class LaneView implements LaneObserver, ActionListener {
 		for (int k = 0; k < numBowlers; k++) {
 			setScoreLabelDisplay(le,lescores,k+b);
 			for (int i = 0; i <= 2*frames; i++) {
-				if (getValue(le, k+c, i) == -10)
+				if (getValue(le, k+c, i) == -10) {
 					continue;
-				else
-					setBallDisplay(le, k+c, i);
+				}else{
+					setBallDisplay(le, k + c, i);
+				}
 			}
 		}
+
 	}
 	public void receiveLaneEvent(LaneEvent le) {
 		if (lane.isPartyAssigned()) {
@@ -198,11 +209,26 @@ public class LaneView implements LaneObserver, ActionListener {
 				makeView(le.isAnotherRun());
 				//show();
 			}
+
 			displayScores(le);
+			cumm = le.getTotalPinsDown();
+			if(cumm<0){
+				cumm = 11;
+			}
+			System.out.println("============================");
+			System.out.println(cumm);
+			System.out.println("============================");
+			URL url = this.getClass().getResource(img[cumm]);
+			Icon icon = new ImageIcon(url);
+			JLabel label = new JLabel(icon);
+			cpanel.add(label, "West");
+			//ballThrowView.setVisibilty(true);
+			frame.pack();
 		}
 	}
 
 	private void makeView(boolean anotherRun){
+		cpanel.removeAll();
 		System.out.println("Making the frame.");
 		if(!second_view && anotherRun){
 			cpanel.add(makeFrame(party, anotherRun), "East");
@@ -215,12 +241,7 @@ public class LaneView implements LaneObserver, ActionListener {
 			maintenance = UiComponents.createFlowButton("Maintenance Call", buttonPanel, this);
 			cpanel.add(buttonPanel, "South");
 		}
-		URL url = this.getClass().getResource("./happy.gif");
-		Icon icon = new ImageIcon(url);
-		JLabel label = new JLabel(icon);
-		cpanel.add(label, "West");
-		//ballThrowView.setVisibilty(true);
-		frame.pack();
+
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(maintenance)) {
