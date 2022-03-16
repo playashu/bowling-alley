@@ -137,7 +137,7 @@ import events.PinsetterEvent;
 import managers.LaneManager;
 import observers.BallThrowObserver;
 import observers.PinsetterObserver;
-import views.BallThrowView;
+//import views.BallThrowView;
 import views.EndGamePromptView;
 
 import java.util.HashMap;
@@ -152,7 +152,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
     boolean flag;
     private boolean gameFinished;
     private Iterator bowlerIterator;
-    private BallThrowView ballThrowView;
+    //private BallThrowView ballThrowView;
     private int ball;
     private int bowlIndex;
     private int frameNumber;
@@ -243,8 +243,9 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
         if (result == 2) {// no, dont want to play another game
             printReport();
             partyAssigned = false;
-            laneManager.publish(lanePublish(anotherRun));
             party = null;
+            laneManager.publish(lanePublish(anotherRun));
+
         }
 
     }
@@ -458,6 +459,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
                 bowlerIterator.next();
                 i++;
             }
+            //currentThrower = (Bowler) bowlerIterator;
         }
     }
 
@@ -502,6 +504,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
         party = theParty;
         resetBowlerIterator(0);
         curScores = new int[party.getSize()];
+        currentThrower = (Bowler) theParty.getMembers().get(0);
         //cumulScores = new int[party.getMembers().size()][10];
         //scoreBoard.reset(party.getSize());
         finalScores = new int[party.getSize()][128]; //Hardcoding a max of 128 games, bite me.
@@ -516,8 +519,9 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
 
 //        setter.getManager().subscribe(emoji);
         partyAssigned = true;
-        ballThrowView = new BallThrowView();
-        ballThrowView.subscribe(this);
+        laneManager.publish(lanePublish(anotherRun));
+        //ballThrowView = new BallThrowView();
+        //ballThrowView.subscribe(this);
     }
 
     /**
