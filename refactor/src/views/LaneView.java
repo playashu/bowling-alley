@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.URL;
 import java.util.Vector;
 
 public class LaneView implements LaneObserver, ActionListener {
@@ -26,6 +27,7 @@ public class LaneView implements LaneObserver, ActionListener {
 	boolean second_view;
 	JFrame frame;
 	Container cpanel;
+	JPanel gifPanel;
 	Vector bowlers;
 	//int cur;
 	//Iterator bowlIt;
@@ -206,6 +208,10 @@ public class LaneView implements LaneObserver, ActionListener {
 			maintenance = UiComponents.createFlowButton("Maintenance Call", buttonPanel, this);
 			cpanel.add(buttonPanel, "South");
 		}
+		URL url = this.getClass().getResource("./happy.gif");
+		Icon icon = new ImageIcon(url);
+		JLabel label = new JLabel(icon);
+		cpanel.add(label, "West");
 		frame.pack();
 	}
 	public void actionPerformed(ActionEvent e) {
@@ -213,6 +219,16 @@ public class LaneView implements LaneObserver, ActionListener {
 			lane.pauseGame();
 		}
 	}
+//	public void showLoader(){
+//
+//		frame.setUndecorated(true);
+//		frame.getContentPane().add(label);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.pack();
+//		frame.setLocationRelativeTo(null);
+//		frame.setVisible(true);
+//	}
+
 
 
 }

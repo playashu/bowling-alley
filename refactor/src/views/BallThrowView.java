@@ -40,6 +40,8 @@ public class BallThrowView{
                 frame.setVisible(true);
             }
         });
+
+
     }
 
     public class TestPane extends JPanel {
