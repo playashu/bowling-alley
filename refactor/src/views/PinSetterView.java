@@ -19,7 +19,6 @@ import utils.UiComponents;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Vector;
 
 
@@ -203,7 +202,7 @@ public class PinSetterView implements PinsetterObserver {
      * is grayed out.  When it is the second roll, it is indicated by the
      * appearance of a second yellow box at the top.
      *
-     * @param e    The state of the pinsetter is sent in this event.
+     * @param    The state of the pinsetter is sent in this event.
      */
     
 
@@ -236,7 +235,11 @@ public class PinSetterView implements PinsetterObserver {
     public void hide() {
     	frame.dispose();
     }
-    
+	public void setVisibility(boolean flag){
+		if(flag == false){
+			hide();
+		}
+	}
     public static void main ( String args [ ] ) {
 		PinSetterView pg = new PinSetterView ( 1 );
     }

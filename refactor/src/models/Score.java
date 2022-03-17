@@ -1,5 +1,8 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * To change this generated comment edit the template variable "typecomment":
@@ -13,6 +16,7 @@ public class Score {
     private String nick;
     private String date;
     private String score;
+
 
     public Score( String nick, String date, String score ) {
 		this.nick=nick;
@@ -35,5 +39,9 @@ public class Score {
 	public String toString() {
 		return nick + "\t" + date + "\t" + score;
 	}
+
+
+
+
 
 }
