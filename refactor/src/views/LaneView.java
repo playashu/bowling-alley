@@ -55,7 +55,7 @@ public class LaneView implements LaneObserver, ActionListener {
 		this.n_balls = frameC.numberOfBalls();
 		this.frameC = frameC;
 		second_view = false;
-		img = new String[]{"./images/0.gif", "/images/1.gif", "./images/2.gif","./images/3.gif", "./images/4.gif", "./images/5.gif","./images/6.gif", "./images/7.gif", "./images/8.gif","./images/9.gif", "./images/10.gif","./images/11.gif", "./images/12.gif"};
+		img = new String[]{"./images/0.gif", "./images/1.gif", "./images/2.gif","./images/3.gif", "./images/4.gif", "./images/5.gif","./images/6.gif", "./images/7.gif", "./images/8.gif","./images/9.gif", "./images/10.gif","./images/11.gif", "./images/12.gif"};
 		cumm = 12;
 		prev = 0;
 		makeJFrame();
