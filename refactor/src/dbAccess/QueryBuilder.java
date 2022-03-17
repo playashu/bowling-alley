@@ -8,14 +8,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-public class QueryBuilder {
+public class QueryBuilder implements  AbstractQueryBuilder{
     /**
      * creates the select clause, put column selections in array
      * @param tableName
      * @param filterColumns
      * @return
      */
-    public static String selectClause(String tableName, List<String> filterColumns)
+    public String selectClause(String tableName, List<String> filterColumns)
     {
         StringBuilder clause=new StringBuilder("select ");
         if(filterColumns.isEmpty())
@@ -34,7 +34,7 @@ public class QueryBuilder {
         clause.append(tableName);
         return clause.toString();
     }
-    public static String whereClause(String key)
+    public String whereClause(String key)
     {
         StringBuilder clause=new StringBuilder(" where ");
         clause.append(String.format("%s = ?",key));

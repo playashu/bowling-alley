@@ -4,6 +4,7 @@
  */
 package views;
 
+import dbAccess.AbstractQueryBuilder;
 import dbAccess.AdhocQuery;
 import dbAccess.QueryBuilder;
 import models.Query;
@@ -20,6 +21,7 @@ import java.util.List;
  */
 public class QueryCreatorView extends javax.swing.JFrame {
     DefaultListModel<String> listModal;
+    AbstractQueryBuilder queryBuilder=new QueryBuilder();
     /**
      * Creates new form NewJFrame
      */
@@ -185,9 +187,9 @@ public class QueryCreatorView extends javax.swing.JFrame {
         String tableName=(String) tableSelector.getSelectedItem();
         List<String> cols=columnsSelector.getSelectedValuesList();
         StringBuilder sqlScript=new StringBuilder();
-        sqlScript.append(QueryBuilder.selectClause(tableName,cols));
+        sqlScript.append(queryBuilder.selectClause(tableName,cols));
         String cond=(String)whereSelector.getSelectedItem();
-        sqlScript.append(QueryBuilder.whereClause(cond));
+        sqlScript.append(queryBuilder.whereClause(cond));
         return sqlScript.toString();
     }
     private void queryButtonActionPerformed(ActionEvent evt) {
