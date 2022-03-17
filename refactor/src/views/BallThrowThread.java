@@ -30,8 +30,8 @@ public class BallThrowThread implements Runnable{
         frame = new BallThrowFrame(ballThrowView);
         throw_frame.add(frame);
         throw_frame.pack();
-        throw_frame.setLocationRelativeTo(null);
-        throw_frame.setLocation(screenSize.width,screenSize.height);
+        throw_frame.setLocation(((screenSize.width)) - ((throw_frame.getSize().width)),
+                ((screenSize.height) / 2) - ((throw_frame.getSize().height) / 2));
         //throw_frame.setVisible(true);
     }
 }
