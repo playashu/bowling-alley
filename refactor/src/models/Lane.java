@@ -235,7 +235,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
         System.out.println("result was: " + result);
         flag = false;
         anotherRun  = 0;
-        this.frameC = new frameContext(3,true);
+        this.frameC = new frameContext(10,true);
 
         resetBowlerIterator(0);
         resetScores();
@@ -330,7 +330,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
         party.initialize_SuperFrame();
         prevScore = -1;
         anotherRun  = 0;
-        this.frameC = new frameContext(2, true);
+        this.frameC = new frameContext(3, true);
         resetBowlerIterator(0);
         resetScores();
         laneManager.publish(lanePublish(anotherRun));

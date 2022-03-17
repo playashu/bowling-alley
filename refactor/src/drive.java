@@ -8,7 +8,7 @@ public class drive {
 
 		int numLanes = 3;
 		int maxPatronsPerParty=6;
-		frameContext frameC = new frameContext(3,true);
+		frameContext frameC = new frameContext(10,true);
 		ControlDesk controlDesk = new ControlDesk(numLanes,frameC);
 
 		ControlDeskView cdv = new ControlDeskView( controlDesk, maxPatronsPerParty, frameC);

@@ -228,12 +228,14 @@ public class LaneView implements LaneObserver, ActionListener {
 	}
 
 	private void makeView(boolean anotherRun){
-		cpanel.removeAll();
+
 		System.out.println("Making the frame.");
 		if(!second_view && anotherRun){
+			cpanel.remove(2);
 			cpanel.add(makeFrame(party, anotherRun), "East");
 			second_view = true;
 		}else {
+
 			cpanel.removeAll();
 			cpanel.add(makeFrame(party, anotherRun), "Center");
 			JPanel buttonPanel = UiComponents.createFlowPanel();
