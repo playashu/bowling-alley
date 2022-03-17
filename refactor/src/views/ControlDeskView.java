@@ -36,7 +36,7 @@ import java.util.Vector;
 
 public class ControlDeskView implements ActionListener, ControlDeskObserver {
 
-	private JButton addParty, finished/*, assign*/;
+	private JButton addParty, finished,queryButton,configButton/*, assign*/;
 	private JFrame win;
 	private JList partyList;
 	int frames;
@@ -71,7 +71,9 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 		controlsPanel.setLayout(new GridLayout(3, 1));
 		controlsPanel.setBorder(new TitledBorder("Controls"));
 		//using reusable
+		queryButton =UiComponents.createFlowButton("Ad Hoc Queries",controlsPanel,this);
 		addParty = UiComponents.createFlowButton("Add Party",controlsPanel,this);
+		configButton=UiComponents.createFlowButton("Config Menu",controlsPanel,this);
 		finished = UiComponents.createFlowButton("Finished",controlsPanel,this);
 
 		// Lane Status Panel
@@ -151,6 +153,13 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 		/*if (e.getSource().equals(assign)) {
 			controlDesk.assignLane();
 		}*/
+		if(e.getSource().equals(configButton))
+		{
+			ConfigMenuView conWin = new ConfigMenuView();
+		}
+		if (e.getSource().equals(queryButton)) {
+			AdhocQueryView adhocWin = new AdhocQueryView();
+		}
 		if (e.getSource().equals(finished)) {
 			win.dispose();
 			System.exit(0);

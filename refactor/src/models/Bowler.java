@@ -23,7 +23,6 @@ package models;/*
  */
 
 public class Bowler {
-
     private String fullName;
     private String nickName;
     private String email;

@@ -1,6 +1,6 @@
 package models;
 
-import utils.ScoreHistoryFile;
+import dbAccess.ScoresDbAccess;
 
 import java.util.Date;
 
@@ -36,7 +36,7 @@ public class ScoreBoard{
         try {
             Date date = new Date();
             String dateString = "" + date.getHours() + ":" + date.getMinutes() + " " + date.getMonth() + "/" + date.getDay() + "/" + (date.getYear() + 1900);
-            ScoreHistoryFile.addScore(nickName, dateString, new Integer(cumulScores[bowlerIndex][frames-1]).toString());
+            ScoresDbAccess.putScores(nickName, dateString, new Integer(cumulScores[bowlerIndex][frames-1]).toString());
         } catch (Exception e) {
             System.err.println("Exception in addScore. " + e);
         }
