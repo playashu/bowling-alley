@@ -84,6 +84,7 @@ public class QueryCreatorView extends javax.swing.JFrame {
         where1.setText("Equals");
 
         saveButton.setText("Save");
+        saveButton.setBackground(new java.awt.Color(102, 255, 102));
         saveButton.setActionCommand("");
         saveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
