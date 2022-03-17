@@ -148,10 +148,11 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
     private Pinsetter setter;
     //private Vector subscribers;
     private LaneManager laneManager;
-    private boolean gameIsHalted;
+    //private boolean gameIsHalted;
     boolean flag;
     private boolean gameFinished;
     private Iterator bowlerIterator;
+    LaneState state;
     //private BallThrowView ballThrowView;
     private int ball;
     private int bowlIndex;
@@ -188,12 +189,12 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
      */
 
     public Lane(frameContext frameC) {
-
+        state = new LaneUnpaused();
         setter = new Pinsetter();
         prevScore = -1;
         scores = new HashMap();
         laneManager = new LaneManager();
-        gameIsHalted = false;
+
         partyAssigned = false;
         ballThrown = false;
         gameNumber = 0;
@@ -242,7 +243,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
         laneManager.publish(lanePublish(anotherRun));
 
         if (result == 2) {// no, dont want to play another game
-            printReport();
+
             partyAssigned = false;
             party = null;
             laneManager.publish(lanePublish(anotherRun));
@@ -360,13 +361,8 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
         return b2;
     }
     private void waitWhileGameHalted(){
-        while (gameIsHalted) {
-            sleep();
-        }
+        state.handle();
     }
-        void printReport(){
-
-        }
 
     private void sleep(){
         try {
@@ -613,7 +609,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
         laneEvent.setCurScores(curScores);
         laneEvent.setBall(ball);
         laneEvent.setTotalPinsDown(totalPinsDown);
-        laneEvent.setMechProb(gameIsHalted);
+        laneEvent.setMechProb(state.getState());
         laneEvent.setFrameC(frameC);
         if(anotherRun == 1){
             laneEvent.setAnotherRun(true);
@@ -661,7 +657,8 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
      * Pause the execution of this game
      */
     public void pauseGame() {
-        gameIsHalted = true;
+
+        state = new LanePaused();
         laneManager.publish(lanePublish(anotherRun));
     }
 
@@ -669,7 +666,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
      * Resume the execution of this game
      */
     public void unPauseGame() {
-        gameIsHalted = false;
+        state = new LaneUnpaused();
         laneManager.publish(lanePublish(anotherRun));
     }
 

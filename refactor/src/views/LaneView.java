@@ -23,6 +23,7 @@ public class LaneView implements LaneObserver, ActionListener {
 	private int n_balls;
 	private boolean initDone = true;
 	boolean second_view;
+	boolean status;
 	JFrame frame;
 	Container cpanel;
 	JPanel gifPanel;
@@ -50,6 +51,7 @@ public class LaneView implements LaneObserver, ActionListener {
 	public LaneView(Lane lane, int laneNum, frameContext frameC) {
 		this.lane = lane;
 		this.laneNum = laneNum;
+		status = true;
 		initDone = true;
 		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		this.frames = frameC.getFrames();
@@ -249,15 +251,23 @@ public class LaneView implements LaneObserver, ActionListener {
 			cpanel.add(makeFrame(party, anotherRun), "Center");
 			JPanel buttonPanel = UiComponents.createFlowPanel();
 			Insets buttonMargin = new Insets(4, 4, 4, 4);
-			maintenance = UiComponents.createFlowButton("Maintenance Call", buttonPanel, this);
+			maintenance = UiComponents.createFlowButton("Pause/Resume", buttonPanel, this);
 			cpanel.add(buttonPanel, "South");
 		}
 
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(maintenance)) {
-			lane.pauseGame();
-			ballThrowView.status(false);
+			if( status == true){
+				lane.pauseGame();
+				status = false;
+				ballThrowView.status(false);
+			}else{
+				status = true;
+				lane.unPauseGame();
+				ballThrowView.status(true);
+			}
+
 		}
 	}
 	public void ballThrowViewEnable(){

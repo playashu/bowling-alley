@@ -32,7 +32,9 @@ public class drive {
 		int numLanes = Integer.parseInt(ConfigCache.getConfig("NUMBER_OF_LANES"));
 		int maxPatronsPerParty=Integer.parseInt(ConfigCache.getConfig("MAX_PATRONS_PER_PARTY"));
 		setLookandFeel();
-    frameContext frameC = new frameContext(10,true);
+
+    	frameContext frameC = new frameContext(10,true);
+
 		ControlDesk controlDesk = new ControlDesk(numLanes,frameC);
 		Connection conn= ConnectionFactory.getConnection();
 		ControlDeskView cdv = new ControlDeskView( controlDesk, maxPatronsPerParty, frameC);
