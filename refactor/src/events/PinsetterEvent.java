@@ -18,7 +18,7 @@ public class PinsetterEvent {
 	private boolean foulCommited;
 	private int throwNumber;
 	private int pinsDownThisThrow;
-
+	private boolean penalty;
 	/** PinsetterEvent()
 	 * 
 	 * creates a new pinsetter event
@@ -26,7 +26,8 @@ public class PinsetterEvent {
 	 * @pre none
 	 * @post the object has been initialized
 	 */
-	public PinsetterEvent(boolean[] ps, boolean foul, int tn, int pinsDownThisThrow) {
+	public PinsetterEvent(boolean[] ps, boolean foul, int tn, int pinsDownThisThrow, boolean p) {
+		penalty  = p;
 		pinsStillStanding = new boolean[10];
 		System.arraycopy(ps,0,pinsStillStanding,0,10);
 //		for (int i=0; i <= 9; i++) {
@@ -86,6 +87,10 @@ public class PinsetterEvent {
 	 */
 	public int getThrowNumber() {
 		return throwNumber;
+	}
+
+	public boolean isPenalty() {
+		return penalty;
 	}
 };
 

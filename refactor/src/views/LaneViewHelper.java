@@ -1,44 +1,50 @@
 package views;
 
 import models.Bowler;
+import models.frameContext;
 import utils.UiComponents;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class LaneViewHelper {
-    public static void createBallLabels(LaneView view,int i) {
-        for (int j = 0; j != 23; j++) {
-            view.ballLabel[i][j] = new JLabel(" ");
+    public static void createBallLabels(LaneView view, int i, frameContext frameC) {
+        for (int j = 0; j != frameC.numberOfBalls(); j++) {
+            view.ballLabel[i][j] = new JLabel("    ");
             view.balls[i][j] = new JPanel();
             view.balls[i][j].setBorder(
                     BorderFactory.createLineBorder(Color.BLACK));
             view.balls[i][j].add(view.ballLabel[i][j]);
         }
     }
-    public static void createBallGrid(LaneView view,int i)
+    public static void createBallGrid(LaneView view,int i,frameContext frameC)
     {
-        for (int j = 0; j != 9; j++) {
+        int n = 0;
+        if(frameC.is_3Strike()){
+            n = frameC.getFrames()-1;
+            view.ballGrid[i][n] = UiComponents.createGridPanel(0,3);
+            view.ballGrid[i][n].add(view.balls[i][2 * n]);
+            view.ballGrid[i][n].add(view.balls[i][2 * n + 1]);
+            view.ballGrid[i][n].add(view.balls[i][2 * n + 2]);
+        }else{
+            n = frameC.getFrames();
+        }
+        for (int j = 0; j != n; j++) {
             view.ballGrid[i][j] = UiComponents.createGridPanel(0,3);
             view.ballGrid[i][j].add(new JLabel("  "), BorderLayout.EAST);
             view.ballGrid[i][j].add(view.balls[i][2 * j], BorderLayout.EAST);
             view.ballGrid[i][j].add(view.balls[i][2 * j + 1], BorderLayout.EAST);
         }
-        int j = 9;
-        view.ballGrid[i][j] = UiComponents.createGridPanel(0,3);
-//        view.ballGrid[i][j].setLayout(new GridLayout(0, 3));
-        view.ballGrid[i][j].add(view.balls[i][2 * j]);
-        view.ballGrid[i][j].add(view.balls[i][2 * j + 1]);
-        view.ballGrid[i][j].add(view.balls[i][2 * j + 2]);
+
     }
-    public static void createPinsGrid(LaneView view,int i)
+    public static void createPinsGrid(LaneView view,int i,frameContext frameC,int b)
     {
         view.pins[i] = new JPanel();
         view.pins[i].setBorder(
                 BorderFactory.createTitledBorder(
-                        ((Bowler) view.bowlers.get(i)).getNickName()));
-        view.pins[i].setLayout(new GridLayout(0, 10));
-        for (int k = 0; k != 10; k++) {
+                        ((Bowler) view.bowlers.get(i+b)).getNickName()));
+        view.pins[i].setLayout(new GridLayout(0, frameC.getFrames()));
+        for (int k = 0; k != frameC.getFrames(); k++) {
             view.scores[i][k] = new JPanel();
             view.scoreLabel[i][k] = new JLabel("  ", SwingConstants.CENTER);
             view.scores[i][k].setBorder(

@@ -25,6 +25,7 @@ package events;/*  $Id$
 
 import models.Bowler;
 import models.Party;
+import models.frameContext;
 
 import java.util.HashMap;
 
@@ -35,11 +36,29 @@ public class LaneEvent {
 	private int ball;
 	private Bowler bowler;
 	int[][] cumulScore;
+
+	int totalPinsDown;
+
 	private HashMap score;
 	private int index;
 	private int frameNum;
 	private int[] curScores;
 	private boolean mechProb;
+	private boolean anotherRun;
+	private models.frameContext frameC;
+
+	public boolean isAnotherRun() {
+		return anotherRun;
+	}
+	public void setTotalPinsDown(int a) {
+		this.totalPinsDown= a;
+	}
+	public int getTotalPinsDown() {
+		return totalPinsDown;
+	}
+	public frameContext getFrameC() {
+		return frameC;
+	}
 
 	public boolean isCheck() {
 		return (frameNum == 1 && ball == 0 && index == 0);
@@ -48,8 +67,15 @@ public class LaneEvent {
 	private boolean check;
 	
 	public LaneEvent( ) {
+		anotherRun = false;
 	}
-	
+	public void setAnotherRun(boolean anotherRun) {
+		this.anotherRun = anotherRun;
+	}
+
+	public void setFrameC(frameContext frameC) {
+		this.frameC = frameC;
+	}
 	public boolean isMechanicalProblem() {
 		return mechProb;
 	}

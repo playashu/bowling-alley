@@ -70,17 +70,20 @@ package models;/*
  *
  */
 
+import events.BallThrowEvent;
 import events.PinsetterEvent;
 import managers.PinsetterManager;
-import observers.PinsetterObserver;
 
+import java.awt.*;
+import java.util.List;
 import java.util.Random;
-import java.util.Vector;
+
+import static java.lang.Thread.sleep;
 
 public class Pinsetter {
 
 	private Random rnd;
-
+	private boolean penalty;
 	private PinsetterManager manager;
 
 	private boolean[] pins;
@@ -95,8 +98,9 @@ public class Pinsetter {
     */
 	private boolean foul;
 	private int throwNumber;
-
-
+	private boolean ballThrown;
+	private float degree;
+	int pinsDown;
 
 	/** Pinsetter()
 	 *
@@ -108,11 +112,15 @@ public class Pinsetter {
 	 */
 	public Pinsetter() {
 		pins = new boolean[10];
+		pinsDown = 0;
 		rnd = new Random();
 		manager = new PinsetterManager();
 		foul = false;
+		ballThrown = false;
+		penalty = false;
 		reset();
 	}
+
 
 	/** ballThrown()
 	 *
@@ -121,30 +129,35 @@ public class Pinsetter {
 	 * @pre none
 	 * @post pins may have been knocked down and the thrownumber has been incremented
 	 */
-	public void ballThrown() {	// simulated event of ball hits sensor
+	public void ballThrown(BallThrowEvent ballThrowEvent, int pervScore) {	// simulated event of ball hits sensor
 		int count = 0;
 		foul = false;
+		pinsDown = 0;
+		degree = ballThrowEvent.getDegree();
+
+
+
 		double skill = rnd.nextDouble();
-		for (int i=0; i <= 9; i++) {
-			if (pins[i]) {
-				double pinluck = rnd.nextDouble();
-				if (pinluck <= .04){
-					foul = true;
-				}
-				if ( ((skill + pinluck)/2.0 * 1.2) > .5 ){
-					pins[i] = false;
-				}
-				if (!pins[i]) {		// this pin just knocked down
+		if(throwNumber==3 || pervScore + degree <=10) {
+			while (count < degree) {
+				int randomInt = rnd.nextInt(10);
+				if (pins[randomInt]) {
+					pins[randomInt] = false;
 					count++;
 				}
 			}
+		}else{
+			count = 0;
 		}
 
+		if(count == 0 &&  pervScore == 0){
+			penalty = true;
+		}
 		try {
-			Thread.sleep(500);				// pinsetter is where delay will be in a real game
+			sleep(500);				// pinsetter is where delay will be in a real game
 		} catch (Exception e) {}
 
-		manager.sendEvent(new PinsetterEvent(pins, foul, throwNumber, count));
+		manager.sendEvent(new PinsetterEvent(pins, foul, throwNumber, count, penalty));
 
 		throwNumber++;
 	}
@@ -159,13 +172,14 @@ public class Pinsetter {
 	public void reset() {
 		foul = false;
 		throwNumber = 1;
+		ballThrown = false;
 		resetPins();
-
+		penalty = false;
 		try {
-			Thread.sleep(1000);
+			sleep(1000);
 		} catch (Exception e) {}
 
-		manager.sendEvent(new PinsetterEvent(pins, foul, throwNumber, -1));
+		manager.sendEvent(new PinsetterEvent(pins, foul, throwNumber, -1,false));
 	}
 
 	/** resetPins()
@@ -176,9 +190,11 @@ public class Pinsetter {
 	 * @post pins array is reset to all pins up
 	 */
 	public void resetPins() {
+		pinsDown = 0;
 		for (int i=0; i <= 9; i++) {
 			pins[i] = true;
 		}
+		//manager.sendEvent(new PinsetterEvent(pins, foul, throwNumber, -1,false));
 	}
 
 	public PinsetterManager getManager(){

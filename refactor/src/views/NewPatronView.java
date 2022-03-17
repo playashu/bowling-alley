@@ -19,7 +19,6 @@ package views;/* AddPartyView.java
 import utils.UiComponents;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

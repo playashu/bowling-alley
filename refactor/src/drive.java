@@ -2,6 +2,7 @@ import dbAccess.ConfigCache;
 import models.ControlDesk;
 import utils.ConnectionFactory;
 import views.AdhocQueryView;
+import models.frameContext;
 import views.ControlDeskView;
 
 import javax.swing.*;
@@ -28,13 +29,13 @@ public class drive {
 		}
 	}
 	public static void main(String[] args) {
-
 		int numLanes = Integer.parseInt(ConfigCache.getConfig("NUMBER_OF_LANES"));
 		int maxPatronsPerParty=Integer.parseInt(ConfigCache.getConfig("MAX_PATRONS_PER_PARTY"));
 		setLookandFeel();
-		ControlDesk controlDesk = new ControlDesk(numLanes);
+    frameContext frameC = new frameContext(10,true);
+		ControlDesk controlDesk = new ControlDesk(numLanes,frameC);
 		Connection conn= ConnectionFactory.getConnection();
-		ControlDeskView cdv = new ControlDeskView( controlDesk, maxPatronsPerParty);
+		ControlDeskView cdv = new ControlDeskView( controlDesk, maxPatronsPerParty, frameC);
 		controlDesk.getControlDeskManager().subscribe( cdv );
 
 	}

@@ -22,6 +22,8 @@ package models;/*
  *
  */
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 public class Party {
@@ -34,9 +36,16 @@ public class Party {
 	 * 
 	 * @param bowlers	Vector of bowlers that are in this party
 	 */
-		
+	private Vector highestScorers;
+	private int diff_high;
+	boolean superFrame;
+
     public Party( Vector bowlers ) {
+
 		myBowlers = new Vector(bowlers);
+		highestScorers = new Vector();
+		superFrame = false;
+
     }
 
 	/**
@@ -51,5 +60,34 @@ public class Party {
 		//System.out.println(((Bowler)myBowlers.get(0)).getNickName());
 		return myBowlers;
     }
+
+	public void initialize_SuperFrame(){
+
+		myBowlers.clear();
+		for(Object i : highestScorers) {
+			myBowlers.add(i);
+		}
+		superFrame = true;
+	}
+
+	public void addHighScorer(int b){
+		if(highestScorers.size()==2){
+			highestScorers.clear();
+		}
+		highestScorers.add(myBowlers.get(b));
+	}
+	public void setDiff(int b){
+		diff_high = b;
+	}
+	public void resetHighScorers(){
+		highestScorers.clear();
+	}
+	public Vector getHighestScorers(){
+		return highestScorers;
+	}
+
+	public int getDiff(){
+		return diff_high ;
+	}
 
 }
