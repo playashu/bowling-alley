@@ -414,9 +414,13 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
     }
 
     void tenthframeStrike(int totalPinsDown,int throwNumber){
+        System.out.println("====================================");
+        System.out.println(totalPinsDown);
         if (totalPinsDown == 10) {
-            setter.resetPins();
+            System.out.println("=******************************=");
+            setter.reset();
             if (throwNumber == 1) {
+                System.out.println("==()()()()()()()()()()()=======");
                 tenthFrameStrike = true;
             }
         }

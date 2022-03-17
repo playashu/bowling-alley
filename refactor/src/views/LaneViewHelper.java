@@ -10,7 +10,7 @@ import java.awt.*;
 public class LaneViewHelper {
     public static void createBallLabels(LaneView view, int i, frameContext frameC) {
         for (int j = 0; j != frameC.numberOfBalls(); j++) {
-            view.ballLabel[i][j] = new JLabel(" ");
+            view.ballLabel[i][j] = new JLabel("    ");
             view.balls[i][j] = new JPanel();
             view.balls[i][j].setBorder(
                     BorderFactory.createLineBorder(Color.BLACK));
@@ -43,7 +43,7 @@ public class LaneViewHelper {
         view.pins[i].setBorder(
                 BorderFactory.createTitledBorder(
                         ((Bowler) view.bowlers.get(i+b)).getNickName()));
-        view.pins[i].setLayout(new GridLayout(0, 10));
+        view.pins[i].setLayout(new GridLayout(0, frameC.getFrames()));
         for (int k = 0; k != frameC.getFrames(); k++) {
             view.scores[i][k] = new JPanel();
             view.scoreLabel[i][k] = new JLabel("  ", SwingConstants.CENTER);

@@ -70,6 +70,7 @@ public class LaneView implements LaneObserver, ActionListener {
 				ballThrowView.setVisibilty(false);
 			}
 		});
+
 		cpanel.add(new JPanel());
 		ballThrowView = new BallThrowView();
 		ballThrowView.subscribe(lane);
@@ -101,8 +102,14 @@ public class LaneView implements LaneObserver, ActionListener {
 			frames = 1;
 			b = currentBowlerIndex;
 		}
+
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(0,1));
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		if(!is_2chance)
+			panel.setPreferredSize(new Dimension(screenSize.width/2, screenSize.height/4));
+		else
+			panel.setPreferredSize(new Dimension(screenSize.width/7, screenSize.height/4));
 		balls = new JPanel[numBowlers][n_balls];
 		ballLabel = new JLabel[numBowlers][n_balls];
 		scores = new JPanel[numBowlers][frames];

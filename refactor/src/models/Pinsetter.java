@@ -194,6 +194,7 @@ public class Pinsetter {
 		for (int i=0; i <= 9; i++) {
 			pins[i] = true;
 		}
+		//manager.sendEvent(new PinsetterEvent(pins, foul, throwNumber, -1,false));
 	}
 
 	public PinsetterManager getManager(){
