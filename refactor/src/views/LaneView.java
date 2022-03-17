@@ -5,7 +5,6 @@ package views;/*
 
 import events.BallThrowEvent;
 import events.LaneEvent;
-import models.Bowler;
 import models.frameContext;
 import observers.BallThrowObserver;
 import observers.LaneObserver;
@@ -46,11 +45,13 @@ public class LaneView implements LaneObserver, ActionListener {
 	int laneNum;
 	int numBowlers;
 	String[] img;
+	Dimension screenSize;
 	BallThrowView ballThrowView;
 	public LaneView(Lane lane, int laneNum, frameContext frameC) {
 		this.lane = lane;
 		this.laneNum = laneNum;
 		initDone = true;
+		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		this.frames = frameC.getFrames();
 		this.n_balls = frameC.numberOfBalls();
 		this.frameC = frameC;
@@ -107,9 +108,9 @@ public class LaneView implements LaneObserver, ActionListener {
 		panel.setLayout(new GridLayout(0,1));
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		if(!is_2chance)
-			panel.setPreferredSize(new Dimension(screenSize.width/2, screenSize.height/4));
+			panel.setPreferredSize(new Dimension(frameC.getFrames()*screenSize.width/20, party.getSize() * screenSize.height/8));
 		else
-			panel.setPreferredSize(new Dimension(screenSize.width/7, screenSize.height/4));
+			panel.setPreferredSize(new Dimension(screenSize.width/7, party.getSize() * screenSize.height/8));
 		balls = new JPanel[numBowlers][n_balls];
 		ballLabel = new JLabel[numBowlers][n_balls];
 		scores = new JPanel[numBowlers][frames];
@@ -214,6 +215,7 @@ public class LaneView implements LaneObserver, ActionListener {
 					this.numBowlers = le.getParty().getSize();
 				}
 				makeView(le.isAnotherRun());
+
 				//show();
 			}
 
@@ -255,205 +257,18 @@ public class LaneView implements LaneObserver, ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(maintenance)) {
 			lane.pauseGame();
+			ballThrowView.status(false);
 		}
 	}
-//	public void showLoader(){
-//
-//		frame.setUndecorated(true);
-//		frame.getContentPane().add(label);
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.pack();
-//		frame.setLocationRelativeTo(null);
-//		frame.setVisible(true);
-//	}
-
-	public class BallThrowThread implements Runnable{
-		BallThrowView ballThrowView;
-		JFrame throw_frame;
-		TestPane frame;
-		public BallThrowThread(BallThrowView ballThrowView){
-			this.ballThrowView = ballThrowView;
-		}
-		public void setVisibilty(boolean flag){
-			while(throw_frame==null) {
-
-			}
-			if(flag==false) {
-				frame.reset();
-			}
-			throw_frame.setVisible(flag);
-		}
-		@Override
-		public void run() {
-			try {
-				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-				ex.printStackTrace();
-			}
-
-			throw_frame = new JFrame("Testing");
-			//throw_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frame = new TestPane(ballThrowView);
-			throw_frame.add(frame);
-			throw_frame.pack();
-			throw_frame.setLocationRelativeTo(null);
-			//throw_frame.setVisible(true);
-		}
+	public void ballThrowViewEnable(){
+		ballThrowView.status(true);
 	}
 
-	public class BallThrowView {
-		private Vector subscribers;
-		Container cpanel;
-		BallThrowThread ballThrowThread;
-
-		public BallThrowView() {
-			subscribers = new Vector();
-			ballThrowThread = new BallThrowThread(this);
-			EventQueue.invokeLater(ballThrowThread);
-//			EventQueue.invokeLater(new Runnable() {
-//				@Override
-//				public void run() {
-//					try {
-//						UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//					} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-//						ex.printStackTrace();
-//					}
-//
-//					JFrame throw_frame = new JFrame("Testing");
-//					throw_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//					throw_frame.add(new TestPane());
-//					throw_frame.pack();
-//					throw_frame.setLocationRelativeTo(null);
-//					throw_frame.setVisible(true);
-//				}
-//			});
-
-
-		}
-
-		public void setVisibilty(boolean flag){
-			ballThrowThread.setVisibilty(flag);
-		}
-		public void subscribe(BallThrowObserver subscriber) {
-			subscribers.add(subscriber);
-		}
-
-		public void publish(BallThrowEvent event) {	// send events when our state is changd
-			for (int i=0; i < subscribers.size(); i++) {
-				((BallThrowObserver)subscribers.get(i)).receiveBallThrowEvent(event);
-			}
-		}
-	}
-
-		public class TestPane extends JPanel {
-			BallThrowView ballThrowView;
-			private JLabel label;
-			private float degrees = -180;
-			private float cost = 1;
-			int score = 0;
-			boolean flag = false;
-
-			public TestPane(BallThrowView ballThrowView) {
-				label = new JLabel();
-				this.add(label);
-				this.ballThrowView = ballThrowView;
-				label.setHorizontalAlignment(JLabel.CENTER);
-				label.setVerticalAlignment(JLabel.CENTER);
-				Timer timer = new Timer(40, new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-
-						if(degrees <= -360-180){
-							degrees +=360;
-							flag = true;
-						}
-						else if(!flag){
-							cost *= 1.09;
-							degrees -= cost;
-						}else{
-							degrees -= cost;
-						}
-						score = -1 * (int) degrees -180;
-						score /=36;
-						label.setText(Integer.toString(score));
-						repaint();
-					}
-				});
-				//timer.start();
-
-				MouseAdapter ma = new MouseAdapter() {
-
-					private java.util.List<Point> currentPath;
-
-					@Override
-					public void mousePressed(MouseEvent e) {
-						if (e.getButton() == MouseEvent.BUTTON1){
-							timer.stop();
-							BallThrowEvent ballThrowEvent = new BallThrowEvent(score);
-							ballThrowView.publish(ballThrowEvent);
-						} else if (e.getButton() == MouseEvent.BUTTON3){
-							degrees = -180;
-							cost = 1;
-							flag = false;
-							timer.start();
-						}
-
-					}
-				};
-
-				addMouseListener(ma);
-				addMouseMotionListener(ma);
-			}
-
-			@Override
-			public Dimension getPreferredSize() {
-				return new Dimension(200, 200);
-			}
-			public void reset(){
-				degrees = -180;
-				cost = 1;
-				score = 0;
-			}
-			@Override
-			protected void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				Graphics2D g2d = (Graphics2D) g.create();
-
-				int diameter = Math.min(getWidth(), getHeight());
-				int x = (getWidth() - diameter) / 2;
-				int y = (getHeight() - diameter) / 2;
-
-				g2d.setColor(Color.GREEN);
-				g2d.drawOval(x, y, diameter, diameter);
-
-				g2d.setColor(Color.RED);
-				float innerDiameter = 40;
-
-				Point p = getPointOnCircle(degrees, (diameter / 2f) - (innerDiameter / 2));
-				g2d.drawOval(x + p.x - (int) (innerDiameter / 2), y + p.y - (int) (innerDiameter / 2), (int) innerDiameter, (int) innerDiameter);
-
-				g2d.dispose();
-			}
 
 
 
-			protected Point getPointOnCircle(float degress, float radius) {
 
-				int x = Math.round(getWidth() / 2);
-				int y = Math.round(getHeight() / 2);
 
-				double rads = Math.toRadians(degress - 90); // 0 becomes the top
-
-				// Calculate the outter point of the line
-				int xPosy = Math.round((float) (x + Math.cos(rads) * radius));
-				int yPosy = Math.round((float) (y + Math.sin(rads) * radius));
-
-				return new Point(xPosy, yPosy);
-
-			}
-
-		}
 
 
 

@@ -135,6 +135,7 @@ public class LaneStatusView implements ActionListener, LaneObserver, PinsetterOb
 			if ( lane.isPartyAssigned() ) {
 				LaneManager laneManager= lane.getLaneManager();
 				lane.unPauseGame();
+				lv.ballThrowViewEnable();
 				maintenance.setBackground( Color.GREEN );
 			}
 		}
