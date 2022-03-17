@@ -145,7 +145,7 @@ public class AdhocQueryView extends javax.swing.JFrame {
         }
         QueryResultView queryResultView = new QueryResultView(cols, data);
     }
-    private void reset()
+    public void reset()
     {
         availQuerySelector.removeAllItems();
         String[] queries=AdhocQuery.fetchQueryNames();
@@ -153,8 +153,7 @@ public class AdhocQueryView extends javax.swing.JFrame {
             availQuerySelector.addItem(q);
     }
     private void queryCreatorButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        QueryCreatorView queryWin = new QueryCreatorView();
-        reset();
+        QueryCreatorView queryWin = new QueryCreatorView(this);
     }
 
 }

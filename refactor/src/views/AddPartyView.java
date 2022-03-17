@@ -157,6 +157,8 @@ public class AddPartyView implements ActionListener, ListSelectionListener {
 				partyList.setListData(party);
 			}
 		}
+		else
+			JOptionPane.showMessageDialog(win,"Maximum Party size reached");
 	}
 	private void setRemPatronAction()
 	{
