@@ -40,7 +40,7 @@ public class LaneView implements LaneObserver, ActionListener {
 	JPanel[][] ballGrid;
 	JPanel[] pins;
 	int currentBowlerIndex;
-	JButton maintenance;
+	JButton maintenance,info;
 	Lane lane;
 	frameContext frameC;
 	int laneNum;
@@ -252,6 +252,7 @@ public class LaneView implements LaneObserver, ActionListener {
 			JPanel buttonPanel = UiComponents.createFlowPanel();
 			Insets buttonMargin = new Insets(4, 4, 4, 4);
 			maintenance = UiComponents.createFlowButton("Pause/Resume", buttonPanel, this);
+			info=UiComponents.createFlowButton("How to play",buttonPanel,this);
 			cpanel.add(buttonPanel, "South");
 		}
 
@@ -267,7 +268,9 @@ public class LaneView implements LaneObserver, ActionListener {
 				lane.unPauseGame();
 				ballThrowView.status(true);
 			}
-
+		}
+		if(e.getSource().equals(info)){
+			InfoView infoView=new InfoView();
 		}
 	}
 	public void ballThrowViewEnable(){

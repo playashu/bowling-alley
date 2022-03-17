@@ -77,13 +77,15 @@ public class AdhocQuery {
     }
 
     public static boolean insertScript(Query queryObj){
-        String query="insert into adhoc_scripts(sql_name,sql) values(?,?)";
+        String query="insert into adhoc_scripts(sql_name,sql,type,message) values(?,?,?,?)";
         Vector<String>bowlers=new Vector<String>();
         try {
             Connection conn=ConnectionFactory.getConnection();
             PreparedStatement statement=conn.prepareStatement(query);
             statement.setString(1,queryObj.getSqlName());
             statement.setString(2,queryObj.getSql());
+            statement.setString(3,queryObj.getType());
+            statement.setString(4,queryObj.getMessage());
             if(!statement.execute());
             return false;
         } catch (SQLException e) {

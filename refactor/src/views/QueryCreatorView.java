@@ -23,7 +23,9 @@ public class QueryCreatorView extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
-    public QueryCreatorView() {
+    AdhocQueryView adhocQueryviewRef;
+    public QueryCreatorView(AdhocQueryView view) {
+        adhocQueryviewRef=view;
         initComponents();
     }
 
@@ -54,7 +56,7 @@ public class QueryCreatorView extends javax.swing.JFrame {
         where1 = new javax.swing.JLabel();
         saveButton = new javax.swing.JButton();
         queryButton = new javax.swing.JButton();
-        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Query Builder");
 
@@ -208,6 +210,7 @@ public class QueryCreatorView extends javax.swing.JFrame {
         }
         String message=JOptionPane.showInputDialog(this,"Enter message");
         AdhocQuery.insertScript(new Query(0,sqlName,sql,"INPUT",message));
+        adhocQueryviewRef.reset();
         JOptionPane.showMessageDialog(this,"Query Saved");
     }
 

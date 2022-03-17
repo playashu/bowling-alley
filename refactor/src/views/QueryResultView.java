@@ -6,7 +6,6 @@ import java.awt.*;
 public class QueryResultView extends JFrame{
 
     public QueryResultView(Object[] column, Object[][] data) {
-
         JTable jt = new JTable(data, column);
         jt.setBounds(30, 40, 200, 300);
         JScrollPane sp = new JScrollPane(jt);
