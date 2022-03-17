@@ -414,7 +414,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
         System.out.println(totalPinsDown);
         if (totalPinsDown == 10) {
             System.out.println("=******************************=");
-            setter.reset();
+            setter.resetPins();
             if (throwNumber == 1) {
                 System.out.println("==()()()()()()()()()()()=======");
                 tenthFrameStrike = true;
