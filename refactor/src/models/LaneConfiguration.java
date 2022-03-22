@@ -1,10 +1,10 @@
 package models;
 
-public class frameContext {
+public class LaneConfiguration {
     int frames;
     boolean last_3strike;
 
-    public frameContext(int frames,boolean last_3strike) {
+    public LaneConfiguration(int frames, boolean last_3strike) {
         this.frames = frames;
         this.last_3strike = last_3strike;
     }

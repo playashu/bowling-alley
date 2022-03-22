@@ -1,14 +1,14 @@
 package views;
 
 import models.Bowler;
-import models.frameContext;
+import models.LaneConfiguration;
 import utils.UiComponents;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class LaneViewHelper {
-    public static void createBallLabels(LaneView view, int i, frameContext frameC) {
+    public static void createBallLabels(LaneView view, int i, LaneConfiguration frameC) {
         for (int j = 0; j != frameC.numberOfBalls(); j++) {
             view.ballLabel[i][j] = new JLabel("    ");
             view.balls[i][j] = new JPanel();
@@ -17,7 +17,7 @@ public class LaneViewHelper {
             view.balls[i][j].add(view.ballLabel[i][j]);
         }
     }
-    public static void createBallGrid(LaneView view,int i,frameContext frameC)
+    public static void createBallGrid(LaneView view, int i, LaneConfiguration frameC)
     {
         int n = 0;
         if(frameC.is_3Strike()){
@@ -37,7 +37,7 @@ public class LaneViewHelper {
         }
 
     }
-    public static void createPinsGrid(LaneView view,int i,frameContext frameC,int b)
+    public static void createPinsGrid(LaneView view, int i, LaneConfiguration frameC, int b)
     {
         view.pins[i] = new JPanel();
         view.pins[i].setBorder(

@@ -2,10 +2,9 @@ import dbAccess.ConfigCache;
 import models.ControlDesk;
 import utils.ConnectionFactory;
 import views.AdhocQueryView;
-import models.frameContext;
+import models.LaneConfiguration;
 import views.ControlDeskView;
 
-import javax.swing.*;
 import java.sql.Connection;
 
 public class drive {
@@ -33,7 +32,7 @@ public class drive {
 		int maxPatronsPerParty=Integer.parseInt(ConfigCache.getConfig("MAX_PATRONS_PER_PARTY"));
 		setLookandFeel();
 
-    	frameContext frameC = new frameContext(10,true);
+    	LaneConfiguration frameC = new LaneConfiguration(Integer.parseInt(ConfigCache.getConfig("NUMBER_OF_FRAMES")),true);
 
 		ControlDesk controlDesk = new ControlDesk(numLanes,frameC);
 		Connection conn= ConnectionFactory.getConnection();

@@ -9,12 +9,12 @@ public class ScoreBoard{
     private int[][] cumulScores;
     private int bowlerIndex;
     private int teamSize;
-    frameContext frameC;
+    LaneConfiguration frameC;
     boolean is_3Strike;
     int frames;
     int n_balls;
 
-    public ScoreBoard(int bowlerIndex, frameContext frameC) {
+    public ScoreBoard(int bowlerIndex, LaneConfiguration frameC) {
         this.frameC = frameC;
         this.frames = frameC.getFrames();
         this.n_balls = frameC.numberOfBalls();
@@ -22,7 +22,7 @@ public class ScoreBoard{
         this.bowlerIndex = bowlerIndex;
     }
 
-    public void reset(int partySize, frameContext frameC){
+    public void reset(int partySize, LaneConfiguration frameC){
         this.frameC = frameC;
         this.frames = frameC.getFrames();
         this.n_balls = frameC.numberOfBalls();

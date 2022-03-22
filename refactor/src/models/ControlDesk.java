@@ -73,7 +73,7 @@ public class ControlDesk extends Thread {
      *
      */
 
-	public ControlDesk(int numLanes,frameContext frameC) {
+	public ControlDesk(int numLanes, LaneConfiguration frameC) {
 		this.numLanes = numLanes;
 		this.controlDeskManager=new ControlDeskManager();
 		lanes = new HashSet(numLanes);

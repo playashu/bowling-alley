@@ -25,7 +25,7 @@ package events;/*  $Id$
 
 import models.Bowler;
 import models.Party;
-import models.frameContext;
+import models.LaneConfiguration;
 
 import java.util.HashMap;
 
@@ -45,7 +45,7 @@ public class LaneEvent {
 	private int[] curScores;
 	private boolean mechProb;
 	private boolean anotherRun;
-	private models.frameContext frameC;
+	private LaneConfiguration frameC;
 
 	public boolean isAnotherRun() {
 		return anotherRun;
@@ -56,7 +56,7 @@ public class LaneEvent {
 	public int getTotalPinsDown() {
 		return totalPinsDown;
 	}
-	public frameContext getFrameC() {
+	public LaneConfiguration getFrameC() {
 		return frameC;
 	}
 
@@ -73,7 +73,7 @@ public class LaneEvent {
 		this.anotherRun = anotherRun;
 	}
 
-	public void setFrameC(frameContext frameC) {
+	public void setFrameC(LaneConfiguration frameC) {
 		this.frameC = frameC;
 	}
 	public boolean isMechanicalProblem() {

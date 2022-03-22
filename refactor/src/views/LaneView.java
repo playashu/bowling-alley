@@ -3,10 +3,8 @@ package views;/*
  *
  */
 
-import events.BallThrowEvent;
 import events.LaneEvent;
-import models.frameContext;
-import observers.BallThrowObserver;
+import models.LaneConfiguration;
 import observers.LaneObserver;
 import models.Lane;
 import models.Party;
@@ -42,13 +40,13 @@ public class LaneView implements LaneObserver, ActionListener {
 	int currentBowlerIndex;
 	JButton maintenance,info;
 	Lane lane;
-	frameContext frameC;
+	LaneConfiguration frameC;
 	int laneNum;
 	int numBowlers;
 	String[] img;
 	Dimension screenSize;
 	BallThrowView ballThrowView;
-	public LaneView(Lane lane, int laneNum, frameContext frameC) {
+	public LaneView(Lane lane, int laneNum, LaneConfiguration frameC) {
 		this.lane = lane;
 		this.laneNum = laneNum;
 		status = true;

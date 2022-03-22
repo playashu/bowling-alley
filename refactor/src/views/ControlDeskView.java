@@ -19,7 +19,7 @@ import managers.PinsetterManager;
 import models.ControlDesk;
 import models.Lane;
 import models.Pinsetter;
-import models.frameContext;
+import models.LaneConfiguration;
 import observers.ControlDeskObserver;
 import utils.UiComponents;
 
@@ -51,7 +51,7 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 	 *
 	 */
 
-	public ControlDeskView(ControlDesk controlDesk, int maxMembers, frameContext frameC) {
+	public ControlDeskView(ControlDesk controlDesk, int maxMembers, LaneConfiguration frameC) {
 
 		this.controlDesk = controlDesk;
 		this.maxMembers = maxMembers;

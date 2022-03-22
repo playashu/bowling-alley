@@ -131,6 +131,7 @@ package models;
  *
  */
 
+import dbAccess.ConfigCache;
 import events.BallThrowEvent;
 import events.LaneEvent;
 import events.PinsetterEvent;
@@ -171,7 +172,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
     private int[] curScores;
     //private int[][] cumulScores;
     private ScoreBoard scoreBoard;
-    private frameContext frameC;
+    private LaneConfiguration frameC;
     private boolean ballThrown;
     private int prevScore;
     int totalPinsDown;
@@ -188,7 +189,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
      * @post a new lane has been created and its thered is executing
      */
 
-    public Lane(frameContext frameC) {
+    public Lane(LaneConfiguration frameC) {
         state = new LaneUnpaused();
         setter = new Pinsetter();
         prevScore = -1;
@@ -224,8 +225,14 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
         }
     }
     private void finishGame()
-    {
-        EndGamePromptView egp = new EndGamePromptView(((Bowler) party.getMembers().get(0)).getNickName() + "'s Party");
+    {   EndGamePromptView egp;
+        if(party.getSize()>=2) {
+
+            egp = new EndGamePromptView(((Bowler) party.getHighestScorers().get(0)).getNickName() + " Won!!");
+        }else{
+            egp = new EndGamePromptView(((Bowler) party.getMembers().get(0)).getNickName() + " Won!!");
+        }
+
         int result = egp.getResult();
         egp.distroy();
         for( Object i : party.getMembers()){
@@ -236,7 +243,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
         System.out.println("result was: " + result);
         flag = false;
         anotherRun  = 0;
-        this.frameC = new frameContext(10,true);
+        this.frameC = new LaneConfiguration(Integer.parseInt(ConfigCache.getConfig("NUMBER_OF_FRAMES")),true);
 
         resetBowlerIterator(0);
         resetScores();
@@ -288,7 +295,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
                                 flag = true;
                                 resetBowlerIterator(b);
                                 currentThrower = (Bowler) bowlerIterator.next();
-                                this.frameC = new frameContext(1, false);
+                                this.frameC = new LaneConfiguration(1, false);
                                 resetScores();
                                 scoreBoard.setBowlerIndex(b);
                                 laneManager.publish(lanePublish(anotherRun));
@@ -331,7 +338,7 @@ public class Lane extends Thread implements PinsetterObserver, BallThrowObserver
         party.initialize_SuperFrame();
         prevScore = -1;
         anotherRun  = 0;
-        this.frameC = new frameContext(3, true);
+        this.frameC = new LaneConfiguration(3, true);
         resetBowlerIterator(0);
         resetScores();
         laneManager.publish(lanePublish(anotherRun));
